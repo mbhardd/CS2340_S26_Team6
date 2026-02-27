@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">SprintProject</string>
-    <string name="login">Login</string>
-    <string name="password">Password</string>
-    <string name="email">Email</string>
-    <string name="create_account">Create Account</string>
-    <string name="i_am_a_staff_member">I am a Staff Member</string>
-</resources>
