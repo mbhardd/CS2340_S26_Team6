@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-26:12
+ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:1-31:12
 MERGED from [com.google.android.ads:mediation-test-suite:3.0.0] /Users/aarohipatel/.gradle/caches/9.1.0/transforms/509d1afa03da942b34e8c40962a23ae3/transformed/mediation-test-suite-3.0.0/AndroidManifest.xml:2:1-35:12
 MERGED from [com.google.android.material:material:1.11.0] /Users/aarohipatel/.gradle/caches/9.1.0/transforms/12b4ad7ad3d7c76cb940c490cd1dacd4/transformed/material-1.11.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/aarohipatel/.gradle/caches/9.1.0/transforms/25b312a09c9dbca181dbedfb82f8d9db/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
@@ -98,8 +98,8 @@ MERGED from [com.google.android.play:core-common:2.0.3] /Users/aarohipatel/.grad
 	xmlns:android
 		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:2:11-69
 application
-ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:5:5-24:19
-INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:5:5-24:19
+ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:5:5-29:19
+INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:5:5-29:19
 MERGED from [com.google.android.ads:mediation-test-suite:3.0.0] /Users/aarohipatel/.gradle/caches/9.1.0/transforms/509d1afa03da942b34e8c40962a23ae3/transformed/mediation-test-suite-3.0.0/AndroidManifest.xml:9:5-33:19
 MERGED from [com.google.android.ads:mediation-test-suite:3.0.0] /Users/aarohipatel/.gradle/caches/9.1.0/transforms/509d1afa03da942b34e8c40962a23ae3/transformed/mediation-test-suite-3.0.0/AndroidManifest.xml:9:5-33:19
 MERGED from [com.google.android.material:material:1.11.0] /Users/aarohipatel/.gradle/caches/9.1.0/transforms/12b4ad7ad3d7c76cb940c490cd1dacd4/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
@@ -180,22 +180,28 @@ MERGED from [com.google.android.play:core-common:2.0.3] /Users/aarohipatel/.grad
 		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:13:9-51
 	android:dataExtractionRules
 		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:7:9-65
+meta-data#com.google.android.gms.ads.APPLICATION_ID
+ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:16:9-18:69
+	android:value
+		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:18:13-67
+	android:name
+		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:17:13-69
 activity#com.example.sprintproject.MainActivity
-ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:15:9-23:20
+ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:20:9-27:20
 	android:exported
-		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:17:13-36
+		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:22:13-36
 	android:name
-		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:16:13-41
+		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:21:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:18:13-22:29
+ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:23:13-26:29
 action#android.intent.action.MAIN
-ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:19:17-69
+ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:24:17-69
 	android:name
-		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:19:25-66
+		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:24:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:21:17-77
+ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:21:27-74
+		ADDED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml:25:27-74
 uses-sdk
 INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/aarohipatel/AndroidStudioProjects/CS2340_S26_Team6/Project/Sprint0.5-main/app/src/main/AndroidManifest.xml

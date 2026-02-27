@@ -9,9 +9,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.sprintproject.MainActivity;
 import com.example.sprintproject.R;
 import com.example.sprintproject.viewmodel.LoginViewModel;
-import com.google.android.ads.mediationtestsuite.activities.HomeActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
             viewModel.login(email, password, task -> {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(this, HomeActivity.class));
+                    startActivity(new Intent(this, MainActivity.class));
                     finish();
                 } else {
                     Toast.makeText(this, "Login failed",
