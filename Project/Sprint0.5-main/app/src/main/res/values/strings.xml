@@ -5,4 +5,5 @@
     <string name="email">Email</string>
     <string name="create_account">Create Account</string>
     <string name="i_am_a_staff_member">I am a Staff Member</string>
+    <string name="quit">Quit</string>
 </resources>

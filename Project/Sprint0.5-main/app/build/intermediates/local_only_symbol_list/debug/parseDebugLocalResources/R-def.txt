@@ -1,0 +1,37 @@
+R_DEF: Internal format may change without notice
+local
+color background_blue
+color dark_text
+color gold
+color grey
+color white
+drawable gold_button
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+drawable ic_wrench
+drawable outline_button
+drawable rounded_input
+id createAccountButton
+id emailEditText
+id loginButton
+id loginTitle
+id logoImage
+id passwordEditText
+id quitButton
+id staffCheckBox
+layout activity_login
+layout activity_main
+layout activity_register
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string create_account
+string email
+string i_am_a_staff_member
+string login
+string password
+string quit
+style Base.Theme.SprintProject
+style Theme.SprintProject
+xml backup_rules
+xml data_extraction_rules
