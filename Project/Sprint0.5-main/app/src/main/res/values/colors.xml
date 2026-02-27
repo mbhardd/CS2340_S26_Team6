@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!--background blue color-->
+    <color name="background_blue">#26547C</color>
+
+    <!--fully gold button-->
+    <color name="gold">#FFD166</color>
+
+    <!--other grey-->
+    <color name="grey">#D9D9D9</color>
+
+    <!--text colors-->
+    <color name="white">#FFFFFF</color>
+    <color name="dark_text">#000000</color>
+
 </resources>
