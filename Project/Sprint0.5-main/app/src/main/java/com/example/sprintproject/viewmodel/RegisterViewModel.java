@@ -3,7 +3,7 @@ package com.example.sprintproject.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.sprintproject.model.AuthRepository;
 
@@ -39,7 +39,8 @@ public class RegisterViewModel extends ViewModel {
                         }
                     } else {
                         // Registration failed
-                        errorMessage.setValue("Registration failed: " + task.getException().getMessage());
+                        errorMessage.setValue("Registration failed: " + task.getException()
+                                .getMessage());
                     }
                 });
     }
