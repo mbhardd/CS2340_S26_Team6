@@ -1,4 +1,4 @@
-package com.example.sprintproject;
+package com.example.sprintproject.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.view.View;
 
-import com.example.sprintproject.view.LoginActivity;
+import com.example.sprintproject.R;
 
 public class MainActivity extends AppCompatActivity {
 

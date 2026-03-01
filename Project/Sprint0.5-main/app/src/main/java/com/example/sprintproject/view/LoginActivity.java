@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.sprintproject.R;
-import com.example.sprintproject.BottomNavigation;
 import com.example.sprintproject.viewmodel.LoginViewModel;
 import com.google.firebase.auth.FirebaseUser;
 
