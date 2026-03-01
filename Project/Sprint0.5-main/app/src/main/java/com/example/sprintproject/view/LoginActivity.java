@@ -46,14 +46,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // Case for the current user having a successful login
         loginViewModel.getIsStaffUser().observe(this, isStaff -> {
-            //TODO: Here is where we can navigate to different things depending on user or staff
-            if (isStaff) {
-                // Go to StaffActivity
-                startActivity(new Intent(this, Bottom_Navigation.class));
-            } else {
-                // Go to NormalUserActivity
-                startActivity(new Intent(this, Bottom_Navigation.class));
-            }
+            //Here is where we can navigate to different things depending on user or staff
+
+            Intent intent = new Intent(LoginActivity.this, Bottom_Navigation.class);
+            intent.putExtra("isStaff", isStaff);
+            startActivity(intent);
         });
 
         // Button click listener for login
