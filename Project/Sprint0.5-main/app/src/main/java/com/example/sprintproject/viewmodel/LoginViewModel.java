@@ -11,6 +11,7 @@ public class LoginViewModel extends ViewModel {
     private AuthRepository authRepository;
     private MutableLiveData<FirebaseUser> currentUser;  // To get the current logged-in user
     private MutableLiveData<String> errorMessage;       // To get possible error messages
+    private MutableLiveData<Boolean> isStaffUser = new MutableLiveData<>();
 
     // Constructor to initialize the repository and LiveData
     public LoginViewModel() {
@@ -27,26 +28,32 @@ public class LoginViewModel extends ViewModel {
             return;
         }
 
-        // Call the AuthRepository to log the user in
-        authRepository.loginUser(email, password)
+        authRepository.loginAndCheckStaff(email, password)
                 .addOnCompleteListener(task -> {
+
                     if (task.isSuccessful()) {
-                        // Login successful
-                        FirebaseUser user = authRepository.getCurrentUser();
-                        currentUser.setValue(user);  // Set the logged-in user to LiveData
+
+                        boolean staff = task.getResult();
+                        isStaffUser.setValue(staff);
+
                     } else {
-                        // Login failed
                         errorMessage.setValue("Login failed: " + task.getException().getMessage());
                     }
                 });
     }
 
-    // Getter for current user (LiveData)
+
+    // Getter for if staff (LiveData kind)
+    public LiveData<Boolean> getIsStaffUser() {
+        return isStaffUser;
+    }
+
+    // Getter for current user (LiveData kind)
     public LiveData<FirebaseUser> getCurrentUser() {
         return currentUser;
     }
 
-    // Getter for error message (LiveData)
+    // Getter for error message (LiveData kind)
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
