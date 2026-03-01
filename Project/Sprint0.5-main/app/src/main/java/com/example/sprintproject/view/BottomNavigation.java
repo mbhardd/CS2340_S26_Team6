@@ -1,4 +1,4 @@
-package com.example.sprintproject;
+package com.example.sprintproject.view;
 
 import android.os.Bundle;
 
@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 
+import com.example.sprintproject.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavigation extends AppCompatActivity {
