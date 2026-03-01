@@ -19,7 +19,7 @@
             android:name=".view.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".view.Bottom_Navigation"
+            android:name=".view.BottomNavigation"
             android:exported="false" />
       <activity
             android:name=".view.MainActivity"

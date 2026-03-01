@@ -4,12 +4,12 @@
 
     <fragment
         android:id="@+id/issueFeedFragment"
-        android:name="com.example.sprintproject.view.issueFeedFragment"
+        android:name="com.example.sprintproject.view.IssueFeedFragment"
         android:label="Feed" />
 
     <fragment
         android:id="@+id/issueCreationFragment"
-        android:name="com.example.sprintproject.view.issueCreationFragment"
+        android:name="com.example.sprintproject.view.IssueCreationFragment"
         android:label="Create" />
 
     <fragment
