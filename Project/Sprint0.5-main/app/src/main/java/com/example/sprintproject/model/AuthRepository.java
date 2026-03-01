@@ -1,89 +1,94 @@
 package com.example.sprintproject.model;
 
 import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+
+//Note: The yellow lines throughout are that there could be null pointer exceptions
 public class AuthRepository {
 
-    private FirebaseAuth mAuth;             // FirebaseAuth instance used for the authentication
-    private FirebaseFirestore firestore;    // FirebaseFirestore instance to store the user's data
+    private FirebaseAuth mAuth;
+    private DatabaseReference database;
 
     public AuthRepository() {
-        mAuth = FirebaseAuth.getInstance();             // Initialize FirebaseAuth
-        firestore = FirebaseFirestore.getInstance();   // Initialize Firestore
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference("users");
     }
 
-    // Register a new user with email, password, and staff status (bool)
+    // Register user
     public Task<AuthResult> registerUser(String email, String password, boolean isStaff) {
-        // Attempt to create a new user using FirebaseAuth
         return mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            // Create a User object to store in Firestore
-                            DocumentReference userRef = firestore.collection("users").document(user.getUid());
-                            User newUser = new User(email, isStaff);  // Create User object with email and isStaff
 
-                            // Save details to Firestore (realtime db)
-                            userRef.set(newUser)
-                                    .addOnCompleteListener(firestoreTask -> {
-                                        if (!firestoreTask.isSuccessful()) {
-                                            Log.w("AuthRepository", "Error storing user data.", firestoreTask.getException());
-                                        }
-                                    });
+                            User newUser = new User(email, isStaff);
+
+                            database.child(user.getUid()).setValue(newUser)
+                                    .addOnFailureListener(e ->
+                                            Log.w("AuthRepository", "Error saving user data", e));
                         }
                     } else {
-                        Log.w("AuthRepository", "Registration failed.", task.getException());
+                        Log.w("AuthRepository", "Registration failed", task.getException());
                     }
                 });
     }
 
-    // Login an existing user with email and password
+    // Login user
     public Task<AuthResult> loginUser(String email, String password) {
-        // Attempt to log in the user with FirebaseAuth
-        return mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // Handle login success
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            // User successfully logged in
-                            Log.d("AuthRepository", "Login successful for user: " + user.getEmail());
-                        }
-                    } else {
-                        // Handle login failure
-                        Log.w("AuthRepository", "Login failed.", task.getException());
-                    }
-                });
+        return mAuth.signInWithEmailAndPassword(email, password);
     }
 
-    // Check if the current user is logged in
+    //Login + check staff identity method
+    public Task<Boolean> loginAndCheckStaff(String email, String password) {
+
+        TaskCompletionSource<Boolean> result = new TaskCompletionSource<>();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(authTask -> {
+
+                    if (!authTask.isSuccessful()) {
+                        result.setException(authTask.getException());
+                        return;
+                    }
+
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user == null) {
+                        result.setResult(false);
+                        return;
+                    }
+
+                    database.child(user.getUid())
+                            .get()
+                            .addOnCompleteListener(dbTask -> {
+
+                                if (dbTask.isSuccessful()) {
+                                    DataSnapshot snapshot = dbTask.getResult();
+                                    Boolean isStaff = snapshot.child("isStaff").getValue(Boolean.class);
+                                    result.setResult(isStaff != null && isStaff);
+                                } else {
+                                    result.setException(dbTask.getException());
+                                }
+                            });
+                });
+
+        return result.getTask();
+    }
+
     public FirebaseUser getCurrentUser() {
-        // Returns the currently logged-in Firebase user, or null if not logged in
         return mAuth.getCurrentUser();
     }
 
-    // Logout the current user, signout defined in fb
     public void logout() {
-        mAuth.signOut();  // Sign out the current user from Firebase
-    }
-
-    // Helper method to check if the user is a staff member (from Firestore)
-    //This is diff from the getStatus function in the user class.
-    public Task<Boolean> checkIfStaff(String userId) {
-        DocumentReference userRef = firestore.collection("users").document(userId);
-        return userRef.get().continueWith(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                Boolean isStaff = task.getResult().getBoolean("isStaff");
-                return isStaff != null && isStaff;
-            }
-            return false;
-        });
+        mAuth.signOut();
     }
 }

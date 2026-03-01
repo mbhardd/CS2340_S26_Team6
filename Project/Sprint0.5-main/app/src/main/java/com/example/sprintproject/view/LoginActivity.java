@@ -15,12 +15,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;  // Reference to the LoginViewModel
+    private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);  // Setting the layout for Login Activity
+        setContentView(R.layout.activity_login);
 
         // Initialize ViewModel
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
@@ -45,15 +45,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Case for the current user having a successful login
-        loginViewModel.getCurrentUser().observe(this, new Observer<FirebaseUser>() {
-            @Override
-            public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser != null) {
-                    // If login is successful, navigate to the next screen (bottom navigation, now)
-                    Intent intent = new Intent(LoginActivity.this, Bottom_Navigation.class);
-                    startActivity(intent);
-                    finish();  // Close LoginActivity so the user can't navigate back to it
-                }
+        loginViewModel.getIsStaffUser().observe(this, isStaff -> {
+            //TODO: Here is where we can navigate to different things depending on user or staff
+            if (isStaff) {
+                // Go to StaffActivity
+                startActivity(new Intent(this, Bottom_Navigation.class));
+            } else {
+                // Go to NormalUserActivity
+                startActivity(new Intent(this, Bottom_Navigation.class));
             }
         });
 

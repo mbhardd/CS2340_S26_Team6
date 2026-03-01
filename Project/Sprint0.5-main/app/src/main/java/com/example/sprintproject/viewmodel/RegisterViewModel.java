@@ -44,12 +44,12 @@ public class RegisterViewModel extends ViewModel {
                 });
     }
 
-    // Getter for isRegistered (LiveData)
+    // Getter for isRegistered (LiveData kind)
     public LiveData<Boolean> isRegistered() {
         return isRegistered;
     }
 
-    // Getter for error message (LiveData)
+    // Getter for error message (LiveData kind)
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
