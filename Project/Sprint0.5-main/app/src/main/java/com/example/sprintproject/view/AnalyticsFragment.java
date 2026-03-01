@@ -1,4 +1,4 @@
-package com.example.sprintproject;
+package com.example.sprintproject.view;
 
 import android.os.Bundle;
 
@@ -8,23 +8,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sprintproject.R;
+import com.example.sprintproject.viewmodel.AnalyticsViewModel;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link analyticsFragment#newInstance} factory method to
+ * Use the {@link AnalyticsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class analyticsFragment extends Fragment {
+public class AnalyticsFragment extends Fragment {
+    private AnalyticsViewModel mViewModel;
 
-    // TODO: Rename parameter arguments, choose names that match
+    // Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    // Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public analyticsFragment() {
+    public AnalyticsFragment() {
         // Required empty public constructor
         super(R.layout.fragment_analytics);
     }
@@ -37,9 +41,9 @@ public class analyticsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment analyticsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static analyticsFragment newInstance(String param1, String param2) {
-        analyticsFragment fragment = new analyticsFragment();
+    // Rename and change types and number of parameters
+    public static AnalyticsFragment newInstance(String param1, String param2) {
+        AnalyticsFragment fragment = new AnalyticsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

@@ -4,27 +4,27 @@
 
     <fragment
         android:id="@+id/issueFeedFragment"
-        android:name="com.example.sprintproject.issueFeedFragment"
+        android:name="com.example.sprintproject.view.issueFeedFragment"
         android:label="Feed" />
 
     <fragment
         android:id="@+id/issueCreationFragment"
-        android:name="com.example.sprintproject.issueCreationFragment"
+        android:name="com.example.sprintproject.view.issueCreationFragment"
         android:label="Create" />
 
     <fragment
         android:id="@+id/analyticsFragment"
-        android:name="com.example.sprintproject.analyticsFragment"
+        android:name="com.example.sprintproject.view.AnalyticsFragment"
         android:label="Analytics" />
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.sprintproject.ProfileFragment"
+        android:name="com.example.sprintproject.view.ProfileFragment"
         android:label="Profile" />
 
     <fragment
         android:id="@+id/staffFragment"
-        android:name="com.example.sprintproject.StaffFragment"
+        android:name="com.example.sprintproject.view.StaffFragment"
         android:label="Staff" />
 
 
