@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.sprintproject.R;
-import com.example.sprintproject.Bottom_Navigation;
+import com.example.sprintproject.BottomNavigation;
 import com.example.sprintproject.viewmodel.LoginViewModel;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,10 +48,10 @@ public class LoginActivity extends AppCompatActivity {
             //TODO: Here is where we can navigate to different things depending on user or staff
             if (isStaff) {
                 // Go to StaffActivity
-                startActivity(new Intent(this, Bottom_Navigation.class));
+                startActivity(new Intent(this, BottomNavigation.class));
             } else {
                 // Go to NormalUserActivity
-                startActivity(new Intent(this, Bottom_Navigation.class));
+                startActivity(new Intent(this, BottomNavigation.class));
             }
         });
 

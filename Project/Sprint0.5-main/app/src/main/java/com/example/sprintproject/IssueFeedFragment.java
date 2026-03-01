@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link analyticsFragment#newInstance} factory method to
+ * Use the {@link IssueFeedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class analyticsFragment extends Fragment {
+public class IssueFeedFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,9 +24,9 @@ public class analyticsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public analyticsFragment() {
+    public IssueFeedFragment() {
+        super(R.layout.fragment_issue_feed);
         // Required empty public constructor
-        super(R.layout.fragment_analytics);
     }
 
     /**
@@ -35,11 +35,11 @@ public class analyticsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment analyticsFragment.
+     * @return A new instance of fragment isseFeedFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static analyticsFragment newInstance(String param1, String param2) {
-        analyticsFragment fragment = new analyticsFragment();
+    public static IssueFeedFragment newInstance(String param1, String param2) {
+        IssueFeedFragment fragment = new IssueFeedFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,6 +60,6 @@ public class analyticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_analytics, container, false);
+        return inflater.inflate(R.layout.fragment_issue_feed, container, false);
     }
 }
