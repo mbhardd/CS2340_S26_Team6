@@ -12,6 +12,7 @@ import com.example.sprintproject.R;
 
 /**
  * A simple {@link Fragment} subclass.
+<<<<<<<< HEAD:Project/Sprint0.5-main/app/src/main/java/com/example/sprintproject/view/StaffFragment.java
  * Use the {@link StaffFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -47,6 +48,8 @@ public class StaffFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+
+
     }
 
     @Override

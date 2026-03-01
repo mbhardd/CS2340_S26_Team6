@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getIsStaffUser().observe(this, isStaff -> {
             //Here is where we can navigate to different things depending on user or staff
 
-            Intent intent = new Intent(LoginActivity.this, Bottom_Navigation.class);
+            Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
             intent.putExtra("isStaff", isStaff);
             startActivity(intent);
         });

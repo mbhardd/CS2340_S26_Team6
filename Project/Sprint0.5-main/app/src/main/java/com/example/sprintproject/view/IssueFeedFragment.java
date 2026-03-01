@@ -12,10 +12,10 @@ import com.example.sprintproject.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link issueFeedFragment#newInstance} factory method to
+ * Use the {@link IssueFeedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class issueFeedFragment extends Fragment {
+public class IssueFeedFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class issueFeedFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public issueFeedFragment() {
+    public IssueFeedFragment() {
         super(R.layout.fragment_issue_feed);
         // Required empty public constructor
     }
@@ -40,8 +40,8 @@ public class issueFeedFragment extends Fragment {
      * @return A new instance of fragment isseFeedFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static issueFeedFragment newInstance(String param1, String param2) {
-        issueFeedFragment fragment = new issueFeedFragment();
+    public static IssueFeedFragment newInstance(String param1, String param2) {
+        IssueFeedFragment fragment = new IssueFeedFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
