@@ -19,11 +19,9 @@ public class MainActivity extends AppCompatActivity {
         //find start Button by id
         Button startButton = findViewById(R.id.btnStart);
 
-        startButton.setOnClickListener(new View.OnClickListener()
-        {
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -35,11 +33,9 @@ public class MainActivity extends AppCompatActivity {
         Button quitButton = findViewById(R.id.btnQuit);
 
         //set the onClick Listener
-        quitButton.setOnClickListener(new View.OnClickListener()
-        {
+        quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 //close app and quit
                 finishAffinity();
             }
