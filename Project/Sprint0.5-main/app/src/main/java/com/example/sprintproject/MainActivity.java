@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.view.View;
 
+import com.example.sprintproject.view.LoginActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -23,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
 
-                //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                //startActivity(intent)
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 
