@@ -1,7 +1,6 @@
 package com.example.sprintproject.view;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Case for the current user having a successful login
         loginViewModel.getIsStaffUser().observe(this, isStaff -> {
-            //TODO: Here is where we can navigate to different things depending on user or staff
+            //Here is where we can navigate to different things depending on user or staff
 
             Intent intent = new Intent(LoginActivity.this, Bottom_Navigation.class);
             intent.putExtra("isStaff", isStaff);
