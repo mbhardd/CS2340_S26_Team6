@@ -14,21 +14,30 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:name="androidx.navigation.fragment.NavHostFragment"/>
 
     <!-- Bottom nav -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+
+        android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/accent_yellow"
+
         app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/accent_pink"
+        app:itemTextColor="@color/black"
+
+        app:labelVisibilityMode="labeled"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemActiveIndicatorStyle="@null"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:labelVisibilityMode="labeled"
         app:layout_constraintEnd_toEndOf="parent"
-        app:itemActiveIndicatorStyle="@null"/>
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
