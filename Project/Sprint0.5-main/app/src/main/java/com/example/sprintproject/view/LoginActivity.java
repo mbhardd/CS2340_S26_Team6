@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.sprintproject.R;
 import com.example.sprintproject.BottomNavigation;
 import com.example.sprintproject.viewmodel.LoginViewModel;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,22 +46,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // Case for the current user having a successful login
         loginViewModel.getIsStaffUser().observe(this, isStaff -> {
-<<<<<<< HEAD
-            //TODO: Here is where we can navigate to different things depending on user or staff
-            if (isStaff) {
-                // Go to StaffActivity
-                startActivity(new Intent(this, BottomNavigation.class));
-            } else {
-                // Go to NormalUserActivity
-                startActivity(new Intent(this, BottomNavigation.class));
-            }
-=======
             //Here is where we can navigate to different things depending on user or staff
 
-            Intent intent = new Intent(LoginActivity.this, Bottom_Navigation.class);
+            Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
             intent.putExtra("isStaff", isStaff);
             startActivity(intent);
->>>>>>> f992afa19ca0a6cc4f3d1fbb01a6944bd0a349fa
         });
 
         // Button click listener for login
