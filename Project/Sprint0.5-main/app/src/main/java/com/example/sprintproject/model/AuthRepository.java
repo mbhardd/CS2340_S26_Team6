@@ -73,7 +73,8 @@ public class AuthRepository {
 
                                 if (dbTask.isSuccessful()) {
                                     DataSnapshot snapshot = dbTask.getResult();
-                                    Boolean isStaff = snapshot.child("staff").getValue(Boolean.class);
+                                    Boolean isStaff = snapshot.child("staff").
+                                            getValue(Boolean.class);
                                     result.setResult(isStaff != null && isStaff);
                                 } else {
                                     result.setException(dbTask.getException());

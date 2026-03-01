@@ -14,7 +14,10 @@ import com.example.sprintproject.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    Handler handler = new Handler();
+    private Handler handler = new Handler();
+    public Handler getHandler() {
+        return handler;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

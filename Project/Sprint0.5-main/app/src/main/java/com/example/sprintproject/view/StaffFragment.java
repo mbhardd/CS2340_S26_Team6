@@ -12,18 +12,18 @@ import com.example.sprintproject.R;
 
 /**
  * A simple {@link Fragment} subclass.
-<<<<<<<< HEAD:Project/Sprint0.5-main/app/src/main/java/com/example/sprintproject/view/StaffFragment.java
+ * Project/Sprint0.5-main/app/src/main/java/com/example/sprintproject/view/StaffFragment.java
  * Use the {@link StaffFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class StaffFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
+    // Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    // Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -40,7 +40,7 @@ public class StaffFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment StaffFragment.
      */
-    // TODO: Rename and change types and number of parameters
+    // Rename and change types and number of parameters
     public static StaffFragment newInstance(String param1, String param2) {
         StaffFragment fragment = new StaffFragment();
         Bundle args = new Bundle();
