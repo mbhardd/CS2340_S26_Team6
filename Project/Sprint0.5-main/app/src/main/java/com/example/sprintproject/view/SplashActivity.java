@@ -19,6 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         return handler;
     }
 
+    //This is for the first screen that users see when they open the app.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
