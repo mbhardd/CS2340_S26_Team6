@@ -16,12 +16,25 @@ import com.google.firebase.database.FirebaseDatabase;
 public class AuthRepository {
 
     private FirebaseAuth mAuth;
+    private static volatile AuthRepository instance;
     private DatabaseReference database;
 
-    public AuthRepository() {
+    private AuthRepository() {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference("users");
     }
+
+    public static AuthRepository getInstance() {
+        if (instance == null) {
+            synchronized (AuthRepository.class) { // Thread-safe
+                if (instance == null) {
+                    instance = new AuthRepository();
+                }
+            }
+        }
+        return instance;
+        }
+
 
     // Register user
     public Task<AuthResult> registerUser(String email, String password, boolean isStaff) {
