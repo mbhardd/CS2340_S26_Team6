@@ -15,7 +15,7 @@ public class RegisterViewModel extends ViewModel {
 
     // Constructor to initialize repository and LiveData
     public RegisterViewModel() {
-        authRepository = new AuthRepository();
+        authRepository = AuthRepository.getInstance();
         isRegistered = new MutableLiveData<>();
         errorMessage = new MutableLiveData<>();
     }
