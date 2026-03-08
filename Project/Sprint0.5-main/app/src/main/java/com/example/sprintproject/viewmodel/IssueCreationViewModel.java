@@ -1,18 +1,17 @@
 package com.example.sprintproject.viewmodel;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sprintproject.model.AuthRepository;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class IssueCreationViewModel extends ViewModel {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
     private AuthRepository authRepository;
     public IssueCreationViewModel() {
@@ -20,7 +19,7 @@ public class IssueCreationViewModel extends ViewModel {
 
     }
     public void submitIssue(String title, String category, String priority, String location,
-                            String description) {
+                                               String description) {
         String uID = authRepository.getCurrentUser().getUid();
         Map<String, Object> issue = new HashMap<>();
         issue.put("title", title);
@@ -31,8 +30,7 @@ public class IssueCreationViewModel extends ViewModel {
         issue.put("status", "open");
         issue.put("creatorUid", uID);
         issue.put("timestamp", System.currentTimeMillis());
-
-        db.collection("issues").add(issue);
+        db.child("issues").push().setValue(issue);
 
     }
 }
