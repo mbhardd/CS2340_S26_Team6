@@ -10,7 +10,11 @@
     <fragment
         android:id="@+id/issueCreationFragment"
         android:name="com.example.sprintproject.view.IssueCreationFragment"
-        android:label="Create" />
+        android:label="Create"  >
+    <action
+        android:id="@+id/action_issueCreationFragment_to_issueFeedFragment"
+        app:destination="@id/issueFeedFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/analyticsFragment"

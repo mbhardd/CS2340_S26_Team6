@@ -15,7 +15,7 @@ public class LoginViewModel extends ViewModel {
 
     // Constructor to initialize the repository and LiveData
     public LoginViewModel() {
-        authRepository = new AuthRepository();
+        authRepository = AuthRepository.getInstance();
         currentUser = new MutableLiveData<>();
         errorMessage = new MutableLiveData<>();
     }

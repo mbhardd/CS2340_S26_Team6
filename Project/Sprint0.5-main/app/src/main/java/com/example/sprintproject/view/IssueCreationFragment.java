@@ -3,65 +3,86 @@ package com.example.sprintproject.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.AuthRepository;
+import com.example.sprintproject.viewmodel.IssueCreationViewModel;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link IssueCreationFragment#newInstance} factory method to
- * create an instance of this fragment.
+
  */
 public class IssueCreationFragment extends Fragment {
 
-    // Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private IssueCreationViewModel viewModel;
+    private AuthRepository authRepository;
 
-    // Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public IssueCreationFragment() {
-        // Required empty public constructor
-        super(R.layout.fragment_issue_creation);
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment IssueCreationFragment.
-     */
-    // Rename and change types and number of parameters
-    public static IssueCreationFragment newInstance(String param1, String param2) {
-        IssueCreationFragment fragment = new IssueCreationFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
+    private EditText inputTitle;
+    private EditText inputCategory;
+    private EditText inputPriority;
+    private EditText inputLocation;
+    private EditText inputDescription;
+    private Button submitButton;
+@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_issue_creation, container, false);
+    View view = inflater.inflate(R.layout.fragment_issue_creation, container, false);
+    inputTitle = view.findViewById(R.id.inputTitle);
+    inputCategory = view.findViewById(R.id.inputCategory);
+    inputPriority = view.findViewById(R.id.inputPriority);
+    inputLocation = view.findViewById(R.id.inputLocation);
+    inputDescription = view.findViewById(R.id.inputDescription);
+    submitButton = view.findViewById(R.id.btnSubmitIssue);
+
+    authRepository = AuthRepository.getInstance();
+    viewModel = new ViewModelProvider(this).get(IssueCreationViewModel.class);
+    submitButton.setOnClickListener(v -> submitForm());
+    return view;
+      }
+
+      public boolean error(String fieldName, String value, EditText input) {
+            if (value.isEmpty()) {
+            input.setError(fieldName + " is required");
+            return true;
+            }
+           return false;
+      }
+      public void submitForm() {
+    boolean valid = true;
+    String title = inputTitle.getText().toString().trim();
+    String category = inputCategory.getText().toString().trim();
+    String priority = inputPriority.getText().toString().trim();
+    String location = inputLocation.getText().toString().trim();
+    String description = inputDescription.getText().toString().trim();
+    if (error("Title", title, inputTitle)) valid = false ;
+    if (error("Category", category, inputCategory)) valid = false ;
+    if (error("Priority", priority, inputPriority)) valid = false;
+    if (error("Location", location, inputLocation)) valid = false;
+    if (error("Description", description, inputDescription)) valid = false;
+    if (!valid) {
+        return;
     }
+          viewModel.submitIssue(title, category, priority, location, description);
+          inputTitle.setText("");
+          inputCategory.setText("");
+          inputPriority.setText("");
+          inputLocation.setText("");
+          inputDescription.setText("");
+
+          NavController navController = NavHostFragment.findNavController(this);
+          navController.navigate(R.id.action_issueCreationFragment_to_issueFeedFragment);
+
+      }
 }
