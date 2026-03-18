@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -31,7 +33,7 @@ public class IssueCreationFragment extends Fragment {
 
     private EditText inputTitle;
     private EditText inputCategory;
-    private EditText inputPriority;
+    private AutoCompleteTextView inputPriority;
     private EditText inputLocation;
     private EditText inputDescription;
     private Button submitButton;
@@ -42,6 +44,18 @@ public class IssueCreationFragment extends Fragment {
     inputTitle = view.findViewById(R.id.inputTitle);
     inputCategory = view.findViewById(R.id.inputCategory);
     inputPriority = view.findViewById(R.id.inputPriority);
+    String[] priorities = {"Low", "Medium", "High"};
+
+    ArrayAdapter<String> adapter =
+            new ArrayAdapter<>(requireContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    priorities);
+
+    inputPriority.setAdapter(adapter);
+    inputPriority.setOnClickListener(v -> inputPriority.showDropDown());
+    inputPriority.setOnFocusChangeListener((v, hasFocus) -> {
+        if (hasFocus) inputPriority.showDropDown();
+    });
     inputLocation = view.findViewById(R.id.inputLocation);
     inputDescription = view.findViewById(R.id.inputDescription);
     submitButton = view.findViewById(R.id.btnSubmitIssue);
