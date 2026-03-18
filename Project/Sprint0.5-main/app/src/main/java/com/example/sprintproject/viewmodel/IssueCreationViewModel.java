@@ -19,7 +19,7 @@ public class IssueCreationViewModel extends ViewModel {
 
     }
     public void submitIssue(String title, String category, String priority, String location,
-                                               String description) {
+                                               String description, String initials) {
         String uID = authRepository.getCurrentUser().getUid();
         Map<String, Object> issue = new HashMap<>();
         issue.put("title", title);
@@ -27,6 +27,7 @@ public class IssueCreationViewModel extends ViewModel {
         issue.put("priority", priority);
         issue.put("location", location);
         issue.put("description", description);
+        issue.put("initials", initials);
         issue.put("status", "open");
         issue.put("creatorUid", uID);
         issue.put("timestamp", System.currentTimeMillis());
