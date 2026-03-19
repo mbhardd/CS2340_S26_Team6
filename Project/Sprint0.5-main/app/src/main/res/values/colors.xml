@@ -11,5 +11,9 @@
     <color name="gold">#FFD166</color>
     <color name="background_blue">#26547C</color>
     <color name="red">#FF0000</color>
+    <color name="in_progress_gold">#A67A13</color>
+    <color name="finished_green">#108C6C</color>
+    <color name="not_started_red">#D33434</color>
+    <color name="filter_yellow">#1E1E1E</color>
 
 </resources>
