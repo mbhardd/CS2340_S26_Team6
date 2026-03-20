@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.Issue;
+import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     public void onBindViewHolder(@NonNull IssueViewHolder holder, int position) {
         Issue issue = issueList.get(position);
 
-        String normalizedStatus = normalizeStatus(issue.getStatus());
+        String normalizedStatus = IssueFeedStatusLogic.normalizeStatus(issue.getStatus());
 
         holder.tvIssueTitle.setText(issue.getTitle() != null ? issue.getTitle() : "");
         holder.tvStatus.setText(normalizedStatus);
@@ -44,48 +45,11 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         holder.tvPriority.setText(issue.getPriority() != null ? issue.getPriority() : "");
         holder.tvIssueInitials.setText(issue.getInitials() != null ? issue.getInitials() : "");
 
-        int statusColor = getStatusColor(holder, normalizedStatus);
+        int colorRes = IssueFeedStatusLogic.getStatusColorRes(normalizedStatus);
+        int statusColor = ContextCompat.getColor(holder.itemView.getContext(), colorRes);
+
         holder.tvStatus.setTextColor(statusColor);
         holder.tvIssueTitle.setTextColor(statusColor);
-    }
-
-    private String normalizeStatus(String status) {
-        if (status == null) {
-            return "Not Started";
-        }
-
-        String normalized = status.trim().toLowerCase();
-
-        switch (normalized) {
-            case "not started":
-            case "not-started":
-            case "open":
-                return "Not Started";
-
-            case "in progress":
-            case "in_progress":
-                return "In Progress";
-
-            case "finished":
-                return "Finished";
-
-            default:
-                return "Not Started";
-        }
-    }
-
-    private int getStatusColor(IssueViewHolder holder, String status) {
-        switch (status) {
-            case "In Progress":
-                return ContextCompat.getColor(holder.itemView.getContext(), R.color.in_progress_gold);
-
-            case "Finished":
-                return ContextCompat.getColor(holder.itemView.getContext(), R.color.finished_green);
-
-            case "Not Started":
-            default:
-                return ContextCompat.getColor(holder.itemView.getContext(), R.color.not_started_red);
-        }
     }
 
     @Override
