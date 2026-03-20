@@ -8,7 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.sprintproject.R;
+import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,51 +25,29 @@ import com.example.sprintproject.R;
  */
 public class IssueFeedFragment extends Fragment {
 
-    // Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView rvIssues;
+    private IssueFeedAdapter adapter;
+    private IssueFeedViewModel viewModel;
 
-    // Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public IssueFeedFragment() {
+    public IssueFeedFragment(){
         super(R.layout.fragment_issue_feed);
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment isseFeedFragment.
-     */
-    // Rename and change types and number of parameters
-    public static IssueFeedFragment newInstance(String param1, String param2) {
-        IssueFeedFragment fragment = new IssueFeedFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
+        super.onViewCreated(view, savedInstance);
+
+        rvIssues = view.findViewById(R.id.rvIssues);
+
+        adapter = new IssueFeedAdapter();
+        rvIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvIssues.setAdapter(adapter);
+
+        viewModel = new ViewModelProvider(this).get(IssueFeedViewModel.class);
+
+        viewModel.getIssues().observe(getViewLifecycleOwner(), issues -> {
+            adapter.setIssueList(issues);
+        });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_issue_feed, container, false);
-    }
 }
