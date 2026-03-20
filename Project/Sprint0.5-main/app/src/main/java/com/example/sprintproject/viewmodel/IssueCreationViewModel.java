@@ -28,7 +28,7 @@ public class IssueCreationViewModel extends ViewModel {
         issue.put("location", location);
         issue.put("description", description);
         issue.put("initials", initials);
-        issue.put("status", "open");
+        issue.put("status", "Not Started");
         issue.put("creatorUid", uID);
         issue.put("timestamp", System.currentTimeMillis());
         db.child("issues").push().setValue(issue);

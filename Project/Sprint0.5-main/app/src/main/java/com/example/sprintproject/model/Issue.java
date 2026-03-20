@@ -1,25 +1,28 @@
 package com.example.sprintproject.model;
+
 public class Issue {
     private String id;
     private String title;
     private String category;
     private String priority;
+    private String initials;
     private String location;
     private String description;
     private String creatorUid;
     private String status;
     private Long timestamp;
 
-    public Issue(){
+    public Issue() {
 
     }
 
-    public Issue(String title, String category, String priority,
+    public Issue(String title, String category, String priority, String initials,
                  String location, String description,
                  String creatorUid, String status, Long timestamp) {
         this.title = title;
         this.category = category;
         this.priority = priority;
+        this.initials = initials;
         this.location = location;
         this.description = description;
         this.creatorUid = creatorUid;
@@ -27,11 +30,11 @@ public class Issue {
         this.timestamp = timestamp;
     }
 
-    public String getID(){
+    public String getId() {
         return id;
     }
 
-    public void setID(String id){
+    public void setID(String id) {
         this.id = id;
     }
 
@@ -45,6 +48,10 @@ public class Issue {
 
     public String getPriority() {
         return priority;
+    }
+
+    public String getInitials() {
+        return initials;
     }
 
     public String getLocation() {
@@ -77,6 +84,10 @@ public class Issue {
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public void setInitials(String initials) {
+        this.initials = initials;
     }
 
     public void setLocation(String location) {
