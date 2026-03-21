@@ -42,7 +42,20 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         holder.tvIssueTitle.setText(issue.getTitle() != null ? issue.getTitle() : "");
         holder.tvStatus.setText(normalizedStatus);
         holder.tvIssueCategory.setText(issue.getCategory() != null ? issue.getCategory() : "");
-        holder.tvPriority.setText(issue.getPriority() != null ? issue.getPriority() : "");
+        String priority = issue.getPriority() != null ? issue.getPriority() : "";
+        holder.tvPriority.setText(priority);
+
+        if (priority.equals("High")) {
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_red_dark));
+            holder.tvPriority.setTypeface(null, android.graphics.Typeface.BOLD);
+            holder.tvPriority.setText("🔴 High");
+        } else if (priority.equals("Medium")) {
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_orange_dark));
+            holder.tvPriority.setText("🟡 Medium");
+        } else if (priority.equals("Low")) {
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_green_dark));
+            holder.tvPriority.setText("🟢 Low");
+        }
         holder.tvIssueInitials.setText(issue.getInitials() != null ? issue.getInitials() : "");
 
         int colorRes = IssueFeedStatusLogic.getStatusColorRes(normalizedStatus);
