@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.AuthRepository;
@@ -33,7 +34,7 @@ public class IssueCreationFragment extends Fragment {
 
     private EditText inputTitle;
     private EditText inputCategory;
-    private AutoCompleteTextView inputPriority;
+    private Spinner inputPriority;
     private EditText inputLocation;
     private EditText inputDescription;
     private EditText inputInitials;
@@ -45,18 +46,17 @@ public class IssueCreationFragment extends Fragment {
     inputTitle = view.findViewById(R.id.inputTitle);
     inputCategory = view.findViewById(R.id.inputCategory);
     inputPriority = view.findViewById(R.id.inputPriority);
+
     String[] priorities = {"Low", "Medium", "High"};
 
     ArrayAdapter<String> adapter =
             new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_dropdown_item_1line,
+                    R.layout.spinner_item,
                     priorities);
 
+    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
     inputPriority.setAdapter(adapter);
-    inputPriority.setOnClickListener(v -> inputPriority.showDropDown());
-    inputPriority.setOnFocusChangeListener((v, hasFocus) -> {
-        if (hasFocus) inputPriority.showDropDown();
-    });
+
     inputLocation = view.findViewById(R.id.inputLocation);
     inputDescription = view.findViewById(R.id.inputDescription);
     inputInitials = view.findViewById(R.id.inputInitials);
@@ -79,13 +79,13 @@ public class IssueCreationFragment extends Fragment {
     boolean valid = true;
     String title = inputTitle.getText().toString().trim();
     String category = inputCategory.getText().toString().trim();
-    String priority = inputPriority.getText().toString().trim();
+    String priority = inputPriority.getSelectedItem().toString();
     String location = inputLocation.getText().toString().trim();
     String initials = inputInitials.getText().toString().trim();
     String description = inputDescription.getText().toString().trim();
     if (error("Title", title, inputTitle)) valid = false ;
     if (error("Category", category, inputCategory)) valid = false ;
-    if (error("Priority", priority, inputPriority)) valid = false;
+    if (priority.isEmpty()) valid = false;
     if (error("Location", location, inputLocation)) valid = false;
     if (error("Description", description, inputDescription)) valid = false;
     if (error("Initials", initials, inputInitials)) valid = false;
@@ -95,7 +95,7 @@ public class IssueCreationFragment extends Fragment {
           viewModel.submitIssue(title, category, priority, location, description, initials);
           inputTitle.setText("");
           inputCategory.setText("");
-          inputPriority.setText("");
+          inputPriority.setSelection(0);
           inputLocation.setText("");
           inputDescription.setText("");
           inputInitials.setText("");

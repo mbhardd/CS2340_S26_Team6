@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +29,8 @@ public class IssueFeedFragment extends Fragment {
     private RecyclerView rvIssues;
     private IssueFeedAdapter adapter;
     private IssueFeedViewModel viewModel;
+    private TextView tvEmptyState;
+
 
     public IssueFeedFragment(){
         super(R.layout.fragment_issue_feed);
@@ -38,15 +41,25 @@ public class IssueFeedFragment extends Fragment {
         super.onViewCreated(view, savedInstance);
 
         rvIssues = view.findViewById(R.id.rvIssues);
-
-        adapter = new IssueFeedAdapter();
-        rvIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
-        rvIssues.setAdapter(adapter);
+        tvEmptyState = view.findViewById(R.id.tvEmptyState);
 
         viewModel = new ViewModelProvider(this).get(IssueFeedViewModel.class);
 
+        adapter = new IssueFeedAdapter(viewModel);
+        rvIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvIssues.setAdapter(adapter);
+
+
         viewModel.getIssues().observe(getViewLifecycleOwner(), issues -> {
             adapter.setIssueList(issues);
+
+            if (issues == null || issues.isEmpty()) {
+                tvEmptyState.setVisibility(View.VISIBLE);
+                rvIssues.setVisibility(View.GONE);
+            } else {
+                tvEmptyState.setVisibility(View.GONE);
+                rvIssues.setVisibility(View.VISIBLE);
+            }
         });
     }
 

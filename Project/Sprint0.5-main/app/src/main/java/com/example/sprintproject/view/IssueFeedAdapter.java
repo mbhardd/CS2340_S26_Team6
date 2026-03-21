@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
+import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,11 @@ import java.util.List;
 public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.IssueViewHolder> {
 
     private List<Issue> issueList = new ArrayList<>();
+    private IssueFeedViewModel viewModel;
+
+    public IssueFeedAdapter(IssueFeedViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     public void setIssueList(List<Issue> issueList) {
         this.issueList = issueList;
@@ -42,7 +48,17 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         holder.tvIssueTitle.setText(issue.getTitle() != null ? issue.getTitle() : "");
         holder.tvStatus.setText(normalizedStatus);
         holder.tvIssueCategory.setText(issue.getCategory() != null ? issue.getCategory() : "");
-        holder.tvPriority.setText(issue.getPriority() != null ? issue.getPriority() : "");
+
+        String priority = issue.getPriority();
+        holder.tvPriority.setText(viewModel.formatPriorityCheck(priority));
+        if ("High".equals(priority)) {
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_red_dark));
+        } else if ("Medium".equals(priority)) {
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_orange_dark));
+        } else {
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_green_dark));
+        }
+
         holder.tvIssueInitials.setText(issue.getInitials() != null ? issue.getInitials() : "");
 
         int colorRes = IssueFeedStatusLogic.getStatusColorRes(normalizedStatus);
