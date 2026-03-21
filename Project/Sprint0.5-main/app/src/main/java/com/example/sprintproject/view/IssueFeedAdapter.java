@@ -1,0 +1,76 @@
+package com.example.sprintproject.view;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sprintproject.R;
+import com.example.sprintproject.model.Issue;
+import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.IssueViewHolder> {
+
+    private List<Issue> issueList = new ArrayList<>();
+
+    public void setIssueList(List<Issue> issueList) {
+        this.issueList = issueList;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public IssueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_issue_feed, parent, false);
+        return new IssueViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull IssueViewHolder holder, int position) {
+        Issue issue = issueList.get(position);
+
+        String normalizedStatus = IssueFeedStatusLogic.normalizeStatus(issue.getStatus());
+
+        holder.tvIssueTitle.setText(issue.getTitle() != null ? issue.getTitle() : "");
+        holder.tvStatus.setText(normalizedStatus);
+        holder.tvIssueCategory.setText(issue.getCategory() != null ? issue.getCategory() : "");
+        holder.tvPriority.setText(issue.getPriority() != null ? issue.getPriority() : "");
+        holder.tvIssueInitials.setText(issue.getInitials() != null ? issue.getInitials() : "");
+
+        int colorRes = IssueFeedStatusLogic.getStatusColorRes(normalizedStatus);
+        int statusColor = ContextCompat.getColor(holder.itemView.getContext(), colorRes);
+
+        holder.tvStatus.setTextColor(statusColor);
+        holder.tvIssueTitle.setTextColor(statusColor);
+    }
+
+    @Override
+    public int getItemCount() {
+        return issueList.size();
+    }
+
+    static class IssueViewHolder extends RecyclerView.ViewHolder {
+        TextView tvIssueTitle;
+        TextView tvStatus;
+        TextView tvIssueCategory;
+        TextView tvPriority;
+        TextView tvIssueInitials;
+
+        public IssueViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvIssueTitle = itemView.findViewById(R.id.tvIssueTitle);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvIssueCategory = itemView.findViewById(R.id.tvIssueCategory);
+            tvPriority = itemView.findViewById(R.id.tvPriority);
+            tvIssueInitials = itemView.findViewById(R.id.tvIssueInitials);
+        }
+    }
+}

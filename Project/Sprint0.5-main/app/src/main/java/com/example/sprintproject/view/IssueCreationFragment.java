@@ -37,6 +37,7 @@ public class IssueCreationFragment extends Fragment {
     private Spinner inputPriority;
     private EditText inputLocation;
     private EditText inputDescription;
+    private EditText inputInitials;
     private Button submitButton;
 @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +59,7 @@ public class IssueCreationFragment extends Fragment {
 
     inputLocation = view.findViewById(R.id.inputLocation);
     inputDescription = view.findViewById(R.id.inputDescription);
+    inputInitials = view.findViewById(R.id.inputInitials);
     submitButton = view.findViewById(R.id.btnSubmitIssue);
 
     authRepository = AuthRepository.getInstance();
@@ -79,21 +81,24 @@ public class IssueCreationFragment extends Fragment {
     String category = inputCategory.getText().toString().trim();
     String priority = inputPriority.getSelectedItem().toString();
     String location = inputLocation.getText().toString().trim();
+    String initials = inputInitials.getText().toString().trim();
     String description = inputDescription.getText().toString().trim();
     if (error("Title", title, inputTitle)) valid = false ;
     if (error("Category", category, inputCategory)) valid = false ;
     if (priority.isEmpty()) valid = false;
     if (error("Location", location, inputLocation)) valid = false;
     if (error("Description", description, inputDescription)) valid = false;
+    if (error("Initials", initials, inputInitials)) valid = false;
     if (!valid) {
         return;
     }
-          viewModel.submitIssue(title, category, priority, location, description);
+          viewModel.submitIssue(title, category, priority, location, description, initials);
           inputTitle.setText("");
           inputCategory.setText("");
           inputPriority.setSelection(0);
           inputLocation.setText("");
           inputDescription.setText("");
+          inputInitials.setText("");
 
           NavController navController = NavHostFragment.findNavController(this);
           navController.navigate(R.id.action_issueCreationFragment_to_issueFeedFragment);
