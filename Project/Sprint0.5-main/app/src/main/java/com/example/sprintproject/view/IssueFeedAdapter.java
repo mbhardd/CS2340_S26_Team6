@@ -21,6 +21,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
     private List<Issue> issueList = new ArrayList<>();
     private IssueFeedViewModel viewModel;
+    private int expandedPosition = -1;
 
     public IssueFeedAdapter(IssueFeedViewModel viewModel) {
         this.viewModel = viewModel;
@@ -66,6 +67,36 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
         holder.tvStatus.setTextColor(statusColor);
         holder.tvIssueTitle.setTextColor(statusColor);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (expandedPosition == holder.getAdapterPosition()) {
+                expandedPosition = -1; // collapse
+            } else {
+                expandedPosition = holder.getAdapterPosition(); // expand
+            }
+            notifyDataSetChanged();
+        });
+
+        if (position == expandedPosition) {
+            holder.tvCreationTime.setVisibility(View.VISIBLE);
+            holder.tvCreatorUid.setVisibility(View.VISIBLE);
+
+            Long timestamp = issue.getTimestamp();
+            if (timestamp != null) {
+                java.text.SimpleDateFormat sdf =
+                        new java.text.SimpleDateFormat("MM/dd/yy, hh:mm a");
+                String formattedTime = sdf.format(new java.util.Date(timestamp));
+                holder.tvCreationTime.setText("Creation Time:  " + formattedTime);
+            }
+
+            String uid = issue.getCreatorUid();
+            if (uid != null) {
+                holder.tvCreatorUid.setText("UID:  " + uid);
+            }
+        } else {
+            holder.tvCreationTime.setVisibility(View.GONE);
+            holder.tvCreatorUid.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -79,6 +110,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         TextView tvIssueCategory;
         TextView tvPriority;
         TextView tvIssueInitials;
+        TextView tvCreationTime;
+        TextView tvCreatorUid;
 
         public IssueViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +120,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             tvIssueCategory = itemView.findViewById(R.id.tvIssueCategory);
             tvPriority = itemView.findViewById(R.id.tvPriority);
             tvIssueInitials = itemView.findViewById(R.id.tvIssueInitials);
+            tvCreationTime = itemView.findViewById(R.id.tvCreationTime);
+            tvCreatorUid = itemView.findViewById(R.id.tvCreatorUid);
         }
     }
 }
