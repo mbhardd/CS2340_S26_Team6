@@ -13,6 +13,9 @@ public class OpenIssuesFilter implements IssueFilterStrategy {
             if ("Not Started".equalsIgnoreCase(issue.getStatus())) {
                 filtered.add(issue);
             }
+            if ("In Progress".equalsIgnoreCase(issue.getStatus())) {
+                filtered.add(issue);
+            }
         }
         return filtered;
     }
