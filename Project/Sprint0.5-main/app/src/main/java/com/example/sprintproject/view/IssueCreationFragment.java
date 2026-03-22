@@ -7,12 +7,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -20,8 +19,6 @@ import android.widget.Spinner;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.viewmodel.IssueCreationViewModel;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,69 +36,81 @@ public class IssueCreationFragment extends Fragment {
     private EditText inputDescription;
     private EditText inputInitials;
     private Button submitButton;
-@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_issue_creation, container, false);
-    inputTitle = view.findViewById(R.id.inputTitle);
-    inputCategory = view.findViewById(R.id.inputCategory);
-    inputPriority = view.findViewById(R.id.inputPriority);
+        View view = inflater.inflate(R.layout.fragment_issue_creation, container, false);
+        inputTitle = view.findViewById(R.id.inputTitle);
+        inputCategory = view.findViewById(R.id.inputCategory);
+        inputPriority = view.findViewById(R.id.inputPriority);
 
-    String[] priorities = {"Low", "Medium", "High"};
+        String[] priorities = {"Low", "Medium", "High"};
 
-    ArrayAdapter<String> adapter =
+        ArrayAdapter<String> adapter =
             new ArrayAdapter<>(requireContext(),
                     R.layout.spinner_item,
                     priorities);
 
-    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-    inputPriority.setAdapter(adapter);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        inputPriority.setAdapter(adapter);
 
-    inputLocation = view.findViewById(R.id.inputLocation);
-    inputDescription = view.findViewById(R.id.inputDescription);
-    inputInitials = view.findViewById(R.id.inputInitials);
-    submitButton = view.findViewById(R.id.btnSubmitIssue);
+        inputLocation = view.findViewById(R.id.inputLocation);
+        inputDescription = view.findViewById(R.id.inputDescription);
+        inputInitials = view.findViewById(R.id.inputInitials);
+        submitButton = view.findViewById(R.id.btnSubmitIssue);
 
-    authRepository = AuthRepository.getInstance();
-    viewModel = new ViewModelProvider(this).get(IssueCreationViewModel.class);
-    submitButton.setOnClickListener(v -> submitForm());
-    return view;
-      }
+        authRepository = AuthRepository.getInstance();
+        viewModel = new ViewModelProvider(this).get(IssueCreationViewModel.class);
+        submitButton.setOnClickListener(v -> submitForm());
+        return view;
+    }
 
-      public boolean error(String fieldName, String value, EditText input) {
-            if (value.isEmpty()) {
+    public boolean error(String fieldName, String value, EditText input) {
+        if (value.isEmpty()) {
             input.setError(fieldName + " is required");
             return true;
-            }
-           return false;
-      }
-      public void submitForm() {
-    boolean valid = true;
-    String title = inputTitle.getText().toString().trim();
-    String category = inputCategory.getText().toString().trim();
-    String priority = inputPriority.getSelectedItem().toString();
-    String location = inputLocation.getText().toString().trim();
-    String initials = inputInitials.getText().toString().trim();
-    String description = inputDescription.getText().toString().trim();
-    if (error("Title", title, inputTitle)) valid = false ;
-    if (error("Category", category, inputCategory)) valid = false ;
-    if (priority.isEmpty()) valid = false;
-    if (error("Location", location, inputLocation)) valid = false;
-    if (error("Description", description, inputDescription)) valid = false;
-    if (error("Initials", initials, inputInitials)) valid = false;
-    if (!valid) {
-        return;
+        }
+        return false;
     }
-          viewModel.submitIssue(title, category, priority, location, description, initials);
-          inputTitle.setText("");
-          inputCategory.setText("");
-          inputPriority.setSelection(0);
-          inputLocation.setText("");
-          inputDescription.setText("");
-          inputInitials.setText("");
+    public void submitForm() {
+        boolean valid = true;
+        String title = inputTitle.getText().toString().trim();
+        String category = inputCategory.getText().toString().trim();
+        String priority = inputPriority.getSelectedItem().toString();
+        String location = inputLocation.getText().toString().trim();
+        String initials = inputInitials.getText().toString().trim();
+        String description = inputDescription.getText().toString().trim();
+        if (error("Title", title, inputTitle)) {
+            valid = false;
+        }
+        if (error("Category", category, inputCategory)) {
+            valid = false;
+        }
+        if (priority.isEmpty()) {
+            valid = false;
+        }
+        if (error("Location", location, inputLocation)) {
+            valid = false;
+        }
+        if (error("Description", description, inputDescription)) {
+            valid = false;
+        }
+        if (error("Initials", initials, inputInitials)) {
+            valid = false;
+        }
+        if (!valid) {
+            return;
+        }
+        viewModel.submitIssue(title, category, priority, location, description, initials);
+        inputTitle.setText("");
+        inputCategory.setText("");
+        inputPriority.setSelection(0);
+        inputLocation.setText("");
+        inputDescription.setText("");
+        inputInitials.setText("");
 
-          NavController navController = NavHostFragment.findNavController(this);
-          navController.navigate(R.id.action_issueCreationFragment_to_issueFeedFragment);
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.action_issueCreationFragment_to_issueFeedFragment);
 
-      }
+    }
 }

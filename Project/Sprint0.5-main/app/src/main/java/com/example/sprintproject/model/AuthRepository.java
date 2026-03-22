@@ -33,7 +33,7 @@ public class AuthRepository {
             }
         }
         return instance;
-        }
+    }
 
 
     // Register user
