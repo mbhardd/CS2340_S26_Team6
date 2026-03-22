@@ -4,13 +4,10 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,12 +37,12 @@ public class IssueFeedFragment extends Fragment {
     private MaterialButton btnFilterBy;
 
 
-    public IssueFeedFragment(){
+    public IssueFeedFragment() {
         super(R.layout.fragment_issue_feed);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance) {
         super.onViewCreated(view, savedInstance);
 
         btnFilterBy = view.findViewById(R.id.btnFilterBy);
