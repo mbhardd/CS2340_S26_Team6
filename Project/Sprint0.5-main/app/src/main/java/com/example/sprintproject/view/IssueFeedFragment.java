@@ -78,15 +78,15 @@ public class IssueFeedFragment extends Fragment {
                 .setTitle("Filter By")
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
-                        case 0: // All Issues
-                            viewModel.setFilter(new AllIssuesFilter());
-                            break;
-                        case 1: // Open Issues
-                            viewModel.setFilter(new OpenIssuesFilter());
-                            break;
-                        case 2: // Priority
-                            showPriorityDialog();
-                            break;
+                    case 0: // All Issues
+                        viewModel.setFilter(new AllIssuesFilter());
+                        break;
+                    case 1: // Open Issues
+                        viewModel.setFilter(new OpenIssuesFilter());
+                        break;
+                    case 2: // Priority
+                        showPriorityDialog();
+                        break;
                     }
                 })
                 .show();

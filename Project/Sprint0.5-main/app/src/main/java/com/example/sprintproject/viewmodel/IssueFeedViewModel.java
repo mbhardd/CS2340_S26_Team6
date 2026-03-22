@@ -55,14 +55,14 @@ public class IssueFeedViewModel extends ViewModel {
         }
 
         switch (priority) {
-            case "High":
-                return "🔴 High";
-            case "Medium":
-                return "🟡 Medium";
-            case "Low":
-                return "🟢 Low";
-            default:
-                return priority;
+        case "High":
+            return "🔴 High";
+        case "Medium":
+            return "🟡 Medium";
+        case "Low":
+            return "🟢 Low";
+        default:
+            return priority;
         }
     }
 
