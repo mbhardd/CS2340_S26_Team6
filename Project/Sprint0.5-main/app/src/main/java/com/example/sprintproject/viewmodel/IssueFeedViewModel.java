@@ -50,7 +50,9 @@ public class IssueFeedViewModel extends ViewModel {
 
 
     public String formatPriorityCheck(String priority) {
-        if (priority == null) return "";
+        if (priority == null) {
+            return "";
+        }
 
         switch (priority) {
             case "High":
