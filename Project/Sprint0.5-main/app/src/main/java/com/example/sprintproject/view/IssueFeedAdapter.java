@@ -27,6 +27,22 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         this.viewModel = viewModel;
     }
 
+    public int toggleExpandedPosition(int currentExpandedPosition, int clickedPosition) {
+        if (currentExpandedPosition == clickedPosition) {
+            return -1;
+        }
+        return clickedPosition;
+    }
+
+    public String formatTimestamp(Long timestamp) {
+        if (timestamp == null) {
+            return "";
+        }
+        java.text.SimpleDateFormat sdf =
+                new java.text.SimpleDateFormat("MM/dd/yy, hh:mm a", java.util.Locale.US);
+        return "Creation Time:  " + sdf.format(new java.util.Date(timestamp));
+    }
+
     public void setIssueList(List<Issue> issueList) {
         this.issueList = issueList;
         notifyDataSetChanged();
@@ -69,11 +85,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         holder.tvIssueTitle.setTextColor(statusColor);
 
         holder.itemView.setOnClickListener(v -> {
-            if (expandedPosition == holder.getAdapterPosition()) {
-                expandedPosition = -1; // collapse
-            } else {
-                expandedPosition = holder.getAdapterPosition(); // expand
-            }
+            expandedPosition = toggleExpandedPosition(expandedPosition, holder.getAdapterPosition());
             notifyDataSetChanged();
         });
 
@@ -83,10 +95,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
             Long timestamp = issue.getTimestamp();
             if (timestamp != null) {
-                java.text.SimpleDateFormat sdf =
-                        new java.text.SimpleDateFormat("MM/dd/yy, hh:mm a");
-                String formattedTime = sdf.format(new java.util.Date(timestamp));
-                holder.tvCreationTime.setText("Creation Time:  " + formattedTime);
+                holder.tvCreationTime.setText(formatTimestamp(timestamp));
             }
 
             String uid = issue.getCreatorUid();
