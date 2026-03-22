@@ -86,11 +86,12 @@
             app:layout_constraintTop_toTopOf="@id/tvIssueCategory" />
 
         <!-- Assigned person initials -->
+
+        <!-- Issue Creation Time -->
         <TextView
             android:id="@+id/tvIssueInitials"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
@@ -99,8 +100,45 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tvIssueCategory"
+            app:layout_constraintTop_toBottomOf="@id/tvIssueCategory"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvCreationTime"
+            android:visibility="visible"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:text="Creation Time:   01/22/26, 3:43 AM"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvIssueCategory" />
+            app:layout_constraintTop_toBottomOf="@id/tvCreatorUid" />
+
+        <!-- Creator uID -->
+        <TextView
+            android:id="@+id/tvCreatorUid"
+            android:visibility="visible"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:text="Creator UID:   23243984238"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIssueInitials" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
