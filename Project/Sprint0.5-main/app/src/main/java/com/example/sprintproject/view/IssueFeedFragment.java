@@ -16,8 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.viewmodel.AllIssuesFilter;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 import android.widget.TextView;
+
+import com.example.sprintproject.viewmodel.OpenIssuesFilter;
+import com.example.sprintproject.viewmodel.PriorityFilter;
+import com.google.android.material.button.MaterialButton;
+import android.app.AlertDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +37,8 @@ public class IssueFeedFragment extends Fragment {
     private IssueFeedViewModel viewModel;
     private TextView tvEmptyState;
 
+    private MaterialButton btnFilterBy;
+
 
     public IssueFeedFragment(){
         super(R.layout.fragment_issue_feed);
@@ -40,6 +48,7 @@ public class IssueFeedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
         super.onViewCreated(view, savedInstance);
 
+        btnFilterBy = view.findViewById(R.id.btnFilterBy);
         rvIssues = view.findViewById(R.id.rvIssues);
         tvEmptyState = view.findViewById(R.id.tvEmptyState);
 
@@ -61,6 +70,40 @@ public class IssueFeedFragment extends Fragment {
                 rvIssues.setVisibility(View.VISIBLE);
             }
         });
+
+        btnFilterBy.setOnClickListener(v -> showFilterDialog());
+    }
+
+    private void showFilterDialog() {
+        String[] options = {"All Issues", "Open Issues", "Priority"};
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Filter By")
+                .setItems(options, (dialog, which) -> {
+                    switch (which) {
+                        case 0: // All Issues
+                            viewModel.setFilter(new AllIssuesFilter());
+                            break;
+                        case 1: // Open Issues
+                            viewModel.setFilter(new OpenIssuesFilter());
+                            break;
+                        case 2: // Priority
+                            showPriorityDialog();
+                            break;
+                    }
+                })
+                .show();
+    }
+
+    private void showPriorityDialog() {
+        String[] priorities = {"Low", "Medium", "High"};
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Select Priority")
+                .setItems(priorities, (dialog, which) -> {
+                    viewModel.setFilter(new PriorityFilter(priorities[which]));
+                })
+                .show();
     }
 
 }
