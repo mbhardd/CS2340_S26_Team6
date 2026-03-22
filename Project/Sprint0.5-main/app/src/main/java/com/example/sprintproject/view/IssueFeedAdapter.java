@@ -53,11 +53,14 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         String priority = issue.getPriority();
         holder.tvPriority.setText(viewModel.formatPriorityCheck(priority));
         if ("High".equals(priority)) {
-            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_red_dark));
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),
+                    android.R.color.holo_red_dark));
         } else if ("Medium".equals(priority)) {
-            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_orange_dark));
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),
+                    android.R.color.holo_orange_dark));
         } else {
-            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_green_dark));
+            holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),
+                    android.R.color.holo_green_dark));
         }
 
         holder.tvIssueInitials.setText(issue.getInitials() != null ? issue.getInitials() : "");
@@ -105,13 +108,13 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     }
 
     static class IssueViewHolder extends RecyclerView.ViewHolder {
-        TextView tvIssueTitle;
-        TextView tvStatus;
-        TextView tvIssueCategory;
-        TextView tvPriority;
-        TextView tvIssueInitials;
-        TextView tvCreationTime;
-        TextView tvCreatorUid;
+        private TextView tvIssueTitle;
+        private TextView tvStatus;
+        private TextView tvIssueCategory;
+        private TextView tvPriority;
+        private TextView tvIssueInitials;
+        private TextView tvCreationTime;
+        private TextView tvCreatorUid;
 
         public IssueViewHolder(@NonNull View itemView) {
             super(itemView);
