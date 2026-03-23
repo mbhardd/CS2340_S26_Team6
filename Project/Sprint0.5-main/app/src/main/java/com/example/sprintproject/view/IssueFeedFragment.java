@@ -12,12 +12,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.sprintproject.R;
 import com.example.sprintproject.viewmodel.AllIssuesFilter;
+
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 import android.widget.TextView;
 
 import com.example.sprintproject.viewmodel.OpenIssuesFilter;
+import com.example.sprintproject.viewmodel.CategoryFilter;
 import com.example.sprintproject.viewmodel.PriorityFilter;
 import com.google.android.material.button.MaterialButton;
 import android.app.AlertDialog;
@@ -72,7 +75,7 @@ public class IssueFeedFragment extends Fragment {
     }
 
     private void showFilterDialog() {
-        String[] options = {"All Issues", "Open Issues", "Priority"};
+        String[] options = {"All Issues", "Open Issues", "Priority", "Category"};
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Filter By")
@@ -87,6 +90,11 @@ public class IssueFeedFragment extends Fragment {
                     case 2: // Priority
                         showPriorityDialog();
                         break;
+                    case 3: // Category
+                        showCategoryDialog();
+                        break;
+                    default:
+                        break;
                     }
                 })
                 .show();
@@ -99,6 +107,19 @@ public class IssueFeedFragment extends Fragment {
                 .setTitle("Select Priority")
                 .setItems(priorities, (dialog, which) -> {
                     viewModel.setFilter(new PriorityFilter(priorities[which]));
+                })
+                .show();
+
+    }
+
+
+    private void showCategoryDialog() {
+        String[] categories = {"Plumbing", "Flooring", "Electrical", "Furniture", "Other"};
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Select Category")
+                .setItems(categories, (dialog, which) -> {
+                    viewModel.setFilter(new CategoryFilter(categories[which]));
                 })
                 .show();
     }

@@ -30,7 +30,7 @@ public class IssueCreationFragment extends Fragment {
     private AuthRepository authRepository;
 
     private EditText inputTitle;
-    private EditText inputCategory;
+    private Spinner inputCategory;
     private Spinner inputPriority;
     private EditText inputLocation;
     private EditText inputDescription;
@@ -54,6 +54,16 @@ public class IssueCreationFragment extends Fragment {
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         inputPriority.setAdapter(adapter);
 
+        String[] categories = {"Plumbing", "Flooring", "Electrical", "Furniture", "Other"};
+
+        ArrayAdapter<String> categoryAdapter =
+                new ArrayAdapter<>(requireContext(),
+                        R.layout.spinner_item,
+                        categories);
+
+        categoryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        inputCategory.setAdapter(categoryAdapter);
+
         inputLocation = view.findViewById(R.id.inputLocation);
         inputDescription = view.findViewById(R.id.inputDescription);
         inputInitials = view.findViewById(R.id.inputInitials);
@@ -75,7 +85,7 @@ public class IssueCreationFragment extends Fragment {
     public void submitForm() {
         boolean valid = true;
         String title = inputTitle.getText().toString().trim();
-        String category = inputCategory.getText().toString().trim();
+        String category = inputCategory.getSelectedItem().toString();
         String priority = inputPriority.getSelectedItem().toString();
         String location = inputLocation.getText().toString().trim();
         String initials = inputInitials.getText().toString().trim();
@@ -83,9 +93,7 @@ public class IssueCreationFragment extends Fragment {
         if (error("Title", title, inputTitle)) {
             valid = false;
         }
-        if (error("Category", category, inputCategory)) {
-            valid = false;
-        }
+
         if (priority.isEmpty()) {
             valid = false;
         }
@@ -103,7 +111,7 @@ public class IssueCreationFragment extends Fragment {
         }
         viewModel.submitIssue(title, category, priority, location, description, initials);
         inputTitle.setText("");
-        inputCategory.setText("");
+        inputCategory.setSelection(0);
         inputPriority.setSelection(0);
         inputLocation.setText("");
         inputDescription.setText("");

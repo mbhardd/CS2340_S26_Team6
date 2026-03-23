@@ -95,7 +95,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         holder.tvIssueTitle.setTextColor(statusColor);
 
         holder.itemView.setOnClickListener(v -> {
-            expandedPosition = toggleExpandedPosition(expandedPosition, holder.getAdapterPosition());
+            expandedPosition = toggleExpandedPosition(expandedPosition,
+                    holder.getAdapterPosition());
             notifyDataSetChanged();
         });
 
