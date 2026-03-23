@@ -3,19 +3,13 @@ package com.example.sprintproject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import android.view.View;
-
-import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.view.IssueFeedAdapter;
-import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class Ananya_Unit_Tests {
     private IssueFeedAdapter adapter;
-    private Issue issue;
-    private View itemView;
 
     @Before
     public void setUp() {
@@ -29,11 +23,18 @@ public class Ananya_Unit_Tests {
     }
 
     @Test
-        public void formatTimestamp_validTimestamp_returnsFormattedString() {
+        public void testTimestamp_validTimestamp_returnsFormattedString() {
             Long timestamp = 1711234567890L;
             String result = adapter.formatTimestamp(timestamp);
         assertTrue(result.startsWith("Creation Time:"));
         assertTrue(result.length() > "Creation Time:".length());
     }
 
+    @Test
+    public void testCreatorUid_validUid_returnsFormattedUid() {
+        String uid = "user123";
+        String result = adapter.formatCreatorUid(uid);
+
+        assertEquals("UID:  user123", result);
+    }
 }

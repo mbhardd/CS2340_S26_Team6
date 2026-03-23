@@ -43,6 +43,13 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         return "Creation Time:  " + sdf.format(new java.util.Date(timestamp));
     }
 
+    public String formatCreatorUid(String uid) {
+        if (uid == null) {
+            return "";
+        }
+        return "UID:  " + uid;
+    }
+
     public void setIssueList(List<Issue> issueList) {
         this.issueList = issueList;
         notifyDataSetChanged();
@@ -103,7 +110,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
             String uid = issue.getCreatorUid();
             if (uid != null) {
-                holder.tvCreatorUid.setText("UID:  " + uid);
+                holder.tvCreatorUid.setText(formatCreatorUid(uid));
             }
         } else {
             holder.tvCreationTime.setVisibility(View.GONE);
