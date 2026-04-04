@@ -1,8 +1,12 @@
 package com.example.sprintproject.view;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +17,7 @@ import com.example.sprintproject.R;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,21 +106,25 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         });
 
         if (position == expandedPosition) {
-            holder.tvCreationTime.setVisibility(View.VISIBLE);
-            holder.tvCreatorUid.setVisibility(View.VISIBLE);
+
+            holder.layoutExpandable.setVisibility(View.VISIBLE);
 
             Long timestamp = issue.getTimestamp();
             if (timestamp != null) {
                 holder.tvCreationTime.setText(formatTimestamp(timestamp));
+            } else {
+                holder.tvCreationTime.setText("No timestamp");
             }
 
             String uid = issue.getCreatorUid();
             if (uid != null) {
                 holder.tvCreatorUid.setText(formatCreatorUid(uid));
+            } else {
+                holder.tvCreatorUid.setText("Unknown user");
             }
+
         } else {
-            holder.tvCreationTime.setVisibility(View.GONE);
-            holder.tvCreatorUid.setVisibility(View.GONE);
+            holder.layoutExpandable.setVisibility(View.GONE);
         }
     }
 
@@ -125,6 +134,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     }
 
     static class IssueViewHolder extends RecyclerView.ViewHolder {
+        public View btnAddComment;
         private TextView tvIssueTitle;
         private TextView tvStatus;
         private TextView tvIssueCategory;
@@ -132,6 +142,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         private TextView tvIssueInitials;
         private TextView tvCreationTime;
         private TextView tvCreatorUid;
+        private LinearLayout layoutExpandable;
 
         public IssueViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -140,8 +151,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             tvIssueCategory = itemView.findViewById(R.id.tvIssueCategory);
             tvPriority = itemView.findViewById(R.id.tvPriority);
             tvIssueInitials = itemView.findViewById(R.id.tvIssueInitials);
+            layoutExpandable = itemView.findViewById(R.id.layoutExpandable);
             tvCreationTime = itemView.findViewById(R.id.tvCreationTime);
             tvCreatorUid = itemView.findViewById(R.id.tvCreatorUid);
+            btnAddComment = itemView.findViewById(R.id.btnAddComment);
         }
     }
 }
