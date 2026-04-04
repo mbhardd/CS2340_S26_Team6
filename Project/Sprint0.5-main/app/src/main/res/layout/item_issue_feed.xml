@@ -105,41 +105,71 @@
             app:layout_constraintTop_toBottomOf="@id/tvIssueCategory"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/tvCreationTime"
-            android:visibility="visible"
+        <!-- EXPANDABLE SECTION -->
+        <LinearLayout
+            android:id="@+id/layoutExpandable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-light"
-            android:maxLines="1"
-            android:text="Creation Time:  01/22/26, 3:43 AM"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCreatorUid" />
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="6dp"
 
-        <!-- Creator uID -->
-        <TextView
-            android:id="@+id/tvCreatorUid"
-            android:visibility="visible"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-light"
-            android:maxLines="1"
-            android:text="Creator UID:  23243984238"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIssueInitials"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvIssueInitials" />
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <!-- Creator UID -->
+            <TextView
+                android:id="@+id/tvCreatorUid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Creator UID: 23243984238"
+                android:textColor="#000000"
+                android:textSize="16sp"/>
+
+            <!-- Creation Time -->
+            <TextView
+                android:id="@+id/tvCreationTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Creation Time: 01/22/26, 3:43 AM"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Add Comment Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Comment"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:backgroundTint="#F3D47A"
+                app:cornerRadius="10dp"
+                android:layout_marginTop="8dp"/>
+
+            <!-- COMMENTS TITLE -->
+            <TextView
+                android:id="@+id/tvCommentsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comments: "
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginTop="10dp"/>
+
+            <!-- COMMENTS CONTAINER -->
+            <LinearLayout
+                android:id="@+id/layoutComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="4dp"/>
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
