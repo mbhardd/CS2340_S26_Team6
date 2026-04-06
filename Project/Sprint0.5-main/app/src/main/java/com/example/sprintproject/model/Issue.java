@@ -11,6 +11,7 @@ public class Issue {
     private String creatorUid;
     private String status;
     private Long timestamp;
+    private Long lastUpdated;
 
     public Issue() {
 
@@ -28,6 +29,7 @@ public class Issue {
         this.creatorUid = creatorUid;
         this.status = status;
         this.timestamp = timestamp;
+        this.lastUpdated = timestamp;
     }
 
     public String getId() {
@@ -73,7 +75,9 @@ public class Issue {
     public Long getTimestamp() {
         return timestamp;
     }
-
+    public Long getLastUpdated() {
+        return lastUpdated;
+    }
     public void setTitle(String title) {
         this.title = title;
     }
@@ -108,5 +112,8 @@ public class Issue {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 }
