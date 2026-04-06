@@ -1,0 +1,9 @@
+package com.example.sprintproject.model;
+
+public enum IssueStatus {
+    SUBMITTED,
+    IN_REVIEW,
+    IN_PROGRESS,
+    RESOLVED,
+    CLOSED
+}

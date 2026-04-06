@@ -12,6 +12,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IssueRepository {
 
@@ -63,4 +65,65 @@ public class IssueRepository {
 
         return issuesLiveData;
     }
+
+    public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId){
+        MutableLiveData<List<IssueUpdate>> updatesLiveData = new MutableLiveData<>();
+
+        issuesRef.child(issueId).child("updates")
+                .addValueEventListener(new ValueEventListener(){
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        List<IssueUpdate> updates = new ArrayList<>();
+
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            IssueUpdate update = child.getValue(IssueUpdate.class);
+                            if (update != null) {
+                                update.setId(child.getKey());
+                                updates.add(update);
+                            }
+                        }
+
+                        Collections.sort(updates, (u1, u2) ->
+                                Long.compare(u1.getTimestamp(), u2.getTimestamp()));
+
+                        updatesLiveData.setValue(updates);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        updatesLiveData.setValue(new ArrayList<>());
+                    }
+                });
+        return updatesLiveData;
+    }
+
+    public void addIssueUpdate(String issueId, IssueUpdate update) {
+        String updateId = issuesRef.child(issueId).child("updates").push().getKey();
+
+        if (updateId != null) {
+            issuesRef.child(issueId).child("updates").child(updateId).setValue(update);
+        }
+    }
+
+    public void updateIssueStatus(String issueId, String newStatus) {
+        issuesRef.child(issueId).child("status").setValue(newStatus);
+        issuesRef.child(issueId).child("lastUpdated").setValue(System.currentTimeMillis());
+    }
+
+    public void updateStatusWithHistory(String issueId, String newStatus,
+                                        IssueUpdate update) {
+        String updateId = issuesRef.child(issueId).child("updates").push().getKey();
+
+        if (updateId == null) {
+            return;
+        }
+
+        Map<String, Object> changes = new HashMap<>();
+        changes.put(issueId + "/status", newStatus);
+        changes.put(issueId + "/lastUpdated", System.currentTimeMillis());
+        changes.put(issueId + "/updates/" + updateId, update);
+
+        issuesRef.updateChildren(changes);
+    }
+
 }
