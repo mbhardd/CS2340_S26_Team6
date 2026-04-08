@@ -116,4 +116,12 @@ public class Issue {
     public void setLastUpdated(Long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
+
+    public String getAssignedStaff() {
+        return "Test Assigned";
+    }
+
+    public String getLatestUpdate() {
+        return "Test Update";
+    }
 }

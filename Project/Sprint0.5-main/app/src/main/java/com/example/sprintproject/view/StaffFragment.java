@@ -1,70 +1,63 @@
 package com.example.sprintproject.view;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.Issue;
 
-/**
- * A simple {@link Fragment} subclass.
- * Project/Sprint0.5-main/app/src/main/java/com/example/sprintproject/view/StaffFragment.java
- * Use the {@link StaffFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StaffFragment extends Fragment {
 
-    // Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView rvStaffIssues;
+    private StaffAdapter adapter;
 
     public StaffFragment() {
-        // Required empty public constructor
         super(R.layout.fragment_staff);
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StaffFragment.
-     */
-    // Rename and change types and number of parameters
-    public static StaffFragment newInstance(String param1, String param2) {
-        StaffFragment fragment = new StaffFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-
-
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_staff, container, false);
+        // 🔥 Hook up RecyclerView
+        rvStaffIssues = view.findViewById(R.id.rvStaffIssues);
+
+        adapter = new StaffAdapter();
+
+        rvStaffIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvStaffIssues.setAdapter(adapter);
+
+        // 🔥 TEMP: add fake data so you can SEE it working
+        // (you can remove this later when connecting to Firebase)
+        adapter.setIssueList(java.util.Arrays.asList(
+                new Issue(
+                        "Ceiling Leak",        // title
+                        "Maintenance",         // category
+                        "High",                // priority
+                        "JD",                  // initials
+                        "Building A",          // location
+                        "Water dripping",      // description
+                        "user123",             // creatorUid
+                        "SUBMITTED",           // status
+                        System.currentTimeMillis() // timestamp
+                ),
+                new Issue(
+                        "Broken AC",
+                        "HVAC",
+                        "Medium",
+                        "AB",
+                        "Room 204",
+                        "AC not working",
+                        "user456",
+                        "IN_PROGRESS",
+                        System.currentTimeMillis()
+                )
+        ));
     }
 }
