@@ -10,7 +10,9 @@ public class OpenIssuesFilter implements IssueFilterStrategy {
     public List<Issue> apply(List<Issue> issues) {
         List<Issue> filtered = new ArrayList<>();
         for (Issue issue : issues) {
-            if ("Not Started".equalsIgnoreCase(issue.getStatus())) {
+            if (issue.getStatus().equalsIgnoreCase("SUBMITTED") ||
+                    issue.getStatus().equalsIgnoreCase("IN_REVIEW") ||
+                    issue.getStatus().equalsIgnoreCase("IN_PROGRESS")) {
                 filtered.add(issue);
             }
             if ("In Progress".equalsIgnoreCase(issue.getStatus())) {

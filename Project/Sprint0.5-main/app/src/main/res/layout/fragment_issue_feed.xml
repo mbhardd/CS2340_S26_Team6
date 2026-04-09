@@ -34,7 +34,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="18dp"
         android:paddingBottom="10dp"
-        android:text="Filter By"
+        android:text="Sort/Filter By"
         android:textAllCaps="false"
         android:textColor="@color/filter_yellow"
         android:textSize="16sp"
