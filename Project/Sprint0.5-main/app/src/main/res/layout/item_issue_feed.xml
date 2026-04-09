@@ -137,30 +137,6 @@
                 android:textSize="16sp"
                 android:layout_marginTop="2dp"/>
 
-            <!-- Add Comment Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAddComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Comment"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:backgroundTint="#F3D47A"
-                app:cornerRadius="10dp"
-                android:layout_marginTop="8dp"/>
-
-            <!-- COMMENTS TITLE -->
-            <TextView
-                android:id="@+id/tvCommentsTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Comments: "
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="#000000"
-                android:layout_marginTop="10dp"/>
-
             <!-- COMMENTS CONTAINER -->
             <LinearLayout
                 android:id="@+id/layoutComments"

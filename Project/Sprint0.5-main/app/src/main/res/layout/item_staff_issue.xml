@@ -11,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="16dp">
 
         <!-- Issue Title -->
@@ -23,9 +23,9 @@
             android:textColor="@color/in_progress_gold"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvStatus"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Status -->
         <TextView
@@ -33,10 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="In Progress"
-            android:textStyle="bold"
             android:textColor="@color/black"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Category -->
         <TextView
@@ -46,8 +46,8 @@
             android:text="Maintenance"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tvIssueTitle"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIssueTitle" />
 
         <!-- Assigned Staff -->
         <TextView
@@ -57,8 +57,8 @@
             android:text="Assigned: John"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tvCategory"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCategory" />
 
         <!-- Latest Staff Update -->
         <TextView
@@ -68,53 +68,69 @@
             android:text="Update: Assigned to John"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tvAssignedStaff"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/tvAssignedStaff" />
 
         <!-- Assign Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAssign"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:text="Assign"
             android:textSize="12sp"
             app:backgroundTint="@color/accent_yellow"
             app:cornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tvStaffUpdate"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnStatus"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvStaffUpdate" />
 
         <!-- Change Status -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStatus"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:text="Change Status"
             android:textSize="12sp"
             app:backgroundTint="@color/accent_pink"
             app:cornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tvStaffUpdate"
-            app:layout_constraintStart_toEndOf="@id/btnAssign"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintStart_toEndOf="@id/btnAssign"
+            app:layout_constraintTop_toBottomOf="@id/tvStaffUpdate" />
 
         <!-- Add Update -->
+        <EditText
+            android:id="@+id/addUpdateNote"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:hint="Add Staff Update Note"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            app:layout_constraintTop_toBottomOf="@id/btnStatus"
+            app:cornerRadius="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddUpdate"
+            android:id="@+id/btnSubmitUpdate"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:text="Add Update"
+            android:text="Submit Update"
             android:textSize="12sp"
             app:backgroundTint="@color/primary_blue"
             android:textColor="@color/white"
             app:cornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/btnAssign"
+            app:layout_constraintTop_toBottomOf="@id/addUpdateNote"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </com.google.android.material.card.MaterialCardView>
