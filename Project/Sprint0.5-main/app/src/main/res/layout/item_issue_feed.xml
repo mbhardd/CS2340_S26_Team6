@@ -85,8 +85,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvIssueCategory" />
 
-        <!-- Assigned person initials -->
-
         <!-- Issue Creation Time -->
         <TextView
             android:id="@+id/tvIssueInitials"
