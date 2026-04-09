@@ -25,7 +25,6 @@ public class StaffFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 🔥 Hook up RecyclerView
         rvStaffIssues = view.findViewById(R.id.rvStaffIssues);
 
         adapter = new StaffAdapter();
@@ -33,8 +32,8 @@ public class StaffFragment extends Fragment {
         rvStaffIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvStaffIssues.setAdapter(adapter);
 
-        // 🔥 TEMP: add fake data so you can SEE it working
-        // (you can remove this later when connecting to Firebase)
+        // fake data so we can see it working
+        // (Ria you can remove this later when connecting to Firebase)
         adapter.setIssueList(java.util.Arrays.asList(
                 new Issue(
                         "Ceiling Leak",        // title

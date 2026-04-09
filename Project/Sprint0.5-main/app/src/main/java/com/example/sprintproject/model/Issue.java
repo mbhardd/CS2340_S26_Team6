@@ -124,4 +124,12 @@ public class Issue {
     public String getLatestUpdate() {
         return "Test Update";
     }
+
+    public IssueStatus getStatusEnum() {
+        try {
+            return IssueStatus.valueOf(status.toUpperCase().replace(" ", "_"));
+        } catch (Exception e) {
+            return IssueStatus.SUBMITTED;
+        }
+    }
 }

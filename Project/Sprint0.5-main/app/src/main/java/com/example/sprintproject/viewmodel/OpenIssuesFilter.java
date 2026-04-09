@@ -9,14 +9,15 @@ public class OpenIssuesFilter implements IssueFilterStrategy {
     @Override
     public List<Issue> apply(List<Issue> issues) {
         List<Issue> filtered = new ArrayList<>();
+
         for (Issue issue : issues) {
-            if ("Not Started".equalsIgnoreCase(issue.getStatus())) {
-                filtered.add(issue);
-            }
-            if ("In Progress".equalsIgnoreCase(issue.getStatus())) {
+            String status = issue.getStatus();
+
+            if (status != null && !status.equalsIgnoreCase("CLOSED")) {
                 filtered.add(issue);
             }
         }
+
         return filtered;
     }
 }

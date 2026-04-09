@@ -6,6 +6,11 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueRepository;
+import com.example.sprintproject.model.IssueStatus;
+import com.example.sprintproject.model.IssueUpdate;
+import com.example.sprintproject.model.UpdateType;
+import com.example.sprintproject.model.User;
+
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
@@ -17,6 +22,7 @@ public class IssueFeedViewModel extends ViewModel {
     private MutableLiveData<List<Issue>> issues = new MutableLiveData<>();
     private List<Issue> fullIssueList = new ArrayList<>();
     private IssueFilterStrategy currentFilter = new AllIssuesFilter();
+    private IssueSortStrategy currentSort = new RecentStrategy();
 
     // normal constructor thats used by app
     public IssueFeedViewModel() {
@@ -25,7 +31,7 @@ public class IssueFeedViewModel extends ViewModel {
             @Override
             public void onChanged(List<Issue> issueList) {
                 fullIssueList = issueList;
-                applyFilter();
+                applyFilterAndSort();
             }
         });
     }
@@ -40,12 +46,22 @@ public class IssueFeedViewModel extends ViewModel {
 
     public void setFilter(IssueFilterStrategy filter) {
         this.currentFilter = filter;
-        applyFilter();
+        applyFilterAndSort();
     }
 
-    private void applyFilter() {
-        List<Issue> filteredIssues = currentFilter.apply(fullIssueList);
-        issues.setValue(filteredIssues);
+    private void applyFilterAndSort() {
+        List<Issue> filtered = currentFilter.apply(new ArrayList<>(fullIssueList));
+
+        List<Issue> sorted = new ArrayList<>(filtered);
+
+        sorted = currentSort.apply(sorted);
+
+        System.out.println("Sorted list:");
+        for (Issue i : sorted) {
+            System.out.println(i.getPriority());
+        }
+
+        issues.setValue(sorted);
     }
 
 
@@ -68,5 +84,41 @@ public class IssueFeedViewModel extends ViewModel {
 
     public boolean showEmptyState(List<?> issues) {
         return issues == null || issues.isEmpty();
+    }
+
+    public void setSort(IssueSortStrategy sort) {
+        this.currentSort = sort;
+        applyFilterAndSort();
+    }
+
+
+    public boolean updateIssueStatus(Issue issue, IssueStatus newStatus, User user) {
+
+        if (!user.isStaff()) {
+            return false;
+        }
+
+        IssueStatus current = issue.getStatusEnum();
+
+        if (!current.canTransitionTo(newStatus)) {
+            return false;
+        }
+
+        IssueUpdate update = new IssueUpdate(
+                user.getEmail(),
+                System.currentTimeMillis(),
+                UpdateType.STATUS_CHANGE.name(),
+                "Status changed to " + newStatus,
+                current.name(),
+                newStatus.name()
+        );
+
+        repository.updateStatusWithHistory(
+                issue.getId(),
+                newStatus.name(),
+                update
+        );
+
+        return true;
     }
 }
