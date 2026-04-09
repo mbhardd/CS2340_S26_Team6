@@ -19,9 +19,11 @@ import com.example.sprintproject.viewmodel.AllIssuesFilter;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 import android.widget.TextView;
 
+import com.example.sprintproject.viewmodel.MostRecentUpdateStrategy;
 import com.example.sprintproject.viewmodel.OpenIssuesFilter;
 import com.example.sprintproject.viewmodel.CategoryFilter;
 import com.example.sprintproject.viewmodel.PriorityFilter;
+import com.example.sprintproject.viewmodel.PriorityStrategy;
 import com.example.sprintproject.viewmodel.RecentStrategy;
 import com.google.android.material.button.MaterialButton;
 import android.app.AlertDialog;
@@ -105,10 +107,10 @@ public class IssueFeedFragment extends Fragment {
                         viewModel.setSort(new RecentStrategy());
                         break;
                     case 5:
-                        viewModel.setSort(new RecentStrategy());
+                        viewModel.setSort(new PriorityStrategy());
                         break;
                     case 6:
-                        viewModel.setSort(new RecentStrategy());
+                        viewModel.setSort(new MostRecentUpdateStrategy());
                         break;
                     default:
                         break;
