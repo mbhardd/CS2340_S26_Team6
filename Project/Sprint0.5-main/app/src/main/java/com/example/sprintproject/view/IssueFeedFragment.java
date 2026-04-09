@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.sprintproject.viewmodel.OpenIssuesFilter;
 import com.example.sprintproject.viewmodel.CategoryFilter;
 import com.example.sprintproject.viewmodel.PriorityFilter;
+import com.example.sprintproject.viewmodel.RecentStrategy;
 import com.google.android.material.button.MaterialButton;
 import android.app.AlertDialog;
 
@@ -75,7 +76,14 @@ public class IssueFeedFragment extends Fragment {
     }
 
     private void showFilterDialog() {
-        String[] options = {"All Issues", "Open Issues", "Priority", "Category"};
+        String[] options = {
+                "All Issues",
+                "Open Issues",
+                "Filter by Priority",
+                "Filter by Category",
+                "Sort by Recent",
+                "Sort by Priority",
+                "Sort by Recently Updated"};
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Filter By")
@@ -92,6 +100,15 @@ public class IssueFeedFragment extends Fragment {
                         break;
                     case 3: // Category
                         showCategoryDialog();
+                        break;
+                    case 4:
+                        viewModel.setSort(new RecentStrategy());
+                        break;
+                    case 5:
+                        viewModel.setSort(new RecentStrategy());
+                        break;
+                    case 6:
+                        viewModel.setSort(new RecentStrategy());
                         break;
                     default:
                         break;
