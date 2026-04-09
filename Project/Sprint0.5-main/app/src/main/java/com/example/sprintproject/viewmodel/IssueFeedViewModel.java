@@ -51,7 +51,16 @@ public class IssueFeedViewModel extends ViewModel {
 
     private void applyFilterAndSort() {
         List<Issue> filtered = currentFilter.apply(new ArrayList<>(fullIssueList));
-        List<Issue> sorted = currentSort.apply(filtered);
+
+        List<Issue> sorted = new ArrayList<>(filtered);
+
+        sorted = currentSort.apply(sorted);
+
+        System.out.println("Sorted list:");
+        for (Issue i : sorted) {
+            System.out.println(i.getPriority());
+        }
+
         issues.setValue(sorted);
     }
 
