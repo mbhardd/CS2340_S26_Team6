@@ -135,7 +135,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     }
 
     static class IssueViewHolder extends RecyclerView.ViewHolder {
-        public View btnAddComment;
         private TextView tvIssueTitle;
         private TextView tvStatus;
         private TextView tvIssueCategory;
@@ -155,7 +154,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             layoutExpandable = itemView.findViewById(R.id.layoutExpandable);
             tvCreationTime = itemView.findViewById(R.id.tvCreationTime);
             tvCreatorUid = itemView.findViewById(R.id.tvCreatorUid);
-            btnAddComment = itemView.findViewById(R.id.btnAddComment);
         }
     }
 }

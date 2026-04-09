@@ -3,6 +3,7 @@ package com.example.sprintproject.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -43,7 +44,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         holder.tvAssignedStaff.setText("Assigned: " + issue.getAssignedStaff());
         holder.tvStaffUpdate.setText("Update: " + issue.getLatestUpdate());
 
-        // 🔥 STATUS DROPDOWN
         holder.btnStatus.setOnClickListener(v -> {
 
             View dropdownView = LayoutInflater.from(v.getContext())
@@ -85,6 +85,43 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
             popupWindow.showAsDropDown(holder.btnStatus, 0, 8);
         });
+
+        holder.btnAssign.setOnClickListener(v -> {
+
+            View dropdownView = LayoutInflater.from(v.getContext())
+                    .inflate(R.layout.dialog_assign_dropdown, null);
+
+            PopupWindow popupWindow = new PopupWindow(
+                    dropdownView,
+                    holder.btnAssign.getWidth(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    true
+            );
+
+            popupWindow.setElevation(10f);
+
+            dropdownView.findViewById(R.id.optionJohn).setOnClickListener(view -> {
+                holder.btnAssign.setText("John");
+                popupWindow.dismiss();
+            });
+
+            dropdownView.findViewById(R.id.optionSarah).setOnClickListener(view -> {
+                holder.btnAssign.setText("Sarah");
+                popupWindow.dismiss();
+            });
+
+            dropdownView.findViewById(R.id.optionMike).setOnClickListener(view -> {
+                holder.btnAssign.setText("Mike");
+                popupWindow.dismiss();
+            });
+
+            dropdownView.findViewById(R.id.optionEmma).setOnClickListener(view -> {
+                holder.btnAssign.setText("Emma");
+                popupWindow.dismiss();
+            });
+
+            popupWindow.showAsDropDown(holder.btnAssign, 0, 8);
+        });
     }
 
     @Override
@@ -94,8 +131,14 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
     static class StaffViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvIssueTitle, tvStatus, tvCategory, tvAssignedStaff, tvStaffUpdate;
-        MaterialButton btnAssign, btnStatus, btnAddUpdate;
+        TextView tvIssueTitle;
+        TextView tvStatus;
+        TextView tvCategory;
+        TextView tvAssignedStaff;
+        TextView tvStaffUpdate;
+        MaterialButton btnAssign;
+        MaterialButton btnStatus;
+        EditText inputStaffNote;
 
         public StaffViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,7 +151,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
             btnAssign = itemView.findViewById(R.id.btnAssign);
             btnStatus = itemView.findViewById(R.id.btnStatus);
-            btnAddUpdate = itemView.findViewById(R.id.btnAddUpdate);
+            inputStaffNote = itemView.findViewById(R.id.addUpdateNote);
         }
     }
 }
