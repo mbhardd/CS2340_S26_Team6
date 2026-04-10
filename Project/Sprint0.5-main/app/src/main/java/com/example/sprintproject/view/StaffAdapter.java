@@ -1,6 +1,7 @@
 package com.example.sprintproject.view;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.User;
+import com.example.sprintproject.viewmodel.StaffViewModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +29,14 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
     private List<Issue> issueList = new ArrayList<>();
     private List<User> staffList;
 
-    public StaffAdapter(List<User> staffList) {
+    private StaffViewModel viewModel;
+
+    private AuthRepository authRepository;
+
+    public StaffAdapter(List<User> staffList, StaffViewModel viewModel) {
         this.staffList = staffList;
+        authRepository = AuthRepository.getInstance();
+        this.viewModel = viewModel;
     }
 
     public void setIssueList(List<Issue> issues) {
@@ -51,6 +61,12 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         holder.tvCategory.setText(issue.getCategory());
         holder.tvAssignedStaff.setText("Assigned: " + issue.getAssignedStaff());
         holder.tvStaffUpdate.setText("Update: " + issue.getLatestUpdate());
+
+        holder.btnUpdate.setOnClickListener(v -> {
+            String text = holder.inputStaffNote.getText().toString();
+            viewModel.addStaffNote(issue.getId(), authRepository.getCachedUser(), text);
+
+        });
 
         holder.btnStatus.setOnClickListener(v -> {
 
@@ -140,6 +156,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         TextView tvStaffUpdate;
         MaterialButton btnAssign;
         MaterialButton btnStatus;
+
+        MaterialButton btnUpdate;
         EditText inputStaffNote;
 
         public StaffViewHolder(@NonNull View itemView) {
@@ -154,6 +172,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
             btnAssign = itemView.findViewById(R.id.btnAssign);
             btnStatus = itemView.findViewById(R.id.btnStatus);
             inputStaffNote = itemView.findViewById(R.id.addUpdateNote);
+            btnUpdate = itemView.findViewById(R.id.btnSubmitUpdate);
         }
     }
 }

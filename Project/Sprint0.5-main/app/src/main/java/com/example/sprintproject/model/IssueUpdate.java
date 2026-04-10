@@ -1,10 +1,12 @@
 package com.example.sprintproject.model;
+import com.google.firebase.database.IgnoreExtraProperties;
 
+@IgnoreExtraProperties
 public class IssueUpdate {
     private String id;
     private String authorEmail;
     private long timestamp;
-    private String updateType;
+    private String type;
     private String content;
     private String oldStatus;
     private String newStatus;
@@ -12,11 +14,11 @@ public class IssueUpdate {
     public IssueUpdate() {
     }
 
-    public IssueUpdate(String authorEmail, long timestamp, String updateType,
+    public IssueUpdate(String authorEmail, long timestamp, String type,
                        String content, String oldStatus, String newStatus) {
         this.authorEmail = authorEmail;
         this.timestamp = timestamp;
-        this.updateType = updateType;
+        this.type = type;
         this.content = content;
         this.oldStatus = oldStatus;
         this.newStatus = newStatus;
@@ -27,7 +29,7 @@ public class IssueUpdate {
     }
 
     public String getType() {
-        return updateType;
+        return type;
     }
 
     public void setId(String id) {
@@ -40,10 +42,6 @@ public class IssueUpdate {
 
     public long getTimestamp() {
         return timestamp;
-    }
-
-    public String getUpdateType() {
-        return updateType;
     }
 
     public String getContent() {

@@ -1,5 +1,7 @@
 package com.example.sprintproject.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -21,6 +23,7 @@ public class StaffViewModel extends ViewModel {
     private List<Issue> fullIssueList = new ArrayList<>();
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+
 
     public StaffViewModel() {
         repository = IssueRepository.getInstance();
@@ -73,6 +76,7 @@ public class StaffViewModel extends ViewModel {
     }
 
     public void addStaffNote(String issueId, User user, String content) {
+
         if (!user.isStaff()) {
             errorMessage.setValue("Only staff can add staff notes");
             return;
@@ -83,6 +87,7 @@ public class StaffViewModel extends ViewModel {
             return;
         }
 
+
         IssueUpdate update = new IssueUpdate(
                 user.getEmail(),
                 System.currentTimeMillis(),
@@ -92,7 +97,8 @@ public class StaffViewModel extends ViewModel {
                 null
         );
 
-        repository.addIssueUpdate(issueId, update);
+        repository.addUpdateToIssue(issueId, update);
+        repository.updateLastUpdated(issueId, System.currentTimeMillis());
         successMessage.setValue("Staff note added");
     }
 

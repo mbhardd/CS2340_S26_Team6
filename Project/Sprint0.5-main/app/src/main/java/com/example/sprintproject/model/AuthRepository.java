@@ -19,6 +19,8 @@ public class AuthRepository {
     private static volatile AuthRepository instance;
     private DatabaseReference database;
 
+    private User cachedUser;
+
     private AuthRepository() {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference("users");
@@ -45,6 +47,7 @@ public class AuthRepository {
                         if (user != null) {
 
                             User newUser = new User(email, isStaff);
+                            cachedUser = newUser;
 
                             database.child(user.getUid()).setValue(newUser)
                                     .addOnFailureListener(e ->
@@ -89,6 +92,7 @@ public class AuthRepository {
                                     Boolean isStaff = snapshot.child("staff").
                                             getValue(Boolean.class);
                                     result.setResult(isStaff != null && isStaff);
+                                    cachedUser = new User(email, isStaff);
                                 } else {
                                     result.setException(dbTask.getException());
                                 }
@@ -96,6 +100,10 @@ public class AuthRepository {
                 });
 
         return result.getTask();
+    }
+
+    public User getCachedUser() {
+        return cachedUser;
     }
 
     public FirebaseUser getCurrentUser() {

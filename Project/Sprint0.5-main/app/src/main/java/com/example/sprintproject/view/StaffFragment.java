@@ -41,12 +41,12 @@ public class StaffFragment extends Fragment {
         tvEmptyState = view.findViewById(R.id.tvEmptyState);
 
         currentUser = getCurrentAppUser();
+        viewModel = new ViewModelProvider(this).get(StaffViewModel.class);
 
-        adapter = new StaffAdapter(staffList);
+        adapter = new StaffAdapter(staffList, viewModel);
         rvStaffIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvStaffIssues.setAdapter(adapter);
 
-        viewModel = new ViewModelProvider(this).get(StaffViewModel.class);
 
         viewModel.getIssues().observe(getViewLifecycleOwner(), issues -> {
             adapter.setIssueList(issues);
