@@ -15,5 +15,6 @@
     <color name="finished_green">#108C6C</color>
     <color name="not_started_red">#D33434</color>
     <color name="filter_yellow">#1E1E1E</color>
+    <color name="staff_note_red">#AB0000</color>
 
 </resources>
