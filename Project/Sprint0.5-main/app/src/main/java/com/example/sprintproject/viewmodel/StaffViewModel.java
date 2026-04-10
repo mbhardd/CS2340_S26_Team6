@@ -160,4 +160,8 @@ public class StaffViewModel extends ViewModel {
                 return status.name();
         }
     }
+
+    public LiveData<List<User>> getStaffUsers() {
+        return repository.getStaffUsers();
+    }
 }

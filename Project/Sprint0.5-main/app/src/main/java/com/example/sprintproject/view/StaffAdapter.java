@@ -1,9 +1,11 @@
 package com.example.sprintproject.view;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.Issue;
+import com.example.sprintproject.model.User;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -20,6 +23,11 @@ import java.util.List;
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
 
     private List<Issue> issueList = new ArrayList<>();
+    private List<User> staffList;
+
+    public StaffAdapter(List<User> staffList) {
+        this.staffList = staffList;
+    }
 
     public void setIssueList(List<Issue> issues) {
         this.issueList = issues;
@@ -88,37 +96,31 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
         holder.btnAssign.setOnClickListener(v -> {
 
-            View dropdownView = LayoutInflater.from(v.getContext())
-                    .inflate(R.layout.dialog_assign_dropdown, null);
+            LinearLayout layout = new LinearLayout(v.getContext());
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setPadding(16, 16, 16, 16);
+            layout.setBackgroundColor(Color.WHITE);
 
             PopupWindow popupWindow = new PopupWindow(
-                    dropdownView,
+                    layout,
                     holder.btnAssign.getWidth(),
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     true
             );
 
-            popupWindow.setElevation(10f);
+            for (User user : staffList) {
 
-            dropdownView.findViewById(R.id.optionJohn).setOnClickListener(view -> {
-                holder.btnAssign.setText("John");
-                popupWindow.dismiss();
-            });
+                TextView option = new TextView(v.getContext());
+                option.setText(user.getEmail());
+                option.setPadding(20, 20, 20, 20);
 
-            dropdownView.findViewById(R.id.optionSarah).setOnClickListener(view -> {
-                holder.btnAssign.setText("Sarah");
-                popupWindow.dismiss();
-            });
+                option.setOnClickListener(view -> {
+                    holder.btnAssign.setText(user.getEmail());
+                    popupWindow.dismiss();
+                });
 
-            dropdownView.findViewById(R.id.optionMike).setOnClickListener(view -> {
-                holder.btnAssign.setText("Mike");
-                popupWindow.dismiss();
-            });
-
-            dropdownView.findViewById(R.id.optionEmma).setOnClickListener(view -> {
-                holder.btnAssign.setText("Emma");
-                popupWindow.dismiss();
-            });
+                layout.addView(option);
+            }
 
             popupWindow.showAsDropDown(holder.btnAssign, 0, 8);
         });
