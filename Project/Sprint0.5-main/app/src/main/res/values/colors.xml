@@ -15,9 +15,5 @@
     <color name="finished_green">#108C6C</color>
     <color name="not_started_red">#D33434</color>
     <color name="filter_yellow">#1E1E1E</color>
-    <color name="submitted_red">#FF6B6B</color>
-    <color name="in_review_blue">#4D96FF</color>
-    <color name="resolved_purple">#9D4EDD</color>
-    <color name="closed_gray">#6C757D</color>
 
 </resources>
