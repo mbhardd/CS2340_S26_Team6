@@ -2,23 +2,41 @@ package com.example.sprintproject.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.model.UpdateType;
 import com.example.sprintproject.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StaffViewModel extends ViewModel {
     private final IssueRepository repository;
+    private MutableLiveData<List<Issue>> issues = new MutableLiveData<>();
+    private List<Issue> fullIssueList = new ArrayList<>();
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     public StaffViewModel() {
         repository = IssueRepository.getInstance();
+        repository.getIssues().observeForever(new Observer<List<Issue>>() {
+            @Override
+            public void onChanged(List<Issue> issueList) {
+                fullIssueList = issueList;
+                issues.setValue(issueList);
+            }
+        });
+    }
+
+
+
+    public LiveData<List<Issue>> getIssues() {
+        return issues;
     }
 
     public LiveData<String> getSuccessMessage() {
@@ -32,6 +50,8 @@ public class StaffViewModel extends ViewModel {
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
         return repository.getUpdatesForIssue(issueId);
     }
+
+
 
     public void addComment(String issueId, User user, String content) {
         if (content == null || content.trim().isEmpty()) {
