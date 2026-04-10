@@ -1,5 +1,9 @@
 package com.example.sprintproject.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.google.firebase.database.Exclude;
+
 public class Issue {
     private String id;
     private String title;
@@ -12,6 +16,8 @@ public class Issue {
     private String status;
     private Long timestamp;
     private Long lastUpdated;
+    @Exclude
+    private List<IssueUpdate> updates = new ArrayList<>();
 
     public Issue() {
 
@@ -131,5 +137,15 @@ public class Issue {
         } catch (Exception e) {
             return IssueStatus.SUBMITTED;
         }
+    }
+
+    @Exclude
+    public List<IssueUpdate> getUpdates() {
+        return updates;
+    }
+
+    @Exclude
+    public void setUpdates(List<IssueUpdate> updates) {
+        this.updates = updates;
     }
 }

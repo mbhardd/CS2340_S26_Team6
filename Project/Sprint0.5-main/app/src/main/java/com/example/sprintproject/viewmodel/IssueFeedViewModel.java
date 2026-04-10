@@ -65,6 +65,21 @@ public class IssueFeedViewModel extends ViewModel {
     }
 
 
+    public void addComment(Issue issue, String comment) {
+
+        IssueUpdate update = new IssueUpdate(
+                "anonymous", // replace later with real user
+                System.currentTimeMillis(),
+                UpdateType.COMMENT.name(),
+                comment,
+                null,
+                null
+        );
+
+        repository.addUpdateToIssue(issue.getId(), update);
+
+        repository.updateLastUpdated(issue.getId(), System.currentTimeMillis());
+    }
     public String formatPriorityCheck(String priority) {
         if (priority == null) {
             return "";
@@ -120,5 +135,9 @@ public class IssueFeedViewModel extends ViewModel {
         );
 
         return true;
+    }
+
+    public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
+        return repository.getUpdatesForIssue(issueId);
     }
 }

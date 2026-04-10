@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.Issue;
+import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 import com.google.android.material.button.MaterialButton;
@@ -61,6 +62,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         notifyDataSetChanged();
     }
 
+
+
+
+
     @NonNull
     @Override
     public IssueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,6 +73,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                 .inflate(R.layout.item_issue_feed, parent, false);
         return new IssueViewHolder(view);
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull IssueViewHolder holder, int position) {
@@ -81,6 +88,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
         String priority = issue.getPriority();
         holder.tvPriority.setText(viewModel.formatPriorityCheck(priority));
+
         if ("High".equals(priority)) {
             holder.tvPriority.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),
                     android.R.color.holo_red_dark));
@@ -111,21 +119,62 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             holder.layoutExpandable.setVisibility(View.VISIBLE);
 
             Long timestamp = issue.getTimestamp();
-            if (timestamp != null) {
-                holder.tvCreationTime.setText(formatTimestamp(timestamp));
-            } else {
-                holder.tvCreationTime.setText("No timestamp");
-            }
+            holder.tvCreationTime.setText(
+                    timestamp != null ? formatTimestamp(timestamp) : "No timestamp"
+            );
 
             String uid = issue.getCreatorUid();
-            if (uid != null) {
-                holder.tvCreatorUid.setText(formatCreatorUid(uid));
-            } else {
-                holder.tvCreatorUid.setText("Unknown user");
-            }
+            holder.tvCreatorUid.setText(
+                    uid != null ? formatCreatorUid(uid) : "Unknown user"
+            );
+
+            holder.commentsContainer.removeAllViews();
+
+            viewModel.getUpdatesForIssue(issue.getId())
+                    .observeForever(updates -> {
+
+                        holder.commentsContainer.removeAllViews();
+
+                        if (updates != null) {
+                            for (IssueUpdate update : updates) {
+
+                                if (!"COMMENT".equalsIgnoreCase(update.getType())) continue;
+
+                                TextView tv = new TextView(holder.itemView.getContext());
+                                tv.setText("• " + update.getContent());
+                                tv.setTextSize(16f);
+
+                                holder.commentsContainer.addView(tv);
+                            }
+                        }
+                    });
+
+            holder.btnAddUpdate.setOnClickListener(v -> {
+                holder.btnAddUpdate.setVisibility(View.GONE);
+                holder.etComment.setVisibility(View.VISIBLE);
+                holder.btnSubmit.setVisibility(View.VISIBLE);
+            });
+
+            holder.btnSubmit.setOnClickListener(v -> {
+                String comment = holder.etComment.getText().toString().trim();
+
+                if (!comment.isEmpty()) {
+                    viewModel.addComment(issue, comment);
+
+                    holder.etComment.setText("");
+
+                    holder.etComment.setVisibility(View.GONE);
+                    holder.btnSubmit.setVisibility(View.GONE);
+                    holder.btnAddUpdate.setVisibility(View.VISIBLE);
+                }
+            });
 
         } else {
             holder.layoutExpandable.setVisibility(View.GONE);
+
+            holder.etComment.setVisibility(View.GONE);
+            holder.btnSubmit.setVisibility(View.GONE);
+            holder.btnAddUpdate.setVisibility(View.VISIBLE);
         }
     }
 
@@ -143,6 +192,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         private TextView tvCreationTime;
         private TextView tvCreatorUid;
         private LinearLayout layoutExpandable;
+        private LinearLayout commentsContainer;
+        private MaterialButton btnAddUpdate;
+        private MaterialButton btnSubmit;
+        private EditText etComment;
 
         public IssueViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -154,6 +207,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             layoutExpandable = itemView.findViewById(R.id.layoutExpandable);
             tvCreationTime = itemView.findViewById(R.id.tvCreationTime);
             tvCreatorUid = itemView.findViewById(R.id.tvCreatorUid);
+            commentsContainer = itemView.findViewById(R.id.commentsContainer);
+            btnAddUpdate = itemView.findViewById(R.id.btnAddUpdate);
+            btnSubmit = itemView.findViewById(R.id.btnSubmit);
+            etComment = itemView.findViewById(R.id.etComment);
         }
     }
 }
