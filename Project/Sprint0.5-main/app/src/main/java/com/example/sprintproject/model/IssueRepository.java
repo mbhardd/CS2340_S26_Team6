@@ -126,4 +126,32 @@ public class IssueRepository {
         issuesRef.updateChildren(changes);
     }
 
+    public LiveData<List<User>> getStaffUsers() {
+        MutableLiveData<List<User>> staffLiveData = new MutableLiveData<>();
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+        usersRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<User> staffList = new ArrayList<>();
+
+                DataSnapshot snapshot = task.getResult();
+
+                for (DataSnapshot userSnap : snapshot.getChildren()) {
+                    User user = userSnap.getValue(User.class);
+
+                    if (user != null && user.isStaff()) {
+                        staffList.add(user);
+                    }
+                }
+
+                staffLiveData.setValue(staffList);
+            } else {
+                staffLiveData.setValue(new ArrayList<>());
+            }
+        });
+
+        return staffLiveData;
+    }
+
 }

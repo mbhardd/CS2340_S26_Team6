@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
 
 
+import com.example.sprintproject.model.User;
 import com.example.sprintproject.viewmodel.StaffViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StaffFragment extends Fragment {
 
@@ -22,6 +26,7 @@ public class StaffFragment extends Fragment {
     private StaffAdapter adapter;
     private StaffViewModel viewModel;
     private TextView tvEmptyState;
+    private List<User> staffList = new ArrayList<>();
 
     public StaffFragment() {
         super(R.layout.fragment_staff);
@@ -33,7 +38,7 @@ public class StaffFragment extends Fragment {
 
         rvStaffIssues = view.findViewById(R.id.rvStaffIssues);
 
-        adapter = new StaffAdapter();
+        adapter = new StaffAdapter(staffList);
 
         rvStaffIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvStaffIssues.setAdapter(adapter);
@@ -55,6 +60,13 @@ public class StaffFragment extends Fragment {
                 tvEmptyState.setVisibility(View.GONE);
                 rvStaffIssues.setVisibility(View.VISIBLE);
             }
+        });
+
+        viewModel = new ViewModelProvider(this).get(StaffViewModel.class);
+
+        viewModel.getStaffUsers().observe(getViewLifecycleOwner(), users -> {
+            staffList.clear();
+            staffList.addAll(users);
         });
     }
 }
