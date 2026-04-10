@@ -66,6 +66,25 @@ public class IssueRepository {
         return issuesLiveData;
     }
 
+    public void addUpdateToIssue(String issueId, IssueUpdate update) {
+        String updateId = issuesRef.child(issueId)
+                .child("updates")
+                .push()
+                .getKey();
+
+        if (updateId != null) {
+            issuesRef.child(issueId)
+                    .child("updates")
+                    .child(updateId)
+                    .setValue(update);
+        }
+    }
+
+    public void updateLastUpdated(String issueId, long time) {
+        issuesRef.child(issueId)
+                .child("lastUpdated")
+                .setValue(time);
+    }
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId){
         MutableLiveData<List<IssueUpdate>> updatesLiveData = new MutableLiveData<>();
 

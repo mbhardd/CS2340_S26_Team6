@@ -26,6 +26,10 @@ public class IssueUpdate {
         return id;
     }
 
+    public String getType() {
+        return updateType;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
