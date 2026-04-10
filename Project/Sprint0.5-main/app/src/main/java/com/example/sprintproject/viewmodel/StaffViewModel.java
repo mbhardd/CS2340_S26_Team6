@@ -24,7 +24,10 @@ public class StaffViewModel extends ViewModel {
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
-
+    //test constructor
+    public StaffViewModel(IssueRepository repository) {
+        this.repository = repository;
+    }
     public StaffViewModel() {
         repository = IssueRepository.getInstance();
         repository.getIssues().observeForever(new Observer<List<Issue>>() {
