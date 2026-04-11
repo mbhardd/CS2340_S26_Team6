@@ -137,7 +137,10 @@ public class StaffViewModel extends ViewModel {
                 newStatus.name()
         );
 
+
         repository.updateStatusWithHistory(issueId, newStatus.name(), update);
+        repository.addUpdateToIssue(issueId, update);
+        repository.updateLastUpdated(issueId, System.currentTimeMillis());
         successMessage.setValue("Status updated");
     }
 
@@ -162,7 +165,7 @@ public class StaffViewModel extends ViewModel {
         }
     }
 
-    private String formatStatus(IssueStatus status) {
+    public String formatStatus(IssueStatus status) {
         switch (status) {
         case SUBMITTED:
             return "Submitted";

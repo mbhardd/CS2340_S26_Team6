@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
+import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.User;
 import com.example.sprintproject.viewmodel.StaffViewModel;
 import com.google.android.material.button.MaterialButton;
@@ -90,42 +91,33 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
         holder.btnStatus.setOnClickListener(v -> {
 
-            View dropdownView = LayoutInflater.from(v.getContext())
-                    .inflate(R.layout.dialog_status_dropdown, null);
+            LinearLayout layout = new LinearLayout(v.getContext());
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setPadding(16, 16, 16, 16);
+            layout.setBackgroundColor(Color.WHITE);
 
             PopupWindow popupWindow = new PopupWindow(
-                    dropdownView,
+                    layout,
                     holder.btnStatus.getWidth(),
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     true
             );
 
-            popupWindow.setElevation(10f);
+            for (IssueStatus status: IssueStatus.values()) {
 
-            dropdownView.findViewById(R.id.optionSubmitted).setOnClickListener(view -> {
-                holder.btnStatus.setText("Submitted");
-                popupWindow.dismiss();
-            });
+                TextView option = new TextView(v.getContext());
+                option.setText(viewModel.formatStatus(status));
+                option.setPadding(20, 20, 20, 20);
 
-            dropdownView.findViewById(R.id.optionReview).setOnClickListener(view -> {
-                holder.btnStatus.setText("In Review");
-                popupWindow.dismiss();
-            });
+                option.setOnClickListener(view -> {
+                   viewModel.changeStatus(issue.getId(), authRepository.getCachedUser(),
+                           issue.getStatusEnum(), status);
+                   holder.tvStatus.setText(issue.getStatus());
+                   popupWindow.dismiss();
+                });
 
-            dropdownView.findViewById(R.id.optionProgress).setOnClickListener(view -> {
-                holder.btnStatus.setText("In Progress");
-                popupWindow.dismiss();
-            });
-
-            dropdownView.findViewById(R.id.optionResolved).setOnClickListener(view -> {
-                holder.btnStatus.setText("Resolved");
-                popupWindow.dismiss();
-            });
-
-            dropdownView.findViewById(R.id.optionClosed).setOnClickListener(view -> {
-                holder.btnStatus.setText("Closed");
-                popupWindow.dismiss();
-            });
+                layout.addView(option);
+            }
 
             popupWindow.showAsDropDown(holder.btnStatus, 0, 8);
         });
@@ -162,6 +154,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
             popupWindow.showAsDropDown(holder.btnAssign, 0, 8);
         });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -256,6 +250,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
 
 
+
         public StaffViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -267,7 +262,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
             btnAssign = itemView.findViewById(R.id.btnAssign);
             btnStatus = itemView.findViewById(R.id.btnStatus);
-            btnChangeStatus = itemView.findViewById(R.id.btnStatusUpdate);
             inputStaffNote = itemView.findViewById(R.id.addUpdateNote);
             btnUpdate = itemView.findViewById(R.id.btnSubmitUpdate);
         }
