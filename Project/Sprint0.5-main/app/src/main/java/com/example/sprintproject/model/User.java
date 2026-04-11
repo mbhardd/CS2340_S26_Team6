@@ -3,7 +3,7 @@ package com.example.sprintproject.model;
 public class User {
     //Basic user class with attributes of email and isStaff
     //Password details are secure in fb only
-    //Basic getters and setters for the email and isstaff attrribute
+    //Basic getters and setters for the email and isStaff attribute
     private String email;
     private boolean isStaff;
 

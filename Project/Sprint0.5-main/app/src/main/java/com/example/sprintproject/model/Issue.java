@@ -128,7 +128,8 @@ public class Issue {
     public String getAssignedStaff() {
         return assignedStaff;
     }
-    public void setAssignedStaff(String assignedStaff) {this.assignedStaff = assignedStaff; }
+    public void setAssignedStaff(String assignedStaff) {
+        this.assignedStaff = assignedStaff; }
 
 
 

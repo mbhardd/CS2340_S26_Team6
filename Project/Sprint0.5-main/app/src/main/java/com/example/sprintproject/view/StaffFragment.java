@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.User;
 import com.example.sprintproject.viewmodel.StaffViewModel;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +70,7 @@ public class StaffFragment extends Fragment {
             if (message != null) {
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
-                // optional: reset so it doesn't fire again
+                //resetting so it doesn't fire again
                 viewModel.clearSuccessMessage();
             }
         });
@@ -80,18 +78,11 @@ public class StaffFragment extends Fragment {
             if (message != null) {
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
-                // optional: reset so it doesn't fire again
+                //resetting so it doesn't fire again
                 viewModel.clearErrorMessage();
             }
         });
 
-
-        // Example usage once your buttons / inputs are wired:
-        // if (currentUser != null) {
-        //     viewModel.addComment(issueId, currentUser, "Test comment");
-        //     viewModel.addStaffNote(issueId, currentUser, "Test staff note");
-        //     viewModel.changeStatus(issueId, currentUser, oldStatus, newStatus);
-        // }
     }
 
 
