@@ -68,12 +68,18 @@ public class IssueFeedViewModel extends ViewModel {
     }
 
 
-    public void applyUpdateStrategy(IssueUpdateStrategy strategy, String issueId, User user,
-                                    String content) {
+    public void addComment(String issueId, User user, String content) {
+        IssueUpdateStrategy strategy =
+                    new CommentStrategy();
+
+            executeStrategy(strategy, issueId, user, content);
+
+    }
+
+    public void executeStrategy(IssueUpdateStrategy strategy, String issueId, User user, String content) {
         UpdateResult result = strategy.execute(issueId, user, content);
         repository.addUpdateToIssue(issueId, result.update);
         repository.updateLastUpdated(issueId, System.currentTimeMillis());
-
     }
     public String formatPriorityCheck(String priority) {
         if (priority == null) {

@@ -182,7 +182,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                 String comment = holder.etComment.getText().toString().trim();
 
                 if (!comment.isEmpty()) {
-                    viewModel.applyUpdateStrategy(new CommentStrategy(), issue.getId(),
+                    viewModel.addComment(issue.getId(),
                             authRepository.getCachedUser(), comment);
 
                     holder.etComment.setText("");

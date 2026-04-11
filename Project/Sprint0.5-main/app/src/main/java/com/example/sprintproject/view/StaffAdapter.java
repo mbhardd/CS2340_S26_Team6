@@ -67,8 +67,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
         holder.btnUpdate.setOnClickListener(v -> {
             String text = holder.inputStaffNote.getText().toString();
-            viewModel.executeStrategy(new StaffUpdateStrategy(), issue.getId(),
-                    authRepository.getCachedUser(), text);
+            viewModel.addStaffNote(issue.getId(), authRepository.getCachedUser(), text);
             holder.tvStaffUpdate.setText("");
 
         });
@@ -113,8 +112,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                 option.setPadding(20, 20, 20, 20);
 
                 option.setOnClickListener(view -> {
-                    viewModel.executeStrategy(new StatusChangeStrategy(issue.getStatusEnum(), status),
-                            issue.getId(), authRepository.getCachedUser(), null);
+                    viewModel.changeStatus(issue.getId(), authRepository.getCachedUser(),
+                            issue.getStatusEnum(), status);
                    holder.tvStatus.setText(issue.getStatus());
                    popupWindow.dismiss();
                 });

@@ -63,6 +63,25 @@ public class StaffViewModel extends ViewModel {
         return repository.getUpdatesForIssue(issueId);
     }
 
+    public void changeStatus(String issueId, User user,
+                             IssueStatus oldStatus,
+                             IssueStatus newStatus) {
+
+        IssueUpdateStrategy strategy =
+                new StatusChangeStrategy(oldStatus, newStatus);
+
+        executeStrategy(strategy, issueId, user, null);
+        repository.updateStatus(issueId, newStatus.name());
+    }
+
+    public void addStaffNote(String issueId, User user, String content) {
+
+        IssueUpdateStrategy strategy =
+                new StaffUpdateStrategy();
+
+        executeStrategy(strategy, issueId, user, content);
+    }
+
     public void executeStrategy(IssueUpdateStrategy strategy,
                                 String issueId,
                                 User user,
@@ -73,9 +92,6 @@ public class StaffViewModel extends ViewModel {
         if (!result.success) {
             errorMessage.setValue(result.message);
             return;
-        }
-        if (strategy instanceof StatusChangeStrategy) {
-            repository.updateStatus(issueId, result.newStatus.name());
         }
 
         repository.addUpdateToIssue(issueId, result.update);
