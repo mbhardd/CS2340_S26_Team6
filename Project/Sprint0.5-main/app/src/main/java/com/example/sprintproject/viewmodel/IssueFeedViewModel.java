@@ -10,6 +10,8 @@ import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.model.UpdateType;
 import com.example.sprintproject.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -66,9 +68,14 @@ public class IssueFeedViewModel extends ViewModel {
 
 
     public void addComment(Issue issue, String comment) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String email = "anonymous";
 
+        if (firebaseUser != null && firebaseUser.getEmail() != null) {
+            email = firebaseUser.getEmail();
+        }
         IssueUpdate update = new IssueUpdate(
-                "anonymous", // replace later with real user
+                email,
                 System.currentTimeMillis(),
                 UpdateType.COMMENT.name(),
                 comment,

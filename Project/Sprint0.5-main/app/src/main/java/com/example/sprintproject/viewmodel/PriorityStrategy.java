@@ -8,12 +8,14 @@ import java.util.List;
 public class PriorityStrategy implements IssueSortStrategy {
 
     private int getPriorityValue(String priority) {
-        if (priority == null) return 0;
+        if (priority == null) {
+            return 0;
+        }
         switch (priority.trim().toLowerCase()) {
-            case "high": return 3;
-            case "medium": return 2;
-            case "low": return 1;
-            default: return 0;
+        case "high": return 3;
+        case "medium": return 2;
+        case "low": return 1;
+        default: return 0;
         }
     }
 
