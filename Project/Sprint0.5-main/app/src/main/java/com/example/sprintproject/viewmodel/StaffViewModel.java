@@ -10,6 +10,7 @@ import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.IssueUpdate;
+import com.example.sprintproject.model.UpdateResult;
 import com.example.sprintproject.model.UpdateType;
 import com.example.sprintproject.model.User;
 
@@ -62,86 +63,24 @@ public class StaffViewModel extends ViewModel {
         return repository.getUpdatesForIssue(issueId);
     }
 
+    public void executeStrategy(IssueUpdateStrategy strategy,
+                                String issueId,
+                                User user,
+                                String content) {
 
+        UpdateResult result = strategy.execute(issueId, user, content);
 
-    public void addComment(String issueId, User user, String content) {
-        if (content == null || content.trim().isEmpty()) {
-            errorMessage.setValue("Comment cannot be empty");
+        if (!result.success) {
+            errorMessage.setValue(result.message);
             return;
         }
-
-        IssueUpdate update = new IssueUpdate(
-                user.getEmail(),
-                System.currentTimeMillis(),
-                UpdateType.COMMENT.name(),
-                content.trim(),
-                null,
-                null
-        );
-
-        repository.addIssueUpdate(issueId, update);
-        successMessage.setValue("Comment added");
-    }
-
-    public void addStaffNote(String issueId, User user, String content) {
-
-        if (!user.isStaff()) {
-            errorMessage.setValue("Only staff can add staff notes");
-            return;
+        if (strategy instanceof StatusChangeStrategy) {
+            repository.updateStatus(issueId, result.newStatus.name());
         }
 
-        if (content == null || content.trim().isEmpty()) {
-            errorMessage.setValue("Staff note cannot be empty");
-            return;
-        }
-
-
-        IssueUpdate update = new IssueUpdate(
-                user.getEmail(),
-                System.currentTimeMillis(),
-                UpdateType.STAFF_NOTE.name(),
-                content.trim(),
-                null,
-                null
-        );
-
-        repository.addUpdateToIssue(issueId, update);
+        repository.addUpdateToIssue(issueId, result.update);
         repository.updateLastUpdated(issueId, System.currentTimeMillis());
-        successMessage.setValue("Staff note added");
-    }
-
-    public void changeStatus(
-            String issueId,
-            User user,
-            IssueStatus oldStatus,
-            IssueStatus newStatus) {
-        if (!user.isStaff()) {
-            errorMessage.setValue("Only staff can change issue status");
-            return;
-        }
-
-        if (!isValidNextStatus(oldStatus, newStatus)) {
-            errorMessage.setValue("Invalid status transition");
-            return;
-        }
-
-        String message = "Status changed from " + formatStatus(oldStatus)
-                + " to " + formatStatus(newStatus);
-
-        IssueUpdate update = new IssueUpdate(
-                user.getEmail(),
-                System.currentTimeMillis(),
-                UpdateType.STATUS_CHANGE.name(),
-                message,
-                oldStatus.name(),
-                newStatus.name()
-        );
-
-
-        repository.updateStatusWithHistory(issueId, newStatus.name(), update);
-        repository.addUpdateToIssue(issueId, update);
-        repository.updateLastUpdated(issueId, System.currentTimeMillis());
-        successMessage.setValue("Status updated");
+        successMessage.setValue(result.message);
     }
 
     public boolean isValidNextStatus(IssueStatus current, IssueStatus next) {

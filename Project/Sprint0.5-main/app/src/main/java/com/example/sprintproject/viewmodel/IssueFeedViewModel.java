@@ -8,6 +8,7 @@ import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.IssueUpdate;
+import com.example.sprintproject.model.UpdateResult;
 import com.example.sprintproject.model.UpdateType;
 import com.example.sprintproject.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,25 +68,12 @@ public class IssueFeedViewModel extends ViewModel {
     }
 
 
-    public void addComment(Issue issue, String comment) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String email = "anonymous";
+    public void applyUpdateStrategy(IssueUpdateStrategy strategy, String issueId, User user,
+                                    String content) {
+        UpdateResult result = strategy.execute(issueId, user, content);
+        repository.addUpdateToIssue(issueId, result.update);
+        repository.updateLastUpdated(issueId, System.currentTimeMillis());
 
-        if (firebaseUser != null && firebaseUser.getEmail() != null) {
-            email = firebaseUser.getEmail();
-        }
-        IssueUpdate update = new IssueUpdate(
-                email,
-                System.currentTimeMillis(),
-                UpdateType.COMMENT.name(),
-                comment,
-                null,
-                null
-        );
-
-        repository.addUpdateToIssue(issue.getId(), update);
-
-        repository.updateLastUpdated(issue.getId(), System.currentTimeMillis());
     }
     public String formatPriorityCheck(String priority) {
         if (priority == null) {
@@ -111,37 +99,6 @@ public class IssueFeedViewModel extends ViewModel {
     public void setSort(IssueSortStrategy sort) {
         this.currentSort = sort;
         applyFilterAndSort();
-    }
-
-
-    public boolean updateIssueStatus(Issue issue, IssueStatus newStatus, User user) {
-
-        if (!user.isStaff()) {
-            return false;
-        }
-
-        IssueStatus current = issue.getStatusEnum();
-
-        if (!current.canTransitionTo(newStatus)) {
-            return false;
-        }
-
-        IssueUpdate update = new IssueUpdate(
-                user.getEmail(),
-                System.currentTimeMillis(),
-                UpdateType.STATUS_CHANGE.name(),
-                "Status changed to " + newStatus,
-                current.name(),
-                newStatus.name()
-        );
-
-        repository.updateStatusWithHistory(
-                issue.getId(),
-                newStatus.name(),
-                update
-        );
-
-        return true;
     }
 
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
