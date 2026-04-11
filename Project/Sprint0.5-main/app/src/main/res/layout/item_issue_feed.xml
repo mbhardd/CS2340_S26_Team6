@@ -108,7 +108,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginTop="6dp"
             app:layout_constraintTop_toBottomOf="@id/tvIssueInitials"
             app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,8 @@
                 android:layout_height="wrap_content"
                 android:text="Comments:"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"/>
 
             <LinearLayout
                 android:id="@+id/commentsContainer"
@@ -141,12 +142,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>
 
-            <Button
-                android:id="@+id/btnAddUpdate"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Staff Notes:"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"/>
+
+            <LinearLayout
+                android:id="@+id/staffContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <Button
+                android:id="@+id/btnAddUpdate"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                app:backgroundTint="#F3D47A"
                 android:text="Add Update"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal" />
 
             <EditText
                 android:id="@+id/etComment"
@@ -162,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:visibility="gone"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

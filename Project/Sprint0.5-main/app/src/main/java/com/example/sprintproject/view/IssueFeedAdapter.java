@@ -129,11 +129,13 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             );
 
             holder.commentsContainer.removeAllViews();
+            holder.staffContainer.removeAllViews();
 
             viewModel.getUpdatesForIssue(issue.getId())
                     .observeForever(updates -> {
 
                         holder.commentsContainer.removeAllViews();
+                        holder.staffContainer.removeAllViews();
 
                         if (updates != null) {
                             for (IssueUpdate update : updates) {
@@ -142,10 +144,17 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                                         && !"STAFF_NOTE".equalsIgnoreCase(update.getType())) continue;
 
                                 TextView tv = new TextView(holder.itemView.getContext());
-                                tv.setText("• " + update.getContent());
-                                tv.setTextSize(16f);
+                                if ("COMMENT".equalsIgnoreCase(update.getType())) {
+                                    tv.setText("• " + update.getContent());
+                                    tv.setTextSize(16f);
+                                    holder.commentsContainer.addView(tv);
+                                } else if ("STAFF_NOTE".equalsIgnoreCase(update.getType())) {
+                                    tv.setText("• " + update.getContent());
+                                    tv.setTextSize(16f);
+                                    tv.setTextColor(android.graphics.Color.parseColor("#AB0000"));
+                                    holder.staffContainer.addView(tv);
+                                }
 
-                                holder.commentsContainer.addView(tv);
                             }
                         }
                     });
@@ -194,6 +203,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         private TextView tvCreatorUid;
         private LinearLayout layoutExpandable;
         private LinearLayout commentsContainer;
+        private LinearLayout staffContainer;
         private MaterialButton btnAddUpdate;
         private MaterialButton btnSubmit;
         private EditText etComment;
@@ -209,6 +219,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             tvCreationTime = itemView.findViewById(R.id.tvCreationTime);
             tvCreatorUid = itemView.findViewById(R.id.tvCreatorUid);
             commentsContainer = itemView.findViewById(R.id.commentsContainer);
+            staffContainer = itemView.findViewById(R.id.staffContainer);
             btnAddUpdate = itemView.findViewById(R.id.btnAddUpdate);
             btnSubmit = itemView.findViewById(R.id.btnSubmit);
             etComment = itemView.findViewById(R.id.etComment);
