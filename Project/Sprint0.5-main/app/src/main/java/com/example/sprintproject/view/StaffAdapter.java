@@ -53,18 +53,37 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
     @Override
     public void onBindViewHolder(@NonNull StaffViewHolder holder, int position) {
         Issue issue = issueList.get(position);
+        holder.inputStaffNote.setText("");
 
         holder.tvIssueTitle.setText(issue.getTitle());
         holder.tvStatus.setText(issue.getStatus());
         holder.tvCategory.setText(issue.getCategory());
         holder.tvAssignedStaff.setText("Assigned: " + issue.getAssignedStaff());
-        holder.tvStaffUpdate.setText("Update: " + issue.getLatestUpdate());
+
 
         holder.btnUpdate.setOnClickListener(v -> {
             String text = holder.inputStaffNote.getText().toString();
             viewModel.addStaffNote(issue.getId(), authRepository.getCachedUser(), text);
+            holder.tvStaffUpdate.setText("");
 
         });
+        viewModel.getUpdatesForIssue(issue.getId()).observeForever(updates -> {
+            String latestNote = null;
+
+            for (int i = updates.size() - 1; i >= 0; i--) {
+                if (updates.get(i).getType().equals("STAFF_NOTE")) {
+                    latestNote = updates.get(i).getContent();
+                    break;
+                }
+            }
+
+            if (latestNote != null) {
+                holder.tvStaffUpdate.setText("Update: " + latestNote);
+            } else {
+                holder.tvStaffUpdate.setText("No updates yet");
+            }
+        });
+
 
         holder.btnStatus.setOnClickListener(v -> {
 
