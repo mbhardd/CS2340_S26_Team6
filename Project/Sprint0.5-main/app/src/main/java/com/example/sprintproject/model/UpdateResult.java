@@ -12,4 +12,12 @@ public class UpdateResult {
         this.update = update;
         this.newStatus = newStatus;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public IssueUpdate getUpdate() {
+        return update;
+    }
 }
