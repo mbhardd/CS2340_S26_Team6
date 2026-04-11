@@ -110,10 +110,10 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                 option.setPadding(20, 20, 20, 20);
 
                 option.setOnClickListener(view -> {
-                   viewModel.changeStatus(issue.getId(), authRepository.getCachedUser(),
+                    viewModel.changeStatus(issue.getId(), authRepository.getCachedUser(),
                            issue.getStatusEnum(), status);
-                   holder.tvStatus.setText(issue.getStatus());
-                   popupWindow.dismiss();
+                    holder.tvStatus.setText(issue.getStatus());
+                    popupWindow.dismiss();
                 });
 
                 layout.addView(option);
