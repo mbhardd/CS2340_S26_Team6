@@ -13,8 +13,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
+import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueUpdate;
+import com.example.sprintproject.viewmodel.CommentStrategy;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 import com.google.android.material.button.MaterialButton;
@@ -27,9 +29,12 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     private List<Issue> issueList = new ArrayList<>();
     private IssueFeedViewModel viewModel;
     private int expandedPosition = -1;
+    private AuthRepository authRepository;
 
     public IssueFeedAdapter(IssueFeedViewModel viewModel) {
+
         this.viewModel = viewModel;
+        authRepository = AuthRepository.getInstance();
     }
 
     public int toggleExpandedPosition(int currentExpandedPosition, int clickedPosition) {
@@ -177,7 +182,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                 String comment = holder.etComment.getText().toString().trim();
 
                 if (!comment.isEmpty()) {
-                    viewModel.addComment(issue, comment);
+                    viewModel.applyUpdateStrategy(new CommentStrategy(), issue.getId(),
+                            authRepository.getCachedUser(), comment);
 
                     holder.etComment.setText("");
 

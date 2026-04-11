@@ -115,16 +115,13 @@ public class IssueRepository {
                 });
         return updatesLiveData;
     }
-
-    public void addIssueUpdate(String issueId, IssueUpdate update) {
-        String updateId = issuesRef.child(issueId).child("updates").push().getKey();
-
-        if (updateId != null) {
-            issuesRef.child(issueId).child("updates").child(updateId).setValue(update);
-        }
-    }
+    
     public void updateAssignedStaff(String issueId, String staffEmail) {
         issuesRef.child(issueId).child("assignedStaff").setValue(staffEmail);
+    }
+    
+    public void updateStatus(String issueId, String newStatus) {
+        issuesRef.child(issueId).child("status").setValue(newStatus);
     }
 
     public void updateStatusWithHistory(String issueId, String newStatus,
