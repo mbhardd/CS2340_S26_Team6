@@ -138,7 +138,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                         if (updates != null) {
                             for (IssueUpdate update : updates) {
 
-                                if (!"COMMENT".equalsIgnoreCase(update.getType())) continue;
+                                if (!"COMMENT".equalsIgnoreCase(update.getType())
+                                        && !"STAFF_NOTE".equalsIgnoreCase(update.getType())) continue;
 
                                 TextView tv = new TextView(holder.itemView.getContext());
                                 tv.setText("• " + update.getContent());
