@@ -61,6 +61,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         holder.tvStatus.setText(issue.getStatus());
         holder.tvCategory.setText(issue.getCategory());
         holder.tvAssignedStaff.setText("Assigned: " + issue.getAssignedStaff());
+        holder.btnAssign.setText("Assign");
 
 
         holder.btnUpdate.setOnClickListener(v -> {
@@ -69,6 +70,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
             holder.tvStaffUpdate.setText("");
 
         });
+
+
         viewModel.getUpdatesForIssue(issue.getId()).observeForever(updates -> {
             String latestNote = null;
 
@@ -150,7 +153,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                 option.setPadding(20, 20, 20, 20);
 
                 option.setOnClickListener(view -> {
-                    holder.btnAssign.setText(user.getEmail());
+                    viewModel.changeAssignedStaff(issue.getId(), user.getEmail());
+                    holder.tvAssignedStaff.setText("Assigned: " + issue.getAssignedStaff());
                     popupWindow.dismiss();
                 });
 
@@ -175,8 +179,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         TextView tvStaffUpdate;
         MaterialButton btnAssign;
         MaterialButton btnStatus;
-
         MaterialButton btnUpdate;
+        MaterialButton btnChangeStatus;
         EditText inputStaffNote;
 
         public StaffViewHolder(@NonNull View itemView) {
@@ -190,6 +194,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
             btnAssign = itemView.findViewById(R.id.btnAssign);
             btnStatus = itemView.findViewById(R.id.btnStatus);
+            btnChangeStatus = itemView.findViewById(R.id.btnStatusUpdate);
             inputStaffNote = itemView.findViewById(R.id.addUpdateNote);
             btnUpdate = itemView.findViewById(R.id.btnSubmitUpdate);
         }

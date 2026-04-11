@@ -16,6 +16,8 @@ public class Issue {
     private String description;
     private String creatorUid;
     private String status;
+
+    private String assignedStaff;
     private Long timestamp;
     private Long lastUpdated;
 
@@ -37,6 +39,7 @@ public class Issue {
         this.status = status;
         this.timestamp = timestamp;
         this.lastUpdated = timestamp;
+        this.assignedStaff = "None";
     }
 
     public String getId() {
@@ -125,12 +128,11 @@ public class Issue {
     }
 
     public String getAssignedStaff() {
-        return "Test Assigned";
+        return assignedStaff;
     }
+    public void setAssignedStaff(String assignedStaff) {this.assignedStaff = assignedStaff; }
 
-    public String getLatestUpdate() {
-        return "Test Update";
-    }
+
 
     public IssueStatus getStatusEnum() {
         try {
