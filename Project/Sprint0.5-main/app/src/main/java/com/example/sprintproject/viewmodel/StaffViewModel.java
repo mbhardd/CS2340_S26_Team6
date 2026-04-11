@@ -179,6 +179,11 @@ public class StaffViewModel extends ViewModel {
         }
     }
 
+    public void changeAssignedStaff(String issueId, String newStaff) {
+        repository.updateAssignedStaff(issueId, newStaff);
+    }
+
+
     public LiveData<List<User>> getStaffUsers() {
         return repository.getStaffUsers();
     }

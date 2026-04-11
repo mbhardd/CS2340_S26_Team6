@@ -123,11 +123,11 @@ public class IssueRepository {
             issuesRef.child(issueId).child("updates").child(updateId).setValue(update);
         }
     }
-
-    public void updateIssueStatus(String issueId, String newStatus) {
-        issuesRef.child(issueId).child("status").setValue(newStatus);
-        issuesRef.child(issueId).child("lastUpdated").setValue(System.currentTimeMillis());
+    public void updateAssignedStaff(String issueId, String staffEmail) {
+        issuesRef.child(issueId).child("assignedStaff").setValue(staffEmail);
     }
+
+
 
     public void updateStatusWithHistory(String issueId, String newStatus,
                                         IssueUpdate update) {
