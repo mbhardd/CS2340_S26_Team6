@@ -127,8 +127,6 @@ public class IssueRepository {
         issuesRef.child(issueId).child("assignedStaff").setValue(staffEmail);
     }
 
-
-
     public void updateStatusWithHistory(String issueId, String newStatus,
                                         IssueUpdate update) {
         String updateId = issuesRef.child(issueId).child("updates").push().getKey();

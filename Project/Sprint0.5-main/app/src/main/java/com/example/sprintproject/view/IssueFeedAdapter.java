@@ -139,7 +139,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                             for (IssueUpdate update : updates) {
 
                                 if (!"COMMENT".equalsIgnoreCase(update.getType())
-                                        && !"STAFF_NOTE".equalsIgnoreCase(update.getType())) {
+                                        && !"STAFF_NOTE".equalsIgnoreCase(update.getType())
+                                && !"STATUS_CHANGE".equalsIgnoreCase(update.getType())) {
                                     continue;
                                 }
 
@@ -155,6 +156,13 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                                     tv.setTextColor(android.graphics.Color.parseColor("#AB0000"));
                                     holder.staffContainer.addView(tv);
                                 }
+                                else if ("STATUS_CHANGE".equalsIgnoreCase(update.getType())) {
+                                    tv.setText("• " + update.getContent());
+                                    tv.setTextSize(16f);
+                                    tv.setTextColor(android.graphics.Color.parseColor("#AB0000"));
+                                    holder.staffContainer.addView(tv);
+                                }
+
 
                             }
                         }
