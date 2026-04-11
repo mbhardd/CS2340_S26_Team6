@@ -106,6 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:hint="Add Staff Update Note"
+            android:saveEnabled="false"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp"
             android:layout_marginTop="12dp"

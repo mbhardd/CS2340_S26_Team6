@@ -40,7 +40,6 @@ public class StaffViewModel extends ViewModel {
     }
 
 
-
     public LiveData<List<Issue>> getIssues() {
         return issues;
     }
@@ -49,8 +48,15 @@ public class StaffViewModel extends ViewModel {
         return successMessage;
     }
 
+    public void clearSuccessMessage() {
+        successMessage.setValue(null);
+    }
+
     public LiveData<String> getErrorMessage() {
         return errorMessage;
+    }
+    public void clearErrorMessage() {
+        errorMessage.setValue(null);
     }
 
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {

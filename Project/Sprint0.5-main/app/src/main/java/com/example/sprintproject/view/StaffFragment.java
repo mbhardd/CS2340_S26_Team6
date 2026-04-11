@@ -3,6 +3,7 @@ package com.example.sprintproject.view;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,7 +41,6 @@ public class StaffFragment extends Fragment {
         rvStaffIssues = view.findViewById(R.id.rvStaffIssues);
         tvEmptyState = view.findViewById(R.id.tvEmptyState);
 
-        currentUser = getCurrentAppUser();
         viewModel = new ViewModelProvider(this).get(StaffViewModel.class);
 
         adapter = new StaffAdapter(staffList, viewModel);
@@ -68,6 +68,24 @@ public class StaffFragment extends Fragment {
             adapter.notifyDataSetChanged();
         });
 
+        viewModel.getSuccessMessage().observe(getViewLifecycleOwner(), message -> {
+            if (message != null) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+
+                // optional: reset so it doesn't fire again
+                viewModel.clearSuccessMessage();
+            }
+        });
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
+            if (message != null) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+
+                // optional: reset so it doesn't fire again
+                viewModel.clearErrorMessage();
+            }
+        });
+
+
         // Example usage once your buttons / inputs are wired:
         // if (currentUser != null) {
         //     viewModel.addComment(issueId, currentUser, "Test comment");
@@ -76,18 +94,5 @@ public class StaffFragment extends Fragment {
         // }
     }
 
-    private User getCurrentAppUser() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (firebaseUser == null) {
-            return null;
-        }
-
-        String email = firebaseUser.getEmail();
-        if (email == null) {
-            email = "";
-        }
-
-        return new User(email, true);
-    }
 }
