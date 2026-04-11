@@ -1,6 +1,5 @@
 package com.example.sprintproject.viewmodel;
 
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -111,7 +110,11 @@ public class StaffViewModel extends ViewModel {
         successMessage.setValue("Staff note added");
     }
 
-    public void changeStatus(String issueId, User user, IssueStatus oldStatus, IssueStatus newStatus) {
+    public void changeStatus(
+            String issueId,
+            User user,
+            IssueStatus oldStatus,
+            IssueStatus newStatus) {
         if (!user.isStaff()) {
             errorMessage.setValue("Only staff can change issue status");
             return;
@@ -144,35 +147,35 @@ public class StaffViewModel extends ViewModel {
         }
 
         switch (current) {
-            case SUBMITTED:
-                return next == IssueStatus.IN_REVIEW;
-            case IN_REVIEW:
-                return next == IssueStatus.IN_PROGRESS;
-            case IN_PROGRESS:
-                return next == IssueStatus.RESOLVED;
-            case RESOLVED:
-                return next == IssueStatus.CLOSED;
-            case CLOSED:
-                return false;
-            default:
-                return false;
+        case SUBMITTED:
+            return next == IssueStatus.IN_REVIEW;
+        case IN_REVIEW:
+            return next == IssueStatus.IN_PROGRESS;
+        case IN_PROGRESS:
+            return next == IssueStatus.RESOLVED;
+        case RESOLVED:
+            return next == IssueStatus.CLOSED;
+        case CLOSED:
+            return false;
+        default:
+            return false;
         }
     }
 
     private String formatStatus(IssueStatus status) {
         switch (status) {
-            case SUBMITTED:
-                return "Submitted";
-            case IN_REVIEW:
-                return "In Review";
-            case IN_PROGRESS:
-                return "In Progress";
-            case RESOLVED:
-                return "Resolved";
-            case CLOSED:
-                return "Closed";
-            default:
-                return status.name();
+        case SUBMITTED:
+            return "Submitted";
+        case IN_REVIEW:
+            return "In Review";
+        case IN_PROGRESS:
+            return "In Progress";
+        case RESOLVED:
+            return "Resolved";
+        case CLOSED:
+            return "Closed";
+        default:
+            return status.name();
         }
     }
 

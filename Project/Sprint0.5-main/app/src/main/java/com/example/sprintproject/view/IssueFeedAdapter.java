@@ -1,13 +1,11 @@
 package com.example.sprintproject.view;
 
-import android.app.AlertDialog;
-import android.content.Context;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -141,7 +139,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                             for (IssueUpdate update : updates) {
 
                                 if (!"COMMENT".equalsIgnoreCase(update.getType())
-                                        && !"STAFF_NOTE".equalsIgnoreCase(update.getType())) continue;
+                                        && !"STAFF_NOTE".equalsIgnoreCase(update.getType())) {
+                                    continue;
+                                }
+
 
                                 TextView tv = new TextView(holder.itemView.getContext());
                                 if ("COMMENT".equalsIgnoreCase(update.getType())) {

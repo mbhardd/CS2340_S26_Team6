@@ -85,11 +85,11 @@ public class IssueRepository {
                 .child("lastUpdated")
                 .setValue(time);
     }
-    public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId){
+    public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
         MutableLiveData<List<IssueUpdate>> updatesLiveData = new MutableLiveData<>();
 
         issuesRef.child(issueId).child("updates")
-                .addValueEventListener(new ValueEventListener(){
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         List<IssueUpdate> updates = new ArrayList<>();

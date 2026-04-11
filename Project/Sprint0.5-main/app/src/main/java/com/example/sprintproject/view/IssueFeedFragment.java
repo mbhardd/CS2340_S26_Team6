@@ -79,13 +79,13 @@ public class IssueFeedFragment extends Fragment {
 
     private void showFilterDialog() {
         String[] options = {
-                "All Issues",
-                "Open Issues",
-                "Filter by Priority",
-                "Filter by Category",
-                "Sort by Recent",
-                "Sort by Priority",
-                "Sort by Recently Updated"};
+            "All Issues",
+            "Open Issues",
+            "Filter by Priority",
+            "Filter by Category",
+            "Sort by Recent",
+            "Sort by Priority",
+            "Sort by Recently Updated"};
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Filter By")
