@@ -1,8 +1,6 @@
 package com.example.sprintproject.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.google.firebase.database.Exclude;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties

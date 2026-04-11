@@ -7,7 +7,7 @@ public class User {
     private String email;
     private boolean isStaff;
 
-    public User() {}
+    public User() { }
 
     public User(String email, boolean isStaff) {
         this.email = email;

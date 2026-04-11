@@ -55,7 +55,7 @@ public class AnalyticsViewModel extends ViewModel {
         return issuesOverTime;
     }
 
-    private Map<String, Integer> buildCategoryCounts(List<Issue> issues){
+    private Map<String, Integer> buildCategoryCounts(List<Issue> issues) {
         Map<String, Integer> counts = new LinkedHashMap<>();
 
         if (issues == null) {
