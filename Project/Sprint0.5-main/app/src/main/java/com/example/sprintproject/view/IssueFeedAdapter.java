@@ -1,6 +1,7 @@
 package com.example.sprintproject.view;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,8 +105,12 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
         holder.tvIssueInitials.setText(issue.getInitials() != null ? issue.getInitials() : "");
 
+        String normalized = IssueFeedStatusLogic.normalizeStatus(normalizedStatus);
+        Log.d("STATUS_DEBUG", "Raw: " + normalizedStatus + " | Normalized: " + normalized);
+
         int colorRes = IssueFeedStatusLogic.getStatusColorRes(normalizedStatus);
         int statusColor = ContextCompat.getColor(holder.itemView.getContext(), colorRes);
+
 
         holder.tvStatus.setTextColor(statusColor);
         holder.tvIssueTitle.setTextColor(statusColor);
