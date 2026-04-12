@@ -6,13 +6,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueRepository;
-import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.model.UpdateResult;
-import com.example.sprintproject.model.UpdateType;
 import com.example.sprintproject.model.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -72,13 +68,14 @@ public class IssueFeedViewModel extends ViewModel {
         IssueUpdateStrategy strategy =
                     new CommentStrategy();
 
-            executeStrategy(strategy, issueId, user, content);
+        executeStrategy(strategy, issueId, user, content);
 
     }
 
-    public void executeStrategy(IssueUpdateStrategy strategy, String issueId, User user, String content) {
+    public void executeStrategy(IssueUpdateStrategy strategy, String issueId, User user,
+                                String content) {
         UpdateResult result = strategy.execute(issueId, user, content);
-        repository.addUpdateToIssue(issueId, result.update);
+        repository.addUpdateToIssue(issueId, result.getUpdate());
         repository.updateLastUpdated(issueId, System.currentTimeMillis());
     }
     public String formatPriorityCheck(String priority) {

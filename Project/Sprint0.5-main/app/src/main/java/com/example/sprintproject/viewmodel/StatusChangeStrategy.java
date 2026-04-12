@@ -1,13 +1,12 @@
 package com.example.sprintproject.viewmodel;
 
-import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.model.UpdateResult;
 import com.example.sprintproject.model.UpdateType;
 import com.example.sprintproject.model.User;
 
-public class StatusChangeStrategy implements IssueUpdateStrategy{
+public class StatusChangeStrategy implements IssueUpdateStrategy {
     private IssueStatus oldStatus;
     private IssueStatus newStatus;
 
@@ -37,18 +36,12 @@ public class StatusChangeStrategy implements IssueUpdateStrategy{
 
     public String formatStatus(IssueStatus status) {
         switch (status) {
-            case SUBMITTED:
-                return "Submitted";
-            case IN_REVIEW:
-                return "In Review";
-            case IN_PROGRESS:
-                return "In Progress";
-            case RESOLVED:
-                return "Resolved";
-            case CLOSED:
-                return "Closed";
-            default:
-                return status.name();
+            case SUBMITTED: return "Submitted";
+            case IN_REVIEW: return "In Review";
+            case IN_PROGRESS: return "In Progress";
+            case RESOLVED: return "Resolved";
+            case CLOSED: return "Closed";
+            default: return status.name();
         }
     }
 

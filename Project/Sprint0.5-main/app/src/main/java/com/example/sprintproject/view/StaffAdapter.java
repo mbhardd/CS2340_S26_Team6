@@ -17,9 +17,7 @@ import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.User;
-import com.example.sprintproject.viewmodel.StaffUpdateStrategy;
 import com.example.sprintproject.viewmodel.StaffViewModel;
-import com.example.sprintproject.viewmodel.StatusChangeStrategy;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -114,8 +112,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                 option.setOnClickListener(view -> {
                     viewModel.changeStatus(issue.getId(), authRepository.getCachedUser(),
                             issue.getStatusEnum(), status);
-                   holder.tvStatus.setText(issue.getStatus());
-                   popupWindow.dismiss();
+                    holder.tvStatus.setText(issue.getStatus());
+                    popupWindow.dismiss();
                 });
 
                 layout.addView(option);

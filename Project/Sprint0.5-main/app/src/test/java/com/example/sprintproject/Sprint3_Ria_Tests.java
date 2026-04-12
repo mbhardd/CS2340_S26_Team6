@@ -27,9 +27,9 @@ public class Sprint3_Ria_Tests {
         UpdateResult result =
                 strategy.execute("issue123", staffUser, "Hello");
 
-        assertTrue(result.success);
-        assertEquals("Staff note added", result.message);
-        assertEquals(UpdateType.STAFF_NOTE.name(), result.update.getType());
+        assertTrue(result.isSuccess());
+        assertEquals("Staff note added", result.getMessage());
+        assertEquals(UpdateType.STAFF_NOTE.name(), result.getUpdate().getType());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class Sprint3_Ria_Tests {
         UpdateResult result =
                 strategy.execute("issue123", user, null);
 
-        assertTrue(result.success);
+        assertTrue(result.isSuccess());
 
         String expectedMessage =
                 "Status changed from In Review to In Progress";
