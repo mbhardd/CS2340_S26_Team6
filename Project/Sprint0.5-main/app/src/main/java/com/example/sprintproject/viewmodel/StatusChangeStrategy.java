@@ -36,12 +36,12 @@ public class StatusChangeStrategy implements IssueUpdateStrategy {
 
     public String formatStatus(IssueStatus status) {
         switch (status) {
-            case SUBMITTED: return "Submitted";
-            case IN_REVIEW: return "In Review";
-            case IN_PROGRESS: return "In Progress";
-            case RESOLVED: return "Resolved";
-            case CLOSED: return "Closed";
-            default: return status.name();
+        case SUBMITTED: return "Submitted";
+        case IN_REVIEW: return "In Review";
+        case IN_PROGRESS: return "In Progress";
+        case RESOLVED: return "Resolved";
+        case CLOSED: return "Closed";
+        default: return status.name();
         }
     }
 
@@ -51,18 +51,18 @@ public class StatusChangeStrategy implements IssueUpdateStrategy {
         }
 
         switch (current) {
-            case SUBMITTED:
-                return next == IssueStatus.IN_REVIEW;
-            case IN_REVIEW:
-                return next == IssueStatus.IN_PROGRESS;
-            case IN_PROGRESS:
-                return next == IssueStatus.RESOLVED;
-            case RESOLVED:
-                return next == IssueStatus.CLOSED;
-            case CLOSED:
-                return false;
-            default:
-                return false;
+        case SUBMITTED:
+            return next == IssueStatus.IN_REVIEW;
+        case IN_REVIEW:
+            return next == IssueStatus.IN_PROGRESS;
+        case IN_PROGRESS:
+            return next == IssueStatus.RESOLVED;
+        case RESOLVED:
+            return next == IssueStatus.CLOSED;
+        case CLOSED:
+            return false;
+        default:
+            return false;
         }
     }
 }
