@@ -109,6 +109,7 @@ public class AnalyticsFragment extends Fragment {
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Issues by Category");
+        dataSet.setColors(com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS);
         PieData data = new PieData(dataSet);
 
         pieChart.setData(data);
