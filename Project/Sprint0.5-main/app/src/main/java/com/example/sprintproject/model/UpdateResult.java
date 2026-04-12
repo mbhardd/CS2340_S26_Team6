@@ -1,12 +1,13 @@
 package com.example.sprintproject.model;
 
 public class UpdateResult {
-    public final boolean success;
-    public final String message;
-    public final IssueUpdate update;
-    public final IssueStatus newStatus;
+    private final boolean success;
+    private final String message;
+    private final IssueUpdate update;
+    private final IssueStatus newStatus;
 
-    public UpdateResult(boolean success, String message, IssueUpdate update, IssueStatus newStatus) {
+    public UpdateResult(boolean success, String message, IssueUpdate update,
+                        IssueStatus newStatus) {
         this.success = success;
         this.message = message;
         this.update = update;
@@ -19,5 +20,13 @@ public class UpdateResult {
 
     public IssueUpdate getUpdate() {
         return update;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public IssueStatus getNewStatus() {
+        return newStatus;
     }
 }

@@ -16,7 +16,6 @@ import com.example.sprintproject.R;
 import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueUpdate;
-import com.example.sprintproject.viewmodel.CommentStrategy;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 import com.google.android.material.button.MaterialButton;

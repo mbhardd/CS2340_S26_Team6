@@ -11,12 +11,10 @@ import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueStatus;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.model.UpdateResult;
-import com.example.sprintproject.model.UpdateType;
 import com.example.sprintproject.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class StaffViewModel extends ViewModel {
     private final IssueRepository repository;
@@ -91,16 +89,16 @@ public class StaffViewModel extends ViewModel {
 
         UpdateResult result = strategy.execute(issueId, user, content);
 
-        if (!result.success) {
-            errorMessage.setValue(result.message);
+        if (!result.isSuccess()) {
+            errorMessage.setValue(result.getMessage());
             return;
         }
-        if (result.newStatus != null) {
-            repository.updateStatus(issueId, result.newStatus.name());
+        if (result.getNewStatus() != null) {
+            repository.updateStatus(issueId, result.getNewStatus().name());
         }
-        repository.addUpdateToIssue(issueId, result.update);
+        repository.addUpdateToIssue(issueId, result.getUpdate());
         repository.updateLastUpdated(issueId, System.currentTimeMillis());
-        successMessage.setValue(result.message);
+        successMessage.setValue(result.getMessage());
     }
 
     public boolean isValidNextStatus(IssueStatus current, IssueStatus next) {
