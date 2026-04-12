@@ -16,6 +16,7 @@ import com.example.sprintproject.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StaffViewModel extends ViewModel {
     private final IssueRepository repository;
@@ -71,7 +72,7 @@ public class StaffViewModel extends ViewModel {
                 new StatusChangeStrategy(oldStatus, newStatus);
 
         executeStrategy(strategy, issueId, user, null);
-        repository.updateStatus(issueId, newStatus.name());
+
     }
 
     public void addStaffNote(String issueId, User user, String content) {
@@ -80,6 +81,7 @@ public class StaffViewModel extends ViewModel {
                 new StaffUpdateStrategy();
 
         executeStrategy(strategy, issueId, user, content);
+
     }
 
     public void executeStrategy(IssueUpdateStrategy strategy,
@@ -93,7 +95,9 @@ public class StaffViewModel extends ViewModel {
             errorMessage.setValue(result.message);
             return;
         }
-
+        if (result.newStatus != null) {
+            repository.updateStatus(issueId, result.newStatus.name());
+        }
         repository.addUpdateToIssue(issueId, result.update);
         repository.updateLastUpdated(issueId, System.currentTimeMillis());
         successMessage.setValue(result.message);
