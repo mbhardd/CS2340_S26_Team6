@@ -16,5 +16,7 @@
     <color name="not_started_red">#D33434</color>
     <color name="filter_yellow">#1E1E1E</color>
     <color name="staff_note_red">#AB0000</color>
+    <color name="watch_grey">#B5B5B5</color>
+    <color name="watching_green">#6FD2A4</color>
 
 </resources>

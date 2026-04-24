@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -204,6 +205,20 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             holder.btnSubmit.setVisibility(View.GONE);
             holder.btnAddUpdate.setVisibility(View.VISIBLE);
         }
+
+        holder.btnWatch.setOnClickListener(v -> {
+            if (holder.btnWatch.getText().toString().equals("Watch")) {
+                holder.btnWatch.setText("Watching");
+                holder.btnWatch.setBackgroundResource(R.drawable.bg_watching_green);
+                holder.btnWatch.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.eye_open, 0, 0, 0);
+            } else {
+                holder.btnWatch.setText("Watch");
+                holder.btnWatch.setBackgroundResource(R.drawable.bg_watch_grey);
+                holder.btnWatch.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.eye_closed, 0, 0, 0);
+            }
+        });
     }
 
     @Override
@@ -225,6 +240,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         private MaterialButton btnAddUpdate;
         private MaterialButton btnSubmit;
         private EditText etComment;
+        private AppCompatButton btnWatch;
 
         public IssueViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -241,6 +257,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             btnAddUpdate = itemView.findViewById(R.id.btnAddUpdate);
             btnSubmit = itemView.findViewById(R.id.btnSubmit);
             etComment = itemView.findViewById(R.id.etComment);
+            btnWatch = itemView.findViewById(R.id.btnWatch);
         }
     }
 }
