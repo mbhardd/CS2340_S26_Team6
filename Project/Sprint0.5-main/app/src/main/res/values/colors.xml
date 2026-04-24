@@ -18,5 +18,7 @@
     <color name="staff_note_red">#AB0000</color>
     <color name="watch_grey">#B5B5B5</color>
     <color name="watching_green">#6FD2A4</color>
+    <color name="upvote_active">#F25C7A</color>
+    <color name="upvote_inactive">#000000</color>
 
 </resources>

@@ -22,6 +22,10 @@ public class Issue {
     private Double temperature;
     private String weatherCondition;
 
+    //UI only - temporary and can delete once implemented logic wise ria
+    private boolean isUpvoted = false;
+    private int upvoteCount = 0;
+
 
     public Issue() {
 
@@ -164,5 +168,11 @@ public class Issue {
             return IssueStatus.SUBMITTED;
         }
     }
+
+    public boolean isUpvoted() { return isUpvoted; }
+    public void setUpvoted(boolean upvoted) { isUpvoted = upvoted; }
+
+    public int getUpvoteCount() { return upvoteCount; }
+    public void setUpvoteCount(int count) { upvoteCount = count; }
 
 }
