@@ -18,6 +18,9 @@ public class Issue {
     private String assignedStaff;
     private Long timestamp;
     private Long lastUpdated;
+    private String weatherSummary;
+    private Double temperature;
+    private String weatherCondition;
 
 
     public Issue() {
@@ -131,8 +134,29 @@ public class Issue {
     public void setAssignedStaff(String assignedStaff) {
         this.assignedStaff = assignedStaff; }
 
+    public String getWeatherSummary() {
+        return weatherSummary;
+    }
 
+    public void setWeatherSummary(String weatherSummary) {
+        this.weatherSummary = weatherSummary;
+    }
 
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getWeatherCondition() {
+        return weatherCondition;
+    }
+
+    public void setWeatherCondition(String weatherCondition) {
+        this.weatherCondition = weatherCondition;
+    }
     public IssueStatus getStatusEnum() {
         try {
             return IssueStatus.valueOf(status.toUpperCase().replace(" ", "_"));
@@ -140,8 +164,5 @@ public class Issue {
             return IssueStatus.SUBMITTED;
         }
     }
-
-
-
 
 }
