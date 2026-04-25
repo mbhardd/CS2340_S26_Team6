@@ -1,11 +1,14 @@
 package com.example.sprintproject.view;
 
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +34,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     private IssueFeedViewModel viewModel;
     private int expandedPosition = -1;
     private AuthRepository authRepository;
+
 
     public IssueFeedAdapter(IssueFeedViewModel viewModel) {
 
@@ -219,6 +223,35 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                         R.drawable.eye_closed, 0, 0, 0);
             }
         });
+
+
+        holder.tvUpvoteCount.setText(String.valueOf(issue.getUpvoteCount()));
+
+        int color = ContextCompat.getColor(
+                holder.itemView.getContext(),
+                issue.isUpvoted() ? R.color.upvote_active : R.color.upvote_inactive
+        );
+
+        holder.ivUpvote.setColorFilter(color);
+        holder.tvUpvoteCount.setTextColor(color);
+
+        holder.layoutUpvote.setOnClickListener(v -> {
+
+            int pos = holder.getAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION) return;
+
+            Issue current = issueList.get(pos);
+
+            if (current.isUpvoted()) {
+                current.setUpvoted(false);
+                current.setUpvoteCount(current.getUpvoteCount() - 1);
+            } else {
+                current.setUpvoted(true);
+                current.setUpvoteCount(current.getUpvoteCount() + 1);
+            }
+
+            notifyItemChanged(pos);
+        });
     }
 
     @Override
@@ -227,6 +260,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     }
 
     static class IssueViewHolder extends RecyclerView.ViewHolder {
+
+        private LinearLayout layoutUpvote;
+        public ImageView ivUpvote;
+        public TextView tvUpvoteCount;
         private TextView tvIssueTitle;
         private TextView tvStatus;
         private TextView tvIssueCategory;
@@ -237,8 +274,8 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         private LinearLayout layoutExpandable;
         private LinearLayout commentsContainer;
         private LinearLayout staffContainer;
-        private MaterialButton btnAddUpdate;
-        private MaterialButton btnSubmit;
+        private Button btnAddUpdate;
+        private Button btnSubmit;
         private EditText etComment;
         private AppCompatButton btnWatch;
 
@@ -258,6 +295,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             btnSubmit = itemView.findViewById(R.id.btnSubmit);
             etComment = itemView.findViewById(R.id.etComment);
             btnWatch = itemView.findViewById(R.id.btnWatch);
+            ivUpvote = itemView.findViewById(R.id.ivUpvote);
+            tvUpvoteCount = itemView.findViewById(R.id.tvUpvoteCount);
+            layoutUpvote = itemView.findViewById(R.id.layoutUpvote);
+
         }
     }
 }

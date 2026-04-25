@@ -103,6 +103,41 @@
             app:layout_constraintTop_toBottomOf="@id/tvIssueCategory"
             app:layout_constraintVertical_bias="0.0" />
 
+        <LinearLayout
+            android:id="@+id/layoutUpvote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="6dp"
+
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+
+            app:layout_constraintTop_toBottomOf="@id/tvIssueInitials"
+            app:layout_constraintStart_toStartOf="@id/tvIssueInitials"
+            android:layout_marginTop="4dp">
+
+            <ImageView
+                android:id="@+id/ivUpvote"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_up"
+                app:tint="@color/upvote_inactive" />
+
+            <TextView
+                android:id="@+id/tvUpvoteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textColor="@color/upvote_inactive"
+                android:textSize="14sp"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
+
 
         <!-- Watch Button -->
         <androidx.appcompat.widget.AppCompatButton
