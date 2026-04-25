@@ -21,6 +21,7 @@ public class Issue {
     private String weatherSummary;
     private Double temperature;
     private String weatherCondition;
+    private boolean isWatching = false;
 
     //UI only - temporary and can delete once implemented logic wise ria
     private boolean isUpvoted = false;
@@ -169,10 +170,40 @@ public class Issue {
         }
     }
 
-    public boolean isUpvoted() { return isUpvoted; }
-    public void setUpvoted(boolean upvoted) { isUpvoted = upvoted; }
+    public boolean isUpvoted() {
+        return isUpvoted;
+    }
+    public void setUpvoted(boolean upvoted) {
+        isUpvoted = upvoted;
+    }
 
-    public int getUpvoteCount() { return upvoteCount; }
-    public void setUpvoteCount(int count) { upvoteCount = count; }
+    public int getUpvoteCount() {
+        return upvoteCount;
+    }
+    public void setUpvoteCount(int count) {
+        upvoteCount = count;
+    }
+
+    public void toggleUpvote() {
+        if (isUpvoted) {
+            isUpvoted = false;
+            upvoteCount--;
+        } else {
+            isUpvoted = true;
+            upvoteCount++;
+        }
+    }
+
+    public boolean isWatching() {
+        return isWatching;
+    }
+
+    public void setWatching(boolean watching) {
+        isWatching = watching;
+    }
+
+    public void toggleWatch() {
+        isWatching = !isWatching;
+    }
 
 }
