@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueStatus;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class StaffViewModel extends ViewModel {
     private final IssueRepository repository;
+    private AuthRepository authRepository;
     private MutableLiveData<List<Issue>> issues = new MutableLiveData<>();
     private List<Issue> fullIssueList = new ArrayList<>();
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
@@ -29,7 +31,9 @@ public class StaffViewModel extends ViewModel {
     }
     public StaffViewModel() {
         repository = IssueRepository.getInstance();
-        repository.getIssues().observeForever(new Observer<List<Issue>>() {
+        authRepository = AuthRepository.getInstance();
+        repository.getIssues(authRepository.getCurrentUser().getUid()).
+                observeForever(new Observer<List<Issue>>() {
             @Override
             public void onChanged(List<Issue> issueList) {
                 fullIssueList = issueList;
@@ -61,7 +65,6 @@ public class StaffViewModel extends ViewModel {
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
         return repository.getUpdatesForIssue(issueId);
     }
-
     public void changeStatus(String issueId, User user,
                              IssueStatus oldStatus,
                              IssueStatus newStatus) {
@@ -72,7 +75,6 @@ public class StaffViewModel extends ViewModel {
         executeStrategy(strategy, issueId, user, null);
 
     }
-
     public void addStaffNote(String issueId, User user, String content) {
 
         IssueUpdateStrategy strategy =
@@ -81,12 +83,10 @@ public class StaffViewModel extends ViewModel {
         executeStrategy(strategy, issueId, user, content);
 
     }
-
     public void executeStrategy(IssueUpdateStrategy strategy,
                                 String issueId,
                                 User user,
                                 String content) {
-
         UpdateResult result = strategy.execute(issueId, user, content);
 
         if (!result.isSuccess()) {
