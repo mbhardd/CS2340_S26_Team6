@@ -1,6 +1,5 @@
 package com.example.sprintproject.view;
 
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +32,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     private int expandedPosition = -1;
     private AuthRepository authRepository;
 
-
     public IssueFeedAdapter(IssueFeedViewModel viewModel) {
-
         this.viewModel = viewModel;
         authRepository = AuthRepository.getInstance();
     }
@@ -69,10 +65,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         notifyDataSetChanged();
     }
 
-
-
-
-
     @NonNull
     @Override
     public IssueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -80,8 +72,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                 .inflate(R.layout.item_issue_feed, parent, false);
         return new IssueViewHolder(view);
     }
-
-
 
     @Override
     public void onBindViewHolder(@NonNull IssueViewHolder holder, int position) {
@@ -125,12 +115,17 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         });
 
         if (position == expandedPosition) {
-
             holder.layoutExpandable.setVisibility(View.VISIBLE);
 
             Long timestamp = issue.getTimestamp();
             holder.tvCreationTime.setText(
                     timestamp != null ? formatTimestamp(timestamp) : "No timestamp"
+            );
+
+            holder.tvWeather.setText(
+                    issue.getWeatherSummary() != null
+                            ? "Weather: " + issue.getWeatherSummary()
+                            : "Weather: unavailable"
             );
 
             String uid = issue.getCreatorUid();
@@ -143,13 +138,11 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
             viewModel.getUpdatesForIssue(issue.getId())
                     .observeForever(updates -> {
-
                         holder.commentsContainer.removeAllViews();
                         holder.staffContainer.removeAllViews();
 
                         if (updates != null) {
                             for (IssueUpdate update : updates) {
-
                                 if (!"COMMENT".equalsIgnoreCase(update.getType())
                                         && !"STAFF_NOTE".equalsIgnoreCase(update.getType())
                                         && !"STATUS_CHANGE".equalsIgnoreCase(update.getType())) {
@@ -222,7 +215,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     }
 
     private void bindUpvote(IssueViewHolder holder, Issue issue) {
-
         holder.tvUpvoteCount.setText(String.valueOf(issue.getUpvoteCount()));
 
         int color = ContextCompat.getColor(
@@ -268,6 +260,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         private TextView tvPriority;
         private TextView tvIssueInitials;
         private TextView tvCreationTime;
+        private TextView tvWeather;
         private TextView tvCreatorUid;
         private LinearLayout layoutExpandable;
         private LinearLayout commentsContainer;
@@ -286,6 +279,7 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             tvIssueInitials = itemView.findViewById(R.id.tvIssueInitials);
             layoutExpandable = itemView.findViewById(R.id.layoutExpandable);
             tvCreationTime = itemView.findViewById(R.id.tvCreationTime);
+            tvWeather = itemView.findViewById(R.id.tvWeather);
             tvCreatorUid = itemView.findViewById(R.id.tvCreatorUid);
             commentsContainer = itemView.findViewById(R.id.commentsContainer);
             staffContainer = itemView.findViewById(R.id.staffContainer);
