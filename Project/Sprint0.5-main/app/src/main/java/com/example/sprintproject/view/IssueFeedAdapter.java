@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
+import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
@@ -32,9 +33,11 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     private int expandedPosition = -1;
     private AuthRepository authRepository;
 
+
     public IssueFeedAdapter(IssueFeedViewModel viewModel) {
         this.viewModel = viewModel;
         authRepository = AuthRepository.getInstance();
+
     }
 
     public int toggleExpandedPosition(int currentExpandedPosition, int clickedPosition) {
@@ -233,15 +236,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
             Issue current = issueList.get(pos);
 
-            if (current.isUpvoted()) {
-                current.setUpvoted(false);
-                current.setUpvoteCount(current.getUpvoteCount() - 1);
-            } else {
-                current.setUpvoted(true);
-                current.setUpvoteCount(current.getUpvoteCount() + 1);
-            }
-
+            current.toggleUpvote();
             notifyItemChanged(pos);
+            viewModel.toggleUpvote(issue.getId());
+
         });
     }
 

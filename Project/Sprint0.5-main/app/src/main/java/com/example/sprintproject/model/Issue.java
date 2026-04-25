@@ -23,7 +23,6 @@ public class Issue {
     private String weatherCondition;
     private boolean isWatching = false;
 
-    //UI only - temporary and can delete once implemented logic wise ria
     private boolean isUpvoted = false;
     private int upvoteCount = 0;
 
@@ -183,7 +182,6 @@ public class Issue {
     public void setUpvoteCount(int count) {
         upvoteCount = count;
     }
-
     public void toggleUpvote() {
         if (isUpvoted) {
             isUpvoted = false;

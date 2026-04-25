@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueRepository;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public class AnalyticsViewModel extends ViewModel {
     private final IssueRepository repository;
+    private AuthRepository authRepository;
 
     private final MediatorLiveData<Map<String, Integer>> categoryCounts = new MediatorLiveData<>();
     private final MediatorLiveData<Map<String, Integer>> statusCounts = new MediatorLiveData<>();
@@ -20,8 +22,10 @@ public class AnalyticsViewModel extends ViewModel {
 
     public AnalyticsViewModel() {
         repository = IssueRepository.getInstance();
+        authRepository = AuthRepository.getInstance();
 
-        LiveData<List<Issue>> issuesLiveData = repository.getIssues();
+        LiveData<List<Issue>> issuesLiveData = repository.getIssues
+                (authRepository.getCurrentUser().getUid());
 
         categoryCounts.setValue(new LinkedHashMap<>());
         statusCounts.setValue(new LinkedHashMap<>());

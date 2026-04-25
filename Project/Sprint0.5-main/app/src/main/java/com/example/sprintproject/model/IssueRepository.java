@@ -7,13 +7,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class IssueRepository {
 
@@ -32,31 +35,45 @@ public class IssueRepository {
         return instance;
     }
 
-    public LiveData<List<Issue>> getIssues() {
+    public LiveData<List<Issue>> getIssues(String userId) {
         MutableLiveData<List<Issue>> issuesLiveData = new MutableLiveData<>();
+        DatabaseReference upvotedRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("upvotedIssues");
 
         issuesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 List<Issue> issueList = new ArrayList<>();
 
-                for (DataSnapshot issueSnapshot : snapshot.getChildren()) {
-                    Issue issue = issueSnapshot.getValue(Issue.class);
-
-                    if (issue != null) {
-                        issue.setID(issueSnapshot.getKey());
-                        issueList.add(issue);
+                upvotedRef.get().addOnCompleteListener(upvoteTask -> {
+                    Set<String> upvotedIds = new HashSet<>();
+                    if (upvoteTask.isSuccessful()) {
+                        for (DataSnapshot child : upvoteTask.getResult().getChildren()) {
+                            upvotedIds.add(child.getKey());
+                        }
                     }
-                }
+                    for (DataSnapshot issueSnapshot : snapshot.getChildren()) {
+                        Issue issue = issueSnapshot.getValue(Issue.class);
+                        if (issue != null) {
+                            issue.setID(issueSnapshot.getKey());
+                            issue.setUpvoted(upvotedIds.contains(issue.getId()));
+                            issueList.add(issue);
+                        }
+                    }
 
-                Collections.sort(issueList, (issue1, issue2) -> {
-                    Long t1 = issue1.getTimestamp() != null ? issue1.getTimestamp() : 0L;
-                    Long t2 = issue2.getTimestamp() != null ? issue2.getTimestamp() : 0L;
-                    return t2.compareTo(t1);
+                    Collections.sort(issueList, (issue1, issue2) -> {
+                        Long t1 = issue1.getTimestamp() != null ? issue1.getTimestamp() : 0L;
+                        Long t2 = issue2.getTimestamp() != null ? issue2.getTimestamp() : 0L;
+                        return t2.compareTo(t1);
+                    });
+
+                    issuesLiveData.setValue(issueList);
                 });
-
-                issuesLiveData.setValue(issueList);
             }
+
+
 
             @Override
             public void onCancelled(DatabaseError error) {
@@ -200,6 +217,31 @@ public class IssueRepository {
                 issue.setTemperature(null);
 
                 saveIssue(issue);
+            }
+        });
+    }
+    public void toggleUpvote(String issueId, String userId) {
+        DatabaseReference upvoteRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("upvotedIssues")
+                .child(issueId);
+
+        DatabaseReference countRef = issuesRef.child(issueId).child("upvoteCount");
+
+        upvoteRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                boolean alreadyUpvoted = task.getResult().exists();
+
+                if (alreadyUpvoted) {
+                    // Remove upvote
+                    upvoteRef.removeValue();
+                    countRef.setValue(ServerValue.increment(-1));
+                } else {
+                    // Add upvote
+                    upvoteRef.setValue(true);
+                    countRef.setValue(ServerValue.increment(1));
+                }
             }
         });
     }
