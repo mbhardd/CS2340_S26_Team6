@@ -26,7 +26,6 @@ public class StaffFragment extends Fragment {
     private StaffViewModel viewModel;
     private TextView tvEmptyState;
     private final List<User> staffList = new ArrayList<>();
-    private User currentUser;
 
     public StaffFragment() {
         super(R.layout.fragment_staff);
