@@ -19,6 +19,7 @@ public class IssueRepository {
 
     private static IssueRepository instance;
     private final DatabaseReference issuesRef;
+    private static final String UPDATES_NODE = "updates";
 
     private IssueRepository() {
         issuesRef = FirebaseDatabase.getInstance().getReference("issues");
@@ -68,13 +69,13 @@ public class IssueRepository {
 
     public void addUpdateToIssue(String issueId, IssueUpdate update) {
         String updateId = issuesRef.child(issueId)
-                .child("updates")
+                .child(UPDATES_NODE)
                 .push()
                 .getKey();
 
         if (updateId != null) {
             issuesRef.child(issueId)
-                    .child("updates")
+                    .child(UPDATES_NODE)
                     .child(updateId)
                     .setValue(update);
         }
@@ -88,7 +89,7 @@ public class IssueRepository {
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
         MutableLiveData<List<IssueUpdate>> updatesLiveData = new MutableLiveData<>();
 
-        issuesRef.child(issueId).child("updates")
+        issuesRef.child(issueId).child(UPDATES_NODE)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -126,7 +127,7 @@ public class IssueRepository {
 
     public void updateStatusWithHistory(String issueId, String newStatus,
                                         IssueUpdate update) {
-        String updateId = issuesRef.child(issueId).child("updates").push().getKey();
+        String updateId = issuesRef.child(issueId).child(UPDATES_NODE).push().getKey();
 
         if (updateId == null) {
             return;

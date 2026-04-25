@@ -1,7 +1,6 @@
 package com.example.sprintproject.view;
 
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,7 @@ import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
-import com.google.android.material.button.MaterialButton;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +115,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         int colorRes = IssueFeedStatusLogic.getStatusColorRes(normalizedStatus);
         int statusColor = ContextCompat.getColor(holder.itemView.getContext(), colorRes);
 
-
         holder.tvStatus.setTextColor(statusColor);
         holder.tvIssueTitle.setTextColor(statusColor);
 
@@ -158,7 +156,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                                     continue;
                                 }
 
-
                                 TextView tv = new TextView(holder.itemView.getContext());
                                 if ("COMMENT".equalsIgnoreCase(update.getType())) {
                                     tv.setText("• " + update.getContent());
@@ -175,8 +172,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                                     tv.setTextColor(android.graphics.Color.parseColor("#AB0000"));
                                     holder.staffContainer.addView(tv);
                                 }
-
-
                             }
                         }
                     });
@@ -204,7 +199,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
         } else {
             holder.layoutExpandable.setVisibility(View.GONE);
-
             holder.etComment.setVisibility(View.GONE);
             holder.btnSubmit.setVisibility(View.GONE);
             holder.btnAddUpdate.setVisibility(View.VISIBLE);
@@ -224,6 +218,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             }
         });
 
+        bindUpvote(holder, issue);
+    }
+
+    private void bindUpvote(IssueViewHolder holder, Issue issue) {
 
         holder.tvUpvoteCount.setText(String.valueOf(issue.getUpvoteCount()));
 
@@ -236,9 +234,10 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
         holder.tvUpvoteCount.setTextColor(color);
 
         holder.layoutUpvote.setOnClickListener(v -> {
-
             int pos = holder.getAdapterPosition();
-            if (pos == RecyclerView.NO_POSITION) return;
+            if (pos == RecyclerView.NO_POSITION) {
+                return;
+            }
 
             Issue current = issueList.get(pos);
 
@@ -260,10 +259,9 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
     }
 
     static class IssueViewHolder extends RecyclerView.ViewHolder {
-
         private LinearLayout layoutUpvote;
-        public ImageView ivUpvote;
-        public TextView tvUpvoteCount;
+        private ImageView ivUpvote;
+        private TextView tvUpvoteCount;
         private TextView tvIssueTitle;
         private TextView tvStatus;
         private TextView tvIssueCategory;
@@ -298,7 +296,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             ivUpvote = itemView.findViewById(R.id.ivUpvote);
             tvUpvoteCount = itemView.findViewById(R.id.tvUpvoteCount);
             layoutUpvote = itemView.findViewById(R.id.layoutUpvote);
-
         }
     }
 }
