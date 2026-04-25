@@ -24,8 +24,8 @@ public class AnalyticsViewModel extends ViewModel {
         repository = IssueRepository.getInstance();
         authRepository = AuthRepository.getInstance();
 
-        LiveData<List<Issue>> issuesLiveData = repository.getIssues
-                (authRepository.getCurrentUser().getUid());
+        LiveData<List<Issue>> issuesLiveData = repository.getIssues(
+                authRepository.getCurrentUser().getUid());
 
         categoryCounts.setValue(new LinkedHashMap<>());
         statusCounts.setValue(new LinkedHashMap<>());

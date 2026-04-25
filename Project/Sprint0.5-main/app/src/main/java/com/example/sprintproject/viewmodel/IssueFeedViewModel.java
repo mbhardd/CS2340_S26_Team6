@@ -32,12 +32,12 @@ public class IssueFeedViewModel extends ViewModel {
         repository = IssueRepository.getInstance();
         repository.getIssues(authRepository.getCurrentUser().getUid())
                 .observeForever(new Observer<List<Issue>>() {
-            @Override
-            public void onChanged(List<Issue> issueList) {
-                fullIssueList = issueList;
-                applyFilterAndSort();
-            }
-        });
+                    @Override
+                    public void onChanged(List<Issue> issueList) {
+                        fullIssueList = issueList;
+                        applyFilterAndSort();
+                        }
+                    });
     }
 
     // test constructor preventing Firebase from running
@@ -48,8 +48,8 @@ public class IssueFeedViewModel extends ViewModel {
         return issues;
     }
 
-    public void toggleUpvote(String issueId) {
-        repository.toggleUpvote(issueId, authRepository.getCurrentUser().getUid());
+    public void toggleUpvote(String issueId, Runnable onComplete) {
+        repository.toggleUpvote(issueId, authRepository.getCurrentUser().getUid(), onComplete);
     }
 
     public void setFilter(IssueFilterStrategy filter) {

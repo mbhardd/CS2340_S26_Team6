@@ -3,10 +3,9 @@ package com.example.sprintproject.viewmodel;
 import com.example.sprintproject.model.Issue;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class UpvoteSortStrategy implements IssueSortStrategy{
+public class UpvoteSortStrategy implements IssueSortStrategy {
 
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.sprintproject.model;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -7,7 +8,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -220,7 +222,7 @@ public class IssueRepository {
             }
         });
     }
-    public void toggleUpvote(String issueId, String userId) {
+    public void toggleUpvote(String issueId, String userId, Runnable onComplete) {
         DatabaseReference upvoteRef = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(userId)
@@ -229,19 +231,51 @@ public class IssueRepository {
 
         DatabaseReference countRef = issuesRef.child(issueId).child("upvoteCount");
 
-        upvoteRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                boolean alreadyUpvoted = task.getResult().exists();
+        //prevent race conditions
+        upvoteRef.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData data) {
+                if (data.getValue() == null) {
 
-                if (alreadyUpvoted) {
-                    // Remove upvote
-                    upvoteRef.removeValue();
-                    countRef.setValue(ServerValue.increment(-1));
+                    data.setValue(true);
                 } else {
-                    // Add upvote
-                    upvoteRef.setValue(true);
-                    countRef.setValue(ServerValue.increment(1));
+
+                    data.setValue(null);
                 }
+                return Transaction.success(data);
+            }
+
+            @Override
+            public void onComplete(DatabaseError error, boolean committed,
+                                   DataSnapshot snapshot) {
+                if (!committed || error != null) {
+                    onComplete.run();
+                    return;
+                }
+
+
+                boolean nowUpvoted = snapshot.exists();
+
+                countRef.runTransaction(new Transaction.Handler() {
+                    @NonNull
+                    @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData data) {
+                        Integer count = data.getValue(Integer.class);
+                        if (nowUpvoted) {
+                            data.setValue(count == null ? 1 : count + 1);
+                        } else {
+                            data.setValue(count == null || count <= 0 ? 0 : count - 1);
+                        }
+                        return Transaction.success(data);
+                    }
+
+                    @Override
+                    public void onComplete(DatabaseError error, boolean committed,
+                                           DataSnapshot snapshot) {
+                        onComplete.run();
+                    }
+                });
             }
         });
     }

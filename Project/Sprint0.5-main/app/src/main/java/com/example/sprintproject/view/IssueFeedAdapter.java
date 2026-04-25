@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sprintproject.R;
 import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
-import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.viewmodel.IssueFeedStatusLogic;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
@@ -235,10 +234,13 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             }
 
             Issue current = issueList.get(pos);
+            holder.layoutUpvote.setEnabled(false);
 
             current.toggleUpvote();
             notifyItemChanged(pos);
-            viewModel.toggleUpvote(issue.getId());
+            viewModel.toggleUpvote(issue.getId(), () -> {
+                holder.layoutUpvote.setEnabled(true);
+            });
 
         });
     }
