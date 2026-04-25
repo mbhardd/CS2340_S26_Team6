@@ -28,12 +28,12 @@ public class Sprint4_Misha_Tests {
         issue.setUpvoteCount(0);
         issue.setUpvoted(false);
 
-       // issue.toggleUpvote();
+        issue.toggleUpvote();
 
         assertTrue(issue.isUpvoted());
         assertEquals(1, issue.getUpvoteCount());
 
-       // issue.toggleUpvote();
+        issue.toggleUpvote();
 
         assertFalse(issue.isUpvoted());
         assertEquals(0, issue.getUpvoteCount());
