@@ -34,12 +34,12 @@ public class StaffViewModel extends ViewModel {
         authRepository = AuthRepository.getInstance();
         repository.getIssues(authRepository.getCurrentUser().getUid()).
                 observeForever(new Observer<List<Issue>>() {
-            @Override
-            public void onChanged(List<Issue> issueList) {
-                fullIssueList = issueList;
-                issues.setValue(issueList);
-            }
-        });
+                    @Override
+                    public void onChanged(List<Issue> issueList) {
+                        fullIssueList = issueList;
+                        issues.setValue(issueList);
+                    }
+                });
     }
 
 

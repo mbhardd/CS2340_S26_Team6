@@ -31,20 +31,18 @@ public class Issue {
 
     }
 
-    public Issue(String title, String category, String priority, String initials,
-                 String location, String description,
-                 String creatorUid, String status, Long timestamp) {
-        this.title = title;
-        this.category = category;
-        this.priority = priority;
-        this.initials = initials;
-        this.location = location;
-        this.description = description;
-        this.creatorUid = creatorUid;
-        this.status = status;
+    public Issue(IssueDetail detail, String uId, Long timestamp) {
+        this.title = detail.getTitle();
+        this.category = detail.getCategory();
+        this.priority = detail.getPriority();
+        this.initials = detail.getInitials();
+        this.location = detail.getLocation();
+        this.description = detail.getDescription();
+        this.creatorUid = uId;
+        this.status = "SUBMITTED";
         this.timestamp = timestamp;
         this.lastUpdated = timestamp;
-        this.assignedStaff = "None";
+
     }
 
     public String getId() {
