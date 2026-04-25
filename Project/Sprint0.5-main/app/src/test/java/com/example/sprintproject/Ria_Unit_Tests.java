@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.example.sprintproject.model.Issue;
+import com.example.sprintproject.model.IssueDetail;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
 import com.example.sprintproject.viewmodel.PriorityFilter;
 
@@ -32,11 +33,11 @@ public class Ria_Unit_Tests {
     @Test
     public void apply_multipleIssues_filtersCorrectOnes() {
         List<Issue> issues = Arrays.asList(
-                new Issue("title", "category", "High", "RS", "CT", "description", "uID", "status",
+                new Issue( new IssueDetail("title", "category", "High", "RS", "CT", "description"), "uID",
                         (long) 0.001),
-                new Issue("title", "category", "Medium", "RS", "CT", "description", "uID", "status",
+                new Issue( new IssueDetail("title", "category", "Medium", "RS", "CT", "description"), "uID",
                         (long) 0.001),
-                new Issue("title", "category", "High", "AP", "MI", "description", "uID", "status",
+                new Issue(new IssueDetail("title", "category", "High", "AP", "MI", "description"), "uID",
                         (long) 0.001)
         );
 
