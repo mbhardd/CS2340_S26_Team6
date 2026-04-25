@@ -25,6 +25,7 @@ import com.example.sprintproject.viewmodel.CategoryFilter;
 import com.example.sprintproject.viewmodel.PriorityFilter;
 import com.example.sprintproject.viewmodel.PriorityStrategy;
 import com.example.sprintproject.viewmodel.RecentStrategy;
+import com.example.sprintproject.viewmodel.UpvoteSortStrategy;
 import com.google.android.material.button.MaterialButton;
 import android.app.AlertDialog;
 
@@ -85,7 +86,8 @@ public class IssueFeedFragment extends Fragment {
             "Filter by Category",
             "Sort by Recent",
             "Sort by Priority",
-            "Sort by Recently Updated"};
+            "Sort by Recently Updated",
+            "Sort by Most Upvotes"};
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Filter By")
@@ -111,6 +113,9 @@ public class IssueFeedFragment extends Fragment {
                         break;
                     case 6:
                         viewModel.setSort(new MostRecentUpdateStrategy());
+                        break;
+                    case 7:
+                        viewModel.setSort(new UpvoteSortStrategy());
                         break;
                     default:
                         break;
