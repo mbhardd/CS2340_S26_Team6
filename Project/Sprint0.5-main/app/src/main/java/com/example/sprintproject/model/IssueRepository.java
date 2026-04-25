@@ -52,7 +52,7 @@ public class IssueRepository {
                 Collections.sort(issueList, (issue1, issue2) -> {
                     Long t1 = issue1.getTimestamp() != null ? issue1.getTimestamp() : 0L;
                     Long t2 = issue2.getTimestamp() != null ? issue2.getTimestamp() : 0L;
-                    return t2.compareTo(t1); // newest first
+                    return t2.compareTo(t1);
                 });
 
                 issuesLiveData.setValue(issueList);
@@ -86,6 +86,7 @@ public class IssueRepository {
                 .child("lastUpdated")
                 .setValue(time);
     }
+
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
         MutableLiveData<List<IssueUpdate>> updatesLiveData = new MutableLiveData<>();
 
@@ -114,13 +115,14 @@ public class IssueRepository {
                         updatesLiveData.setValue(new ArrayList<>());
                     }
                 });
+
         return updatesLiveData;
     }
-    
+
     public void updateAssignedStaff(String issueId, String staffEmail) {
         issuesRef.child(issueId).child("assignedStaff").setValue(staffEmail);
     }
-    
+
     public void updateStatus(String issueId, String newStatus) {
         issuesRef.child(issueId).child("status").setValue(newStatus);
     }
@@ -169,4 +171,36 @@ public class IssueRepository {
         return staffLiveData;
     }
 
+    private void saveIssue(Issue issue) {
+        String issueId = issuesRef.push().getKey();
+
+        if (issueId != null) {
+            issue.setID(issueId);
+            issuesRef.child(issueId).setValue(issue);
+        }
+    }
+
+    public void createIssueWithWeather(Issue issue) {
+        WeatherRepository weatherRepository = new WeatherRepository();
+
+        weatherRepository.getCurrentWeather(new WeatherCallback() {
+            @Override
+            public void onSuccess(WeatherData weatherData) {
+                issue.setWeatherSummary(weatherData.getSummary());
+                issue.setTemperature(weatherData.getTemperature());
+                issue.setWeatherCondition(weatherData.getCondition());
+
+                saveIssue(issue);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                issue.setWeatherSummary(errorMessage);
+                issue.setWeatherCondition("Unavailable");
+                issue.setTemperature(null);
+
+                saveIssue(issue);
+            }
+        });
+    }
 }
