@@ -13,7 +13,7 @@ public class IssueFactory {
     ) {
         Issue issue = new Issue(detail, creatorUid, timestamp);
 
-       //defaults set
+
         issue.setStatus("SUBMITTED");
         issue.setLastUpdated(timestamp);
 
