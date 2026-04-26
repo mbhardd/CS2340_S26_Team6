@@ -25,6 +25,7 @@ public class IssueRepository {
     private static IssueRepository instance;
     private final DatabaseReference issuesRef;
     private static final String UPDATES_NODE = "updates";
+    private static final String USERS = "users";
 
     private IssueRepository() {
         issuesRef = FirebaseDatabase.getInstance().getReference("issues");
@@ -40,7 +41,7 @@ public class IssueRepository {
     public LiveData<List<Issue>> getIssues(String userId) {
         MutableLiveData<List<Issue>> issuesLiveData = new MutableLiveData<>();
         DatabaseReference upvotedRef = FirebaseDatabase.getInstance()
-                .getReference("users")
+                .getReference(USERS)
                 .child(userId)
                 .child("upvotedIssues");
 
@@ -165,7 +166,7 @@ public class IssueRepository {
     public LiveData<List<User>> getStaffUsers() {
         MutableLiveData<List<User>> staffLiveData = new MutableLiveData<>();
 
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference(USERS);
 
         usersRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -224,7 +225,7 @@ public class IssueRepository {
     }
     public void toggleUpvote(String issueId, String userId, Runnable onComplete) {
         DatabaseReference upvoteRef = FirebaseDatabase.getInstance()
-                .getReference("users")
+                .getReference(USERS)
                 .child(userId)
                 .child("upvotedIssues")
                 .child(issueId);
