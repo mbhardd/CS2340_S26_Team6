@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.sprintproject.model.AuthRepository;
 import com.example.sprintproject.model.Issue;
 import com.example.sprintproject.model.IssueDetail;
+import com.example.sprintproject.model.IssueFactory;
 import com.example.sprintproject.model.WeatherCallback;
 import com.example.sprintproject.model.WeatherData;
 import com.example.sprintproject.model.WeatherRepository;
@@ -28,27 +29,24 @@ public class IssueCreationViewModel extends ViewModel {
                             String description, String initials) {
 
         String uID = authRepository.getCurrentUser().getUid();
-        IssueDetail detail = new IssueDetail(title, category, priority, initials, location,
-                description);
-        Long time = System.currentTimeMillis();
-        Issue issue = new Issue(detail, uID, time);
+        long time = System.currentTimeMillis();
+
+        IssueDetail detail = new IssueDetail(
+                title, category, priority, initials, location, description
+        );
+
+        Issue issue = IssueFactory.createIssue(detail, uID, time);
 
         weatherRepository.getCurrentWeather(new WeatherCallback() {
             @Override
             public void onSuccess(WeatherData weatherData) {
-                issue.setWeatherSummary(weatherData.getSummary());
-                issue.setTemperature(weatherData.getTemperature());
-                issue.setWeatherCondition(weatherData.getCondition());
-
+                IssueFactory.applyWeatherSuccess(issue, weatherData);
                 db.child("issues").push().setValue(issue);
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                issue.setWeatherSummary("Unavailable");
-                issue.setTemperature(null);
-                issue.setWeatherCondition("Unavailable");
-
+                IssueFactory.applyWeatherFailure(issue);
                 db.child("issues").push().setValue(issue);
             }
         });
