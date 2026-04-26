@@ -143,13 +143,19 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                         holder.commentsContainer.removeAllViews();
                         holder.staffContainer.removeAllViews();
 
-                        if (updates == null) return;
+                        if (updates == null) {
+                            return;
+                        }
 
                         for (IssueUpdate update : updates) {
                             String type = update.getType();
-                            if (type == null) continue;
+                            if (type == null) {
+                                continue;
+                            }
 
-                            if (!isRelevantType(type)) continue;
+                            if (!isRelevantType(type)) {
+                                continue;
+                            }
 
                             TextView tv = createBaseTextView(holder, update);
 
