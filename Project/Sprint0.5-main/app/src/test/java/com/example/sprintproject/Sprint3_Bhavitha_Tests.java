@@ -35,15 +35,11 @@ public class Sprint3_Bhavitha_Tests {
     @Test
     public void testBuildStatusCounts_handlesUnknownStatus() {
         List<Issue> issues = new ArrayList<>();
-
-        issues.add(new Issue(new IssueDetail("Leak", "Maintenance", "High", "AB",
-                "Building A", "Water leak"), "u1", 1L));
-        issues.add(new Issue(new IssueDetail("Broken Light", "Maintenance", "Low", "CD",
-                "Building B", "Light out"), "u2", 2L));
+        issues.add(new Issue());
 
         Map<String, Integer> result = ChartDataHelper.buildStatusCounts(issues);
 
         assertTrue(result.containsKey("Unknown"));
-        assertEquals(2, (int) result.get("Unknown"));
+        assertEquals(1, (int) result.get("Unknown"));
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sprintproject.R;
@@ -29,14 +30,14 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
 
     private List<Issue> issueList = new ArrayList<>();
     private IssueFeedViewModel viewModel;
+    private LifecycleOwner lifecycleOwner;
     private int expandedPosition = -1;
     private AuthRepository authRepository;
 
-
-    public IssueFeedAdapter(IssueFeedViewModel viewModel) {
+    public IssueFeedAdapter(IssueFeedViewModel viewModel, LifecycleOwner lifecycleOwner) {
         this.viewModel = viewModel;
+        this.lifecycleOwner = lifecycleOwner;
         authRepository = AuthRepository.getInstance();
-
     }
 
     public int toggleExpandedPosition(int currentExpandedPosition, int clickedPosition) {
@@ -196,8 +197,16 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             holder.btnAddUpdate.setVisibility(View.VISIBLE);
         }
 
-        holder.btnWatch.setOnClickListener(v -> {
-            if (holder.btnWatch.getText().toString().equals("Watch")) {
+        bindWatch(holder, issue);
+        bindUpvote(holder, issue);
+    }
+
+
+    private void bindWatch(IssueViewHolder holder, Issue issue) {
+        holder.btnWatch.setTag(null);
+
+        viewModel.isWatching(issue.getId()).observe(lifecycleOwner, isWatching -> {
+            if (isWatching != null && isWatching) {
                 holder.btnWatch.setText("Watching");
                 holder.btnWatch.setBackgroundResource(R.drawable.bg_watching_green);
                 holder.btnWatch.setCompoundDrawablesWithIntrinsicBounds(
@@ -210,7 +219,12 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             }
         });
 
-        bindUpvote(holder, issue);
+        holder.btnWatch.setOnClickListener(v -> {
+            holder.btnWatch.setEnabled(false);
+            viewModel.toggleWatch(issue.getId(), () -> {
+                holder.btnWatch.setEnabled(true);
+            });
+        });
     }
 
     private void bindUpvote(IssueViewHolder holder, Issue issue) {
@@ -238,7 +252,6 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             viewModel.toggleUpvote(issue.getId(), () -> {
                 holder.layoutUpvote.setEnabled(true);
             });
-
         });
     }
 
