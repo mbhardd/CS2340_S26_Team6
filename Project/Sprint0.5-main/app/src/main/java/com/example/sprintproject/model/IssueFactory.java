@@ -2,7 +2,9 @@ package com.example.sprintproject.model;
 
 public class IssueFactory {
 
-    private IssueFactory() {}
+    private IssueFactory() {
+
+    }
 
     public static Issue createIssue(
             IssueDetail detail,
@@ -11,7 +13,7 @@ public class IssueFactory {
     ) {
         Issue issue = new Issue(detail, creatorUid, timestamp);
 
-        // centralize defaults
+       //defaults set
         issue.setStatus("SUBMITTED");
         issue.setLastUpdated(timestamp);
 
