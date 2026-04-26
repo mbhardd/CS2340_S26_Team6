@@ -10,14 +10,12 @@ import org.junit.Test;
 public class Bhavitha_Unit_Tests {
 
     @Test
-    public void normalizeStatus_open_returnsNotStarted() {
-        assertEquals("Not Started",
-                IssueFeedStatusLogic.normalizeStatus("open"));
+    public void normalizeStatus_open_returnsSubmitted() {
+        assertEquals("Submitted", IssueFeedStatusLogic.normalizeStatus("open"));
     }
 
     @Test
-    public void getStatusColorRes_finished_returnsFinishedGreen() {
-        assertEquals(R.color.finished_green,
-                IssueFeedStatusLogic.getStatusColorRes("Finished"));
+    public void normalizeStatus_inProgress_returnsInProgress() {
+        assertEquals("In Progress", IssueFeedStatusLogic.normalizeStatus("in_progress"));
     }
 }

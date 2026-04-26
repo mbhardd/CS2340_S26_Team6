@@ -13,7 +13,7 @@ public class Ananya_Unit_Tests {
 
     @Before
     public void setUp() {
-        adapter = new IssueFeedAdapter(null);
+        adapter = new IssueFeedAdapter(null, null);
     }
 
     @Test

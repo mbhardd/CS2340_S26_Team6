@@ -1,7 +1,7 @@
 package com.example.sprintproject.viewmodel;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sprintproject.model.AuthRepository;
@@ -10,42 +10,72 @@ import com.example.sprintproject.model.IssueRepository;
 import com.example.sprintproject.model.IssueUpdate;
 import com.example.sprintproject.model.UpdateResult;
 import com.example.sprintproject.model.User;
-
-import androidx.lifecycle.MutableLiveData;
+import com.example.sprintproject.model.WatchRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class IssueFeedViewModel extends ViewModel {
 
     private IssueRepository repository;
-
+    private WatchRepository watchRepository;
     private AuthRepository authRepository;
+
     private MutableLiveData<List<Issue>> issues = new MutableLiveData<>();
     private List<Issue> fullIssueList = new ArrayList<>();
+    private Set<String> watchedIds = new HashSet<>();
+
     private IssueFilterStrategy currentFilter = new AllIssuesFilter();
     private IssueSortStrategy currentSort = new RecentStrategy();
 
-    // normal constructor thats used by app
+    // normal constructor used by app
     public IssueFeedViewModel() {
         authRepository = AuthRepository.getInstance();
         repository = IssueRepository.getInstance();
-        repository.getIssues(authRepository.getCurrentUser().getUid())
-                .observeForever(new Observer<List<Issue>>() {
-                    @Override
-                    public void onChanged(List<Issue> issueList) {
-                        fullIssueList = issueList;
-                        applyFilterAndSort();
-                        }
-                    });
+        watchRepository = WatchRepository.getInstance();
+
+        String userId = authRepository.getCurrentUser().getUid();
+
+        watchRepository.getWatchedIssueIds(userId)
+                .observeForever(ids -> {
+                    watchedIds.clear();
+                    if (ids != null) {
+                        watchedIds.addAll(ids);
+                    }
+                    applyFilterAndSort();
+                });
+
+        repository.getIssues(userId)
+                .observeForever(issueList -> {
+                    fullIssueList = issueList;
+                    applyFilterAndSort();
+                });
     }
 
-    // test constructor preventing Firebase from running
     public IssueFeedViewModel(boolean isTest) {
     }
 
     public LiveData<List<Issue>> getIssues() {
         return issues;
+    }
+
+
+    public void toggleWatch(String issueId, Runnable onComplete) {
+        watchRepository.toggleWatch(
+                authRepository.getCurrentUser().getUid(),
+                issueId,
+                onComplete
+        );
+    }
+
+
+    public LiveData<Boolean> isWatching(String issueId) {
+        return watchRepository.isWatching(
+                authRepository.getCurrentUser().getUid(),
+                issueId
+        );
     }
 
     public void toggleUpvote(String issueId, Runnable onComplete) {
@@ -59,10 +89,7 @@ public class IssueFeedViewModel extends ViewModel {
 
     private void applyFilterAndSort() {
         List<Issue> filtered = currentFilter.apply(new ArrayList<>(fullIssueList));
-
-        List<Issue> sorted = new ArrayList<>(filtered);
-
-        sorted = currentSort.apply(sorted);
+        List<Issue> sorted = currentSort.apply(new ArrayList<>(filtered));
 
         System.out.println("Sorted list:");
         for (Issue i : sorted) {
@@ -72,13 +99,9 @@ public class IssueFeedViewModel extends ViewModel {
         issues.setValue(sorted);
     }
 
-
     public void addComment(String issueId, User user, String content) {
-        IssueUpdateStrategy strategy =
-                    new CommentStrategy();
-
+        IssueUpdateStrategy strategy = new CommentStrategy();
         executeStrategy(strategy, issueId, user, content);
-
     }
 
     public void executeStrategy(IssueUpdateStrategy strategy, String issueId, User user,
@@ -87,11 +110,11 @@ public class IssueFeedViewModel extends ViewModel {
         repository.addUpdateToIssue(issueId, result.getUpdate());
         repository.updateLastUpdated(issueId, System.currentTimeMillis());
     }
+
     public String formatPriorityCheck(String priority) {
         if (priority == null) {
             return "";
         }
-
         switch (priority) {
         case "High":
             return "🔴 High";
@@ -115,5 +138,10 @@ public class IssueFeedViewModel extends ViewModel {
 
     public LiveData<List<IssueUpdate>> getUpdatesForIssue(String issueId) {
         return repository.getUpdatesForIssue(issueId);
+    }
+
+
+    public Set<String> getWatchedIds() {
+        return watchedIds;
     }
 }

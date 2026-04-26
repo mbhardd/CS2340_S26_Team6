@@ -1,48 +1,39 @@
 package com.example.sprintproject.view;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.sprintproject.R;
 import com.example.sprintproject.viewmodel.AllIssuesFilter;
-
+import com.example.sprintproject.viewmodel.CategoryFilter;
 import com.example.sprintproject.viewmodel.IssueFeedViewModel;
-import android.widget.TextView;
-
 import com.example.sprintproject.viewmodel.MostRecentUpdateStrategy;
 import com.example.sprintproject.viewmodel.OpenIssuesFilter;
-import com.example.sprintproject.viewmodel.CategoryFilter;
 import com.example.sprintproject.viewmodel.PriorityFilter;
 import com.example.sprintproject.viewmodel.PriorityStrategy;
 import com.example.sprintproject.viewmodel.RecentStrategy;
 import com.example.sprintproject.viewmodel.UpvoteSortStrategy;
+import com.example.sprintproject.viewmodel.WatchedIssuesFilter;
 import com.google.android.material.button.MaterialButton;
-import android.app.AlertDialog;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link IssueFeedFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import android.widget.TextView;
+
+
 public class IssueFeedFragment extends Fragment {
 
     private RecyclerView rvIssues;
     private IssueFeedAdapter adapter;
     private IssueFeedViewModel viewModel;
     private TextView tvEmptyState;
-
     private MaterialButton btnFilterBy;
-
 
     public IssueFeedFragment() {
         super(R.layout.fragment_issue_feed);
@@ -58,10 +49,9 @@ public class IssueFeedFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(IssueFeedViewModel.class);
 
-        adapter = new IssueFeedAdapter(viewModel);
+        adapter = new IssueFeedAdapter(viewModel, getViewLifecycleOwner());
         rvIssues.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvIssues.setAdapter(adapter);
-
 
         viewModel.getIssues().observe(getViewLifecycleOwner(), issues -> {
             adapter.setIssueList(issues);
@@ -82,39 +72,44 @@ public class IssueFeedFragment extends Fragment {
         String[] options = {
             "All Issues",
             "Open Issues",
+            "Watched Issues",
             "Filter by Priority",
             "Filter by Category",
             "Sort by Recent",
             "Sort by Priority",
             "Sort by Recently Updated",
-            "Sort by Most Upvotes"};
+            "Sort by Most Upvotes"
+        };
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Filter By")
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
-                    case 0: // All Issues
+                    case 0:
                         viewModel.setFilter(new AllIssuesFilter());
                         break;
-                    case 1: // Open Issues
+                    case 1:
                         viewModel.setFilter(new OpenIssuesFilter());
                         break;
-                    case 2: // Priority
+                    case 2:
+                        viewModel.setFilter(new WatchedIssuesFilter(viewModel.getWatchedIds()));
+                        break;
+                    case 3:
                         showPriorityDialog();
                         break;
-                    case 3: // Category
+                    case 4:
                         showCategoryDialog();
                         break;
-                    case 4:
+                    case 5:
                         viewModel.setSort(new RecentStrategy());
                         break;
-                    case 5:
+                    case 6:
                         viewModel.setSort(new PriorityStrategy());
                         break;
-                    case 6:
+                    case 7:
                         viewModel.setSort(new MostRecentUpdateStrategy());
                         break;
-                    case 7:
+                    case 8:
                         viewModel.setSort(new UpvoteSortStrategy());
                         break;
                     default:
@@ -133,9 +128,7 @@ public class IssueFeedFragment extends Fragment {
                     viewModel.setFilter(new PriorityFilter(priorities[which]));
                 })
                 .show();
-
     }
-
 
     private void showCategoryDialog() {
         String[] categories = {"Plumbing", "Flooring", "Electrical", "Furniture", "Other"};
@@ -147,5 +140,4 @@ public class IssueFeedFragment extends Fragment {
                 })
                 .show();
     }
-
 }
