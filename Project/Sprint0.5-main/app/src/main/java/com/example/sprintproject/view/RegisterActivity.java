@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.sprintproject.R;
 import com.example.sprintproject.viewmodel.RegisterViewModel;
-//import com.google.firebase.auth.FirebaseUser;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
