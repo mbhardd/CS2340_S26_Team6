@@ -143,30 +143,21 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
                         holder.commentsContainer.removeAllViews();
                         holder.staffContainer.removeAllViews();
 
-                        if (updates != null) {
-                            for (IssueUpdate update : updates) {
-                                if (!"COMMENT".equalsIgnoreCase(update.getType())
-                                        && !"STAFF_NOTE".equalsIgnoreCase(update.getType())
-                                        && !"STATUS_CHANGE".equalsIgnoreCase(update.getType())) {
-                                    continue;
-                                }
+                        if (updates == null) return;
 
-                                TextView tv = new TextView(holder.itemView.getContext());
-                                if ("COMMENT".equalsIgnoreCase(update.getType())) {
-                                    tv.setText("• " + update.getContent());
-                                    tv.setTextSize(16f);
-                                    holder.commentsContainer.addView(tv);
-                                } else if ("STAFF_NOTE".equalsIgnoreCase(update.getType())) {
-                                    tv.setText("• " + update.getContent());
-                                    tv.setTextSize(16f);
-                                    tv.setTextColor(android.graphics.Color.parseColor("#AB0000"));
-                                    holder.staffContainer.addView(tv);
-                                } else if ("STATUS_CHANGE".equalsIgnoreCase(update.getType())) {
-                                    tv.setText("• " + update.getContent());
-                                    tv.setTextSize(16f);
-                                    tv.setTextColor(android.graphics.Color.parseColor("#AB0000"));
-                                    holder.staffContainer.addView(tv);
-                                }
+                        for (IssueUpdate update : updates) {
+                            String type = update.getType();
+                            if (type == null) continue;
+
+                            if (!isRelevantType(type)) continue;
+
+                            TextView tv = createBaseTextView(holder, update);
+
+                            if ("COMMENT".equalsIgnoreCase(type)) {
+                                holder.commentsContainer.addView(tv);
+                            } else if (isStaffType(type)) {
+                                styleAsStaff(tv);
+                                holder.staffContainer.addView(tv);
                             }
                         }
                     });
@@ -243,6 +234,28 @@ public class IssueFeedAdapter extends RecyclerView.Adapter<IssueFeedAdapter.Issu
             });
 
         });
+    }
+
+    private TextView createBaseTextView(IssueViewHolder holder, IssueUpdate update) {
+        TextView tv = new TextView(holder.itemView.getContext());
+        tv.setText("• " + update.getContent());
+        tv.setTextSize(16f);
+        return tv;
+    }
+
+    private void styleAsStaff(TextView tv) {
+        tv.setTextColor(android.graphics.Color.parseColor("#AB0000"));
+    }
+
+    private boolean isRelevantType(String type) {
+        return "COMMENT".equalsIgnoreCase(type)
+                || "STAFF_NOTE".equalsIgnoreCase(type)
+                || "STATUS_CHANGE".equalsIgnoreCase(type);
+    }
+
+    private boolean isStaffType(String type) {
+        return "STAFF_NOTE".equalsIgnoreCase(type)
+                || "STATUS_CHANGE".equalsIgnoreCase(type);
     }
 
     @Override
