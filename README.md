@@ -1,8 +1,9 @@
-# CS 2340 Spring 2026 Repository
-> Please read these instructions then replace this `README.md` file with your own repository documentation as you see fit.
-
-This repository is meant to be used throughout the semester to help you organize your work. This will be the repository you send out to your teammates as you work on your various group assignments throught the semester.
-
-**Please note the current directory structure, which should be maintained as you use this repository in the future.**
-- `Project` This directory currently contains an Android Studio Project called `Sprint0.5-main`. This is a template project you should feel free to use in order to set up your group's project for the semester. If you decide to start your own Android Studio Project from scratch, we recommend that you save it inside the `Project` folder as well.
-> *Note that `Sprint0.5-main` is a Project folder, which means Android Studio will recognize it as a project if and only if it is opened at this level.* If you attempt to open the project by selecting any other parent or child directory, you will run into issues as the program will not know which *gradle* configurations to use.
+CampusFix is a campus issue reporting and tracking mobile application designed to
+help students report campus-related problems and allow staff to triage, track, and
+resolve them efficiently. Users can submit issues such as broken equipment, safety
+concerns, or maintenance problems, and follow their progress through clearly defined
+status updates and history.
+The application models real-world internal service requests and issue tracking systems
+used in companies and institutions. CampusFix supports role-based workflows within a
+single application, where staff users have access to additional staff-only functionality
+through role-based navigation
